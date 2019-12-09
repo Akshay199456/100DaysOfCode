@@ -1,0 +1,21 @@
+body{
+	margin: 0px;
+	padding: 0px;
+}
+
+.container{
+	display: grid;
+	grid-template-columns: 40px 50px auto 50px 40px;
+	grid-template-rows: 25% auto 100px;
+	grid-template-areas: 
+		"header header header header header"
+		"main main . . sidebar"
+		"footer footer footer footer footer";
+	border: 2px solid black;
+	grid-gap: 15px;
+	place-items: center center;
+}
+
+.item{
+	border: 1px solid red;
+}

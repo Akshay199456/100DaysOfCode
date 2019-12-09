@@ -1,6 +1,6 @@
 # #100DaysOfCode
 
-Hello everyone! Welcome to my journey of 100 days of coding. Being an avid Twitter user and following several engineers and developers on the platform, I have been inspired by them to follow my own journey into coding for 100 days and eventually making it a habit where I would love to code/work on projects everyday. For those who don't know me, my background section should give you a quick glimpse into me.
+Hello everyone! Welcome to my journey of 100 days of coding. Being an avid Twitter user and following several awesome engineers and developers on the platform, I have been inspired by them to follow my own journey into coding for 100 days and eventually making it a habit where I would love to code/work on projects everyday. For those who don't know me, my background section should give you a quick glimpse into me.
 
 ## Background
 
@@ -29,3 +29,7 @@ The goal of this journey for me is to make myslef into a better software enginee
 1. [LinkedIn](https://www.linkedin.com/in/akshaymysore/)
 2. [Twitter](https://twitter.com/MysoreAkshay)
 3. [Gmail](mailto:akshay.kum94@gmail.com)
+
+## Schedule and Topic Selection
+
+- Day 1: CSS Grid System.
