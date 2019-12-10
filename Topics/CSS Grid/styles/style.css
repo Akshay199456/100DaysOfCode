@@ -5,12 +5,8 @@ body{
 
 .container{
 	display: grid;
-	grid-template-columns: 40px 50px auto 50px 40px;
+	grid-template-columns: 200px 350px auto 350px 200px;
 	grid-template-rows: 25% auto 100px;
-	grid-template-areas: 
-		"header header header header header"
-		"main main . . sidebar"
-		"footer footer footer footer footer";
 	border: 2px solid black;
 	grid-gap: 15px;
 	place-items: center center;
@@ -18,4 +14,34 @@ body{
 
 .item{
 	border: 1px solid red;
+}
+
+#item-a{
+	grid-row: 1/4;
+	grid-column: 1/2;
+	place-self: center center;
+}
+
+#item-b{
+	grid-row: 2/3;
+	grid-column: 3/4;
+	place-self: center;
+}
+
+#item-c{
+	grid-row: 1/4; 
+	grid-column: 5/6;
+	place-self: center;
+}
+
+#item-d{
+	grid-row: 3/4;
+	grid-column: 2/3;
+	place-self: center;
+}
+
+#item-3{
+	grid-row: 3/4;
+	grid-column: 4/5;
+	place-self: center;
 }
