@@ -33,3 +33,4 @@ The goal of this journey for me is to make myslef into a better software enginee
 ## Schedule and Topic Selection
 
 - Day 1: CSS Grid System.
+- Day 2: CSS Grid System(contd), Project creation to valiate CSS Grid System skills
