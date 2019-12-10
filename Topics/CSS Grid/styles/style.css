@@ -5,7 +5,7 @@ body{
 
 .container{
 	display: grid;
-	grid-template-columns: 200px 350px auto 350px 200px;
+	grid-template-columns: 15% 20% auto 20% 15%;
 	grid-template-rows: 25% auto 100px;
 	border: 2px solid black;
 	grid-gap: 15px;
