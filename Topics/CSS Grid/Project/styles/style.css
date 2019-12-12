@@ -12,6 +12,12 @@ body{
 #header{
 	grid-row: 1;
 	grid-column: 1/-1;
+	display: contents;
+}
+
+#icons{
+	grid-column: 10/13;
+	grid-row: 1;
 }
 
 #statsInfo{
@@ -56,10 +62,18 @@ main > div{
 }
 
 #profilePic{
-	height: 250px;
-	width: 250px;
+	height: 225px;
+	width: 225px;
 	border-radius: 50%;
 	border: 2px solid red;
+}
+
+#header > header{
+	grid-column: 3;
+}
+
+.icons{
+	grid-column: -4;
 }
 
 .images{
