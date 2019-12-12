@@ -1,3 +1,8 @@
+# Hosted Project Site
+[CSS Grid Project](https://akshay199456.github.io/100DaysOfCode-CSSGridProject/)
+
+
+
 # Useful Resources To Get Started With CSS Grid
 
 1. [CSS Tricks](https://css-tricks.com/snippets/css/complete-guide-grid/#prop-grid-area) - Provides an in depth guide for each property that can be applied both to the grid parent and grid element.
