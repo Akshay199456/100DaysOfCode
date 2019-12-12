@@ -1,6 +1,6 @@
 # Hosted Project Site
 1. [Hosted CSS Grid Project](https://akshay199456.github.io/100DaysOfCode-CSSGridProject/)
-2. [GitHub Project Location](https://github.com/Akshay199456/100DaysOfCode-CSSGridProject)
+2. [Hosted GitHub Project Location](https://github.com/Akshay199456/100DaysOfCode-CSSGridProject)
 
 ## Description Of Project
 
