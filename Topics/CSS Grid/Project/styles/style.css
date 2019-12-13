@@ -5,15 +5,20 @@ body{
 
 #container{
 	display: grid;
+	/* Creates a 5 row and 8 column layout */
 	grid-template-rows: 5% 25% 5% 65%;
 	grid-template-columns: repeat(12, 8.33%);
 	margin-top: 20px;
 }
 
 #header{
+	/*  grid-row and grid-column used to specify what row and column the element should start from */
 	grid-row: 1;
 	grid-column: 1/-1;
 	border:  2px solid black;
+	/* 'display: contents' used to make sure that the children of this element can be aligned with the grid
+		of the parent element, which in this case is the #container element.
+	 */
 	display: contents;
 }
 
@@ -54,6 +59,9 @@ body{
 }
 
 #statsInfo > header > div{
+	/*  border-radius:  50% helps creates a cicular container. This div is used to re-create the
+		embedded circles used in the profile picture of 'Instagram.'
+	 */
 	border-radius: 50%;
 	height: 235px;
 	width: 235px;
@@ -64,6 +72,7 @@ body{
 #statsInfo > article{
 	margin-top: 0px;
 	grid-row: 2;
+	/*  'span used to cover the number of rows/columns specified after it' */
 	grid-column: 8/ span 3;
 }
 

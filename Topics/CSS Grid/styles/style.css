@@ -5,6 +5,7 @@ body{
 
 .container{
 	display: grid;
+	/* Creates a 3 row and 5 column layout; 'auto' keyword used to align row/column depending on content */
 	grid-template-columns: 15% 20% auto 20% 15%;
 	grid-template-rows: 25% auto 100px;
 	border: 2px solid black;
