@@ -36,3 +36,4 @@ The goal of this journey for me is to make myslef into a better software enginee
 - Day 2: CSS Grid System(contd), Project creation to valiate CSS Grid System skills
 - Day 3: Working on project: building instagram posts page using only CSS Grid
 - Day 4: Completed CSS Grid Project
+- Day 5: Cleaning out the code and adding comments for for CSS Grid Project; Few changes in layout. Project is officially complete today. 
