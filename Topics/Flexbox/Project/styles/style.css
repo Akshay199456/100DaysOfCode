@@ -1,0 +1,33 @@
+body{
+	margin:  0px;
+	padding: 0px;
+}
+
+#container{
+	display: flex;
+	flex-direction: column;
+}
+
+#header{
+	height: 12.5vh;
+	border:  2px solid black;
+}
+
+#section{
+	height:  87vh;
+	border:  2px solid blue;
+	display: flex;
+}
+
+#section > main{
+	height: 87vh;
+	width: 70vw;
+	border:  2px solid green;
+}
+
+#section > aside{
+	height: 87vh;
+	width: 30vw;
+	border:  2px solid red;
+}
+
