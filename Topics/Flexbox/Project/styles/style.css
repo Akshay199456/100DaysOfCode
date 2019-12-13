@@ -11,6 +11,9 @@ body{
 #header{
 	height: 12.5vh;
 	border:  2px solid black;
+	display: flex;
+	justify-content: space-around;
+	align-items: center;
 }
 
 #section{
@@ -31,3 +34,20 @@ body{
 	border:  2px solid red;
 }
 
+.logo{
+	display: flex;
+	justify-content: flex-start;
+	align-items: baseline;
+}
+
+.logo > i{
+	margin-right: 10%;
+	border-right: 2px solid black;
+	padding-right: 10%;
+}
+
+.icons{
+	display: flex;
+	width: 15vw;
+	justify-content: space-around;
+}
