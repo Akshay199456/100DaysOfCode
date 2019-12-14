@@ -1,7 +1,7 @@
 # Hosted Project Site
 
-1. [Hosted CSS Flexbox Project]()
-2. [Hosted GitHub Project Location]()
+1. [Hosted CSS Flexbox Project](https://akshay199456.github.io/100DaysOfCode-CSSFlexboxProject/)
+2. [Hosted GitHub Project Location](https://github.com/Akshay199456/100DaysOfCode-CSSGridProject)
 
 ## Description Of Project
 
