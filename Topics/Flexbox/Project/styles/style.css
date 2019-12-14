@@ -10,7 +10,6 @@ body{
 
 #header{
 	height: 12.5vh;
-	border:  2px solid black;
 	display: flex;
 	justify-content: space-around;
 	align-items: center;
@@ -18,15 +17,13 @@ body{
 
 #section{
 	height:  87vh;
-	border:  2px solid blue;
 	display: flex;
-	background-color: #F1F1F1;
+	background-color: #FAFAFA;
 }
 
 #section > main{
 	height: 87vh;
 	width: 65vw;
-	border:  2px solid green;
 }
 
 #section > aside{
@@ -130,4 +127,39 @@ body{
 	border: 1px solid black;
 	border-radius: 2.5%;
 	text-align: center;
+	background-color: #FAFAFA;
+}
+
+.logo > header{
+	font-size:  30px;
+}
+
+#postsSection{
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	overflow: scroll;
+}
+
+#postsSection > section{
+	display: flex;
+	flex-direction: column;
+	border: 1px solid #E6E6E6;
+	height: 80vh;
+	width: 40vw;
+	margin-top: 5%;
+	border-radius: 1.0%;
+}
+
+.postLogo, .comment{
+	height: 7.5vh;
+}
+
+.postImage{
+	height: 70vh;
+}
+
+.comment{
+	padding-left: 10px;
+	font-size: 15px;
 }
