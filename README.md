@@ -33,7 +33,9 @@ The goal of this journey for me is to make myslef into a better software enginee
 ## Schedule and Topic Selection
 
 - Day 1: CSS Grid System.
-- Day 2: CSS Grid System(contd), Project creation to valiate CSS Grid System skills
+- Day 2: CSS Grid System(contd), Project creation to valiate CSS Grid System skills (Implementing Instagram's Profile Page)
 - Day 3: Working on project: building instagram posts page using only CSS Grid
 - Day 4: Completed CSS Grid Project
 - Day 5: Cleaning out the code and adding comments for for CSS Grid Project; Few changes in layout. Project is officially complete today. 
+- Day 6: Learning Flexbox. Project creation to validate CSS Flexbox skills (Implementing Instagram's Home Page)
+- Day 7: Completed work on the project; Added comments and cleaned code.
