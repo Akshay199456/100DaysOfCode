@@ -13,5 +13,5 @@ The main thing I want to take out from this project, especially with CSS Media Q
 
 ## Useful Links
 
-1. [W3Schools - Responsive Web Design, Media Queries, Media Types, Media Features]
-2. [CSS Tricks] - Responsive Meta Tag
+1. [W3Schools](https://www.w3schools.com/css/css_rwd_grid.asp) - Responsive Web Design, Media Queries, Media Types, Media Features]
+2. [CSS Tricks](https://css-tricks.com/snippets/html/responsive-meta-tag/) - Responsive Meta Tag
