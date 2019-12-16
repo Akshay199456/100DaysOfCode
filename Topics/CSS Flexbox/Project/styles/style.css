@@ -181,3 +181,58 @@ body{
 	margin-left: 10px;
 	font-weight: bold;
 }
+
+
+/* Media Queries for extra small devices */
+
+@media only screen and (max-width: 600px){
+	/* Not as important on mobile devices */
+	#profile, #links{
+		display: none;
+	}
+
+	#section > aside{
+		/* Aligning the aside columns by rows instead on small devices since there isn't a lot of space */
+		width: 100vw;
+		flex-direction: row;
+		justify-content: center;
+		align-items: center;
+		margin-left: 0px;
+	}
+
+	#section{
+		/* To make the aside section come first followed by the main section */
+		flex-direction: column-reverse;
+	}
+
+	#section > main{
+		width: 100vw;
+	}
+
+	#stories, #suggestions{
+		width: 40vw;
+		height: 35vh;
+		margin-top: 0px;
+		margin: 2.5vw;
+	}
+
+	#postsSection > section{
+		/* To improve user navigation */
+		overflow: visible;
+		width: 85vw;
+		height: 70vh;
+	}
+
+	.postImage{
+		height: 45vh;
+	}
+
+	#header > input{
+		/* Not as important on mobile devices */
+		display: none;
+	}
+
+	.icons{
+		justify-content: space-around;
+	}
+}
