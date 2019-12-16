@@ -39,3 +39,4 @@ The goal of this journey for me is to make myslef into a better software enginee
 - Day 5: Cleaning out the code and adding comments for for CSS Grid Project; Few changes in layout. Project is officially complete today. 
 - Day 6: Learning Flexbox. Project creation to validate CSS Flexbox skills (Implementing Instagram's Home Page)
 - Day 7: Completed work on the project; Added comments and cleaned code.
+- Day 8: CSS Media Queries.

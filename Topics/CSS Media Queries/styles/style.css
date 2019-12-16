@@ -1,0 +1,37 @@
+body{
+	margin: 0px;
+	padding: 0px;
+}
+
+#first, #second, #third{
+	width: 100vw;
+	height: 33.3vh;
+}
+
+#first{
+	background-color: red;
+}
+
+#second{
+	background-color: blue;
+}
+
+#third{
+	background-color: green;
+}
+
+#container{
+	display: flex;
+	flex-direction: column;
+}
+
+@media only screen and (min-width:600px){
+	#container{
+		flex-direction: row;
+	}
+
+	#first, #second, #third{
+		width: 33.3vw;
+		height: 33.3vh;
+	}
+}
