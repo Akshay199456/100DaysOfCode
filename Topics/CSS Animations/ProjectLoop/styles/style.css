@@ -3,6 +3,7 @@ body{
 	margin:  0px;
 	background:  url("../images/loop-slide-rosegold.jpg") no-repeat fixed center;
 	background-size: cover;
+	transition: background 1s linear;
 }
 
 #container{
@@ -23,8 +24,17 @@ body{
 	height: 80vh;
 }
 
+#scroller > span{
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	width: 100%;
+	height: 25%;
+}
+
 #imageNavigator{
 	display: flex;
 	justify-content: space-around;
 	align-items: center;
+	height: 50%;
 }
