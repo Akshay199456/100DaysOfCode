@@ -1,0 +1,30 @@
+body{
+	padding:  0px;
+	margin:  0px;
+	background:  url("../images/loop-slide-rosegold.jpg") no-repeat fixed center;
+	background-size: cover;
+}
+
+#container{
+	display: flex;
+}
+
+#imageInformation{
+	width: 75vw;
+	height: 100vh;
+}
+
+#scroller{
+	display: flex;
+	align-self: flex-end;
+	flex-direction: column;
+	background-color: white;
+	width: 45vw;
+	height: 80vh;
+}
+
+#imageNavigator{
+	display: flex;
+	justify-content: space-around;
+	align-items: center;
+}
