@@ -52,15 +52,15 @@ function setBackgroundAndImage(){
 	const currentObject = currentSelectionMap.get(currentValue);
 	const body = document.body;
 	const image = document.getElementById("imageNavigator").children[1];
-
+	// console.log(image.getAttribute("src"));
 
 	const bodyUrl = mydir+"../images/"+backgroundUrls[currentObject];
 	const imageUrl = mydir+"../images/"+imageUrls[currentObject];
-	console.log(image);
+	// console.log(image);
 
 	// console.log("url('"+bodyUrl+"')");
 	body.style.backgroundImage = "url('"+bodyUrl+"')";
-	console.log(image.src);
+	image.setAttribute("src", imageUrl);
 }
 
 
