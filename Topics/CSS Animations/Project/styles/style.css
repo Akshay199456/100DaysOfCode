@@ -1,0 +1,80 @@
+body{
+	margin: 0px;
+	padding: 0px;
+	background-color: black;
+}
+
+.circle{
+	position: relative;
+	top: 0vh;
+	width: 25px;
+	height: 25px;
+	border-radius: 50%;
+	background-color: white;
+	animation-name:  circle;
+	animation-iteration-count: infinite;
+	animation-timing-function: linear;
+	animation-duration: 5s;
+}
+
+.circle:nth-of-type(1){
+	left: 12.5vw;
+	animation-delay: -1s;
+}
+
+.circle:nth-of-type(2){
+	left: 25vw;
+	animation-delay: -2s;
+}
+
+.circle:nth-of-type(3){
+	left: 37.5vw;
+	animation-delay: -3s;
+}
+
+.circle:nth-of-type(4){
+	left: 50vw;
+	animation-delay: -4s;
+}
+
+.circle:nth-of-type(5){
+	left: 62.5vw;
+	animation-delay: -5s;
+}
+
+.circle:nth-of-type(6){
+	left: 75vw;
+	animation-delay: -6s;
+}
+
+.circle:nth-of-type(7){
+	left: 87.5vw;
+	animation-delay: -7s;
+}
+
+.circle:nth-of-type(8){
+	left: 97.5vw;
+	animation-delay: -8s;
+}
+
+/*  Adding animation property to anything with the animation name 'circle' */
+@keyframes circle{
+	from{
+		transform: translateY(0px);
+	}
+	to {
+		transform: translateY(100vh);	
+	}
+}
+
+#tree{
+	background-image: url('../images/tree.gif');
+	background-position: center;
+	background-size: cover;
+	background-repeat: no-repeat;
+	height: 50vh;
+	width: 50vw;
+	position: absolute;
+	top: 25vh;
+	left: 25vw;
+}
