@@ -40,3 +40,5 @@ The goal of this journey for me is to make myslef into a better software enginee
 - Day 6: Learning Flexbox. Project creation to validate CSS Flexbox skills (Implementing Instagram's Home Page)
 - Day 7: Completed work on the project; Added comments and cleaned code.
 - Day 8: CSS Media Queries.
+- Day 9: CSS Animations
+- Day 10: CSS 2-D and CSS 3-D Transforms
