@@ -42,3 +42,4 @@ The goal of this journey for me is to make myslef into a better software enginee
 - Day 8: CSS Media Queries.
 - Day 9: CSS Animations
 - Day 10: CSS 2-D and CSS 3-D Transforms
+- Day 11: Working on a project using animations trying to recreate the [Awwwards](http://awwwards.com/) featured landing site [Loop](https://loopearplugs.jp/)

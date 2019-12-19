@@ -64,6 +64,8 @@ function setBackgroundAndImage(){
 }
 
 
+// Event Listeners on different elements
+
 const leftIcon = document.getElementById("moveLeft");
 leftIcon.addEventListener("click", () => {
 	console.log("Left button clicked");
@@ -80,4 +82,13 @@ rightIcon.addEventListener("click", () => {
 	checkCurrentValueOverFlow();
 	// console.log("Current value: " + currentValue);
 	setBackgroundAndImage();
+});
+
+const buttonNavigator = document.getElementById("buttonNavigator");
+buttonNavigator.addEventListener("click", e => {
+	console.log("Event Target: " + e.target.id);
+	console.log("Event Current Target: " + e.currentTarget.id);
+	if(e.target.id !== e.currentTarget.id){
+		e.target.classList.toggle("displayNone");
+	}
 });
