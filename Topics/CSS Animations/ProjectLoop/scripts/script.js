@@ -1,6 +1,6 @@
 let currentValue = 2;
 let currentSelectionMap = new Map();
-let previousSelection = null;
+let previousSelection = "roseGold";
 
 // Setting map values to coordinate with the different colors of product
 currentSelectionMap.set(0, "black");
@@ -131,4 +131,16 @@ buttonNavigator.addEventListener("click", e => {
 		// console.log(currentValue);
 		setBackgroundAndImage();
 	}
+});
+
+const spanListener = document.getElementById("buttonNavigator").nextElementSibling;
+console.log(spanListener.innerHTML);
+spanListener.addEventListener("mouseover", () => {
+	spanListener.innerHTML = 'BUY NOW ON AMAZON <i class="fas fa-plus"></i> ';
+	console.log("SpanListener: " + spanListener.innerHTML);
+});
+
+spanListener.addEventListener("mouseout", () => {
+	spanListener.innerHTML = 'JPY &nbsp <span id="cost"> 3880 </span>&nbsp tax included';
+	console.log("SpanListener: " + spanListener.innerHTML);
 });
