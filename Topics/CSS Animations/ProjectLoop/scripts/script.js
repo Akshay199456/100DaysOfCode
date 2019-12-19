@@ -9,6 +9,14 @@ currentSelectionMap.set(2, "roseGold");
 currentSelectionMap.set(3, "silver");
 currentSelectionMap.set(4, "red");
 
+const textColor = {
+	"black": "#000000",
+	"gold": "#E8D99B",
+	"roseGold": "#EACFC1",
+	"silver": "#D1D1D1",
+	"red": "#DD2D2D"
+}
+
 
 const imageUrls = {
 	red : "loop-product-s1-red.jpg",
@@ -82,6 +90,7 @@ function displayTextOnSelection(){
 			previousChoice.innerHTML = "";
 		}
 		// console.log(buttonSelector);
+		buttonSelector.style.color = textColor[color];
 		buttonSelector.innerHTML = color.toUpperCase();
 		previousSelection = color;
 		// console.log("Previous Selection : " + previousSelection);
