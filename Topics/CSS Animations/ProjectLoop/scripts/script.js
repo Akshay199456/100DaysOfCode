@@ -136,7 +136,7 @@ buttonNavigator.addEventListener("click", e => {
 const spanListener = document.getElementById("buttonNavigator").nextElementSibling;
 console.log(spanListener.innerHTML);
 spanListener.addEventListener("mouseover", () => {
-	spanListener.innerHTML = 'BUY NOW ON AMAZON <i class="fas fa-plus"></i> ';
+	spanListener.innerHTML = 'BUY NOW ON AMAZON <i class="giveMargin fas fa-plus"></i> ';
 	console.log("SpanListener: " + spanListener.innerHTML);
 });
 
