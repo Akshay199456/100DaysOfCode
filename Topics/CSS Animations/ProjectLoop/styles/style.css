@@ -91,6 +91,17 @@ body{
 	font-size: 30px;
 }
 
+.fa-caret-left, .fa-caret-right{
+	display: inline-block;
+	padding:  0.2em 0.2em;
+	border-radius: 50%;
+	background-color: white;
+}
+
+.fa-caret-left:hover, .fa-caret-right:hover{
+	background-color: grey;
+}
+
 /* 
 .displayNone{
 	visibility: hidden;
