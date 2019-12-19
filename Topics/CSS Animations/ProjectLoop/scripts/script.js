@@ -63,6 +63,13 @@ function setBackgroundAndImage(){
 	image.setAttribute("src", imageUrl);
 }
 
+function findIdFromColor(color){
+	for(let [key,value] of currentSelectionMap.entries()){
+		if(color === value)
+			return key;
+	}
+}
+
 
 // Event Listeners on different elements
 
@@ -89,6 +96,8 @@ buttonNavigator.addEventListener("click", e => {
 	console.log("Event Target: " + e.target.id);
 	console.log("Event Current Target: " + e.currentTarget.id);
 	if(e.target.id !== e.currentTarget.id){
-		e.target.classList.toggle("displayNone");
+		currentValue = findIdFromColor(e.target.id);
+		console.log(currentValue);
+		setBackgroundAndImage();
 	}
 });

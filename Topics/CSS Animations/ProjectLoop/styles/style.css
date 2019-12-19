@@ -99,7 +99,7 @@ body{
 }
 
 .fa-caret-left:hover, .fa-caret-right:hover{
-	background-color: grey;
+	background-color: rgba(0,0,0,0.1);
 }
 
 /* 
