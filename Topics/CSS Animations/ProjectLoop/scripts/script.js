@@ -1,5 +1,6 @@
 let currentValue = 2;
 let currentSelectionMap = new Map();
+let previousSelection = null;
 
 // Setting map values to coordinate with the different colors of product
 currentSelectionMap.set(0, "black");
@@ -70,6 +71,24 @@ function findIdFromColor(color){
 	}
 }
 
+function displayTextOnSelection(){
+	const color = currentSelectionMap.get(currentValue);
+	const buttonSelector = document.getElementById(color);
+	if(!previousSelection || previousSelection !== color){
+
+		if(previousSelection){
+			const previousChoice = document.getElementById(previousSelection);
+			previousChoice.classList.add("circle");
+			previousChoice.innerHTML = "";
+		}
+		// console.log(buttonSelector);
+		buttonSelector.innerHTML = color.toUpperCase();
+		previousSelection = color;
+		// console.log("Previous Selection : " + previousSelection);
+		buttonSelector.classList.remove("circle");
+	}
+}
+
 
 // Event Listeners on different elements
 
@@ -79,6 +98,7 @@ leftIcon.addEventListener("click", () => {
 	setCurrentValue(-1);
 	checkCurrentValueOverFlow();
 	// console.log("Current value: " + currentValue);
+	displayTextOnSelection();
 	setBackgroundAndImage();
 });
 
@@ -88,6 +108,7 @@ rightIcon.addEventListener("click", () => {
 	setCurrentValue(1);
 	checkCurrentValueOverFlow();
 	// console.log("Current value: " + currentValue);
+	displayTextOnSelection();
 	setBackgroundAndImage();
 });
 
@@ -97,7 +118,8 @@ buttonNavigator.addEventListener("click", e => {
 	console.log("Event Current Target: " + e.currentTarget.id);
 	if(e.target.id !== e.currentTarget.id){
 		currentValue = findIdFromColor(e.target.id);
-		console.log(currentValue);
+		displayTextOnSelection();
+		// console.log(currentValue);
 		setBackgroundAndImage();
 	}
 });
