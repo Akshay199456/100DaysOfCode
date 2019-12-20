@@ -1,12 +1,10 @@
-body{
-	padding:  0px;
-	margin:  0px;
-	background:  url("../images/loop-slide-rosegold.jpg") no-repeat fixed center;
-	background-size: cover;
-	transition: background 1s linear;
-	font-family: Arial;
-	font-weight: normal;
-}
+/* -------------------------------------- */
+/* Keyframe Animations for different elements */
+/* -------------------------------------- */
+
+/* Applied to element with id "scroller" and 'showFromBelow' class. Used to bring choice selector 
+	into view on page load as well as add transition effect to te text displaying the color of the 
+	current earphones selected*/
 
 @keyframes slideFromBottom {
 	from{
@@ -18,6 +16,7 @@ body{
 	}
 }
 
+/* Applied to 'addTransition' class. Used to slide image shown in earphone selector */
 @keyframes slideFromRight{
 	from{
 		transform: translateX(1%); 
@@ -26,6 +25,34 @@ body{
 	to{
 		transform: translateX(0%);
 	}
+}
+
+/* -------------------------------------- */
+/* Filler classes for transition effects  */
+/* -------------------------------------- */
+
+.addTransition{
+	animation: 0.1s ease-in 0s 1 slideFromRight;
+}
+
+.showFromBelow{
+	animation: 0.25s linear 0s 1 slideFromBottom;	
+}
+
+
+
+/* -------------------------------------- */
+/* 		CSS For Different Elements        */
+/* -------------------------------------- */
+
+body{
+	padding:  0px;
+	margin:  0px;
+	background:  url("../images/loop-slide-rosegold.jpg") no-repeat fixed center;
+	background-size: cover;
+	transition: background 1s linear;
+	font-family: Arial;
+	font-weight: normal;
 }
 
 #container{
@@ -60,14 +87,6 @@ body{
 	justify-content: space-around;
 	align-items: center;
 	height: 40%;
-}
-
-.addTransition{
-	animation: 0.1s ease-in 0s 1 slideFromRight;
-}
-
-.showFromBelow{
-	animation: 0.25s linear 0s 1 slideFromBottom;	
 }
 
 #buttonNavigator{

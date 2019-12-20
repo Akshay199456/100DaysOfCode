@@ -1,5 +1,14 @@
+/* -------------------------------------- */
+/* 			Variable Declarations 		  */
+/* -------------------------------------- */
+
+// Used to indicate the current choice of the user. Default is 2 to show the 'roseGold' version.
 let currentValue = 2;
+
+// Used to track index numbers and color names to show the right images 
 let currentSelectionMap = new Map();
+
+// Used to indicate previous choice. Default is 'roseGold' version.
 let previousSelection = "roseGold";
 
 // Setting map values to coordinate with the different colors of product
@@ -9,6 +18,8 @@ currentSelectionMap.set(2, "roseGold");
 currentSelectionMap.set(3, "silver");
 currentSelectionMap.set(4, "red");
 
+
+// Used to assoicate the font color of the text with each color.;
 const textColor = {
 	"black": "#000000",
 	"gold": "#E8D99B",
@@ -17,7 +28,7 @@ const textColor = {
 	"red": "#DD2D2D"
 }
 
-
+//  Used to associate the image of each product with each color
 const imageUrls = {
 	red : "loop-product-s1-red.jpg",
 	black: "loop-product-s1-black.jpg",
@@ -26,6 +37,7 @@ const imageUrls = {
 	silver: "loop-product-s1-silver.jpg"
 };
 
+//  Used to associate the background-image with each color of the product
 const backgroundUrls = {
 	red:"loop-slide-red.jpg",
 	black:"loop-slide-black2.jpg" ,
@@ -35,10 +47,18 @@ const backgroundUrls = {
 };
 
 
+
+/* -------------------------------------- */
+/* 			Functions			 		  */
+/* -------------------------------------- */
+
+// Used to set 'currentValue'
 function setCurrentValue(index){
 	currentValue+=index;
 }
 
+
+// Used to check that 'currentValue' is always between 0 and 4 to display the right images
 function checkCurrentValueOverFlow(){
 	if(currentValue < 0)
 		currentValue = 4;
@@ -46,6 +66,9 @@ function checkCurrentValueOverFlow(){
 		currentValue = 0;
 }
 
+
+
+// Used to set the appropriate background image for each of the colors selected by the user.
 function setBackgroundAndImage(){
 	/* 
 
@@ -72,6 +95,8 @@ function setBackgroundAndImage(){
 	image.setAttribute("src", imageUrl);
 }
 
+
+// Used to get index number of the color that the user has selected.
 function findIdFromColor(color){
 	for(let [key,value] of currentSelectionMap.entries()){
 		if(color === value)
@@ -79,6 +104,8 @@ function findIdFromColor(color){
 	}
 }
 
+
+// Displays the right color along with the right text depending on the choice selected
 function displayTextOnSelection(){
 	const color = currentSelectionMap.get(currentValue);
 	const buttonSelector = document.getElementById(color);
@@ -101,10 +128,14 @@ function displayTextOnSelection(){
 }
 
 
-// Event Listeners on different elements
+/* -------------------------------------- */
+/* 			Event Listeners			 	  */
+/* -------------------------------------- */
 
 const img = document.getElementById("displayImage");
 
+
+// Triggered when user clicks on the left symbol
 const leftIcon = document.getElementById("moveLeft");
 leftIcon.addEventListener("click", () => {
 	img.classList.toggle("addTransition");
@@ -116,6 +147,8 @@ leftIcon.addEventListener("click", () => {
 	setBackgroundAndImage();
 });
 
+
+// Triggered when user clicks on the right symbol
 const rightIcon = document.getElementById("moveRight");
 rightIcon.addEventListener("click", () => {
 	img.classList.toggle("addTransition");
@@ -127,6 +160,8 @@ rightIcon.addEventListener("click", () => {
 	setBackgroundAndImage();
 });
 
+
+// Triggered when the button navigator is used instead for selecting the color of the product.
 const buttonNavigator = document.getElementById("buttonNavigator");
 buttonNavigator.addEventListener("click", e => {
 	console.log("Event Target: " + e.target.id);
@@ -140,6 +175,9 @@ buttonNavigator.addEventListener("click", e => {
 	}
 });
 
+
+
+// Used to display link to Amazon when hovered over
 const spanListener = document.getElementById("buttonNavigator").nextElementSibling;
 // console.log(spanListener.innerHTML);
 spanListener.addEventListener("mouseover", () => {
