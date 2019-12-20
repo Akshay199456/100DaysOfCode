@@ -8,6 +8,26 @@ body{
 	font-weight: normal;
 }
 
+@keyframes slideFromBottom {
+	from{
+		transform: translateY(100%);
+	}
+
+	to{
+		transform: translateY(0);
+	}
+}
+
+@keyframes slideFromRight{
+	from{
+		transform: translateX(1%); 
+	}
+
+	to{
+		transform: translateX(0%);
+	}
+}
+
 #container{
 	display: flex;
 }
@@ -24,6 +44,7 @@ body{
 	background-color: white;
 	width: 45vw;
 	height: 80vh;
+	animation: 2s ease-in-out 0s 1 slideFromBottom;
 }
 
 #scroller > span{
@@ -39,6 +60,14 @@ body{
 	justify-content: space-around;
 	align-items: center;
 	height: 40%;
+}
+
+.addTransition{
+	animation: 0.1s ease-in 0s 1 slideFromRight;
+}
+
+.showFromBelow{
+	animation: 0.25s linear 0s 1 slideFromBottom;	
 }
 
 #buttonNavigator{
@@ -104,4 +133,8 @@ body{
 
 .giveMargin{
 	margin-left: 5%;
+}
+
+#roseGold{
+	color: #EACFC1;
 }

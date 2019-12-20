@@ -86,10 +86,12 @@ function displayTextOnSelection(){
 
 		if(previousSelection){
 			const previousChoice = document.getElementById(previousSelection);
+			previousChoice.classList.remove("showFromBelow");
 			previousChoice.classList.add("circle");
 			previousChoice.innerHTML = "";
 		}
 		// console.log(buttonSelector);
+		buttonSelector.classList.add("showFromBelow");
 		buttonSelector.style.color = textColor[color];
 		buttonSelector.innerHTML = color.toUpperCase();
 		previousSelection = color;
@@ -101,8 +103,11 @@ function displayTextOnSelection(){
 
 // Event Listeners on different elements
 
+const img = document.getElementById("displayImage");
+
 const leftIcon = document.getElementById("moveLeft");
 leftIcon.addEventListener("click", () => {
+	img.classList.toggle("addTransition");
 	console.log("Left button clicked");
 	setCurrentValue(-1);
 	checkCurrentValueOverFlow();
@@ -113,6 +118,7 @@ leftIcon.addEventListener("click", () => {
 
 const rightIcon = document.getElementById("moveRight");
 rightIcon.addEventListener("click", () => {
+	img.classList.toggle("addTransition");
 	console.log("Right button clicked");
 	setCurrentValue(1);
 	checkCurrentValueOverFlow();
@@ -126,6 +132,7 @@ buttonNavigator.addEventListener("click", e => {
 	console.log("Event Target: " + e.target.id);
 	console.log("Event Current Target: " + e.currentTarget.id);
 	if(e.target.id !== e.currentTarget.id){
+		img.classList.toggle("addTransition");
 		currentValue = findIdFromColor(e.target.id);
 		displayTextOnSelection();
 		// console.log(currentValue);
@@ -134,7 +141,7 @@ buttonNavigator.addEventListener("click", e => {
 });
 
 const spanListener = document.getElementById("buttonNavigator").nextElementSibling;
-console.log(spanListener.innerHTML);
+// console.log(spanListener.innerHTML);
 spanListener.addEventListener("mouseover", () => {
 	spanListener.style.cursor = "pointer";
 	spanListener.innerHTML = 'BUY NOW ON AMAZON <i class="giveMargin fas fa-plus"></i> ';
