@@ -51,7 +51,7 @@ body{
 	background:  url("../images/loop-slide-rosegold.jpg") no-repeat fixed center;
 	background-size: cover;
 	transition: background 1s linear;
-	font-family: Arial;
+	font-family: 'Montserrat';
 	font-weight: normal;
 }
 
@@ -60,8 +60,47 @@ body{
 }
 
 #imageInformation{
-	width: 75vw;
+	width: 100vw;
 	height: 100vh;
+	display: flex;
+	flex-direction: column;
+	color: white;
+}
+
+#logo{
+	height: 25vh;
+	display: flex;
+	justify-content: space-evenly;
+	align-items: center;
+	font-size: 15px;
+	margin-right: 25%;
+}
+
+#logo > h1{
+	font-size: 40px;
+}
+
+#logo > h3 > span{
+	font-weight: normal;
+}
+
+#empty{
+	height: 20vh;
+}
+
+
+#social{
+	margin-left: 12%;
+	height: 55vh;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-evenly;
+}
+
+#social > span{
+	transform-origin: bottom;
+	width: 0;
+	transform: rotate(90deg);
 }
 
 #scroller{
@@ -137,6 +176,11 @@ body{
 
 #cost{
 	font-size: 30px;
+}
+
+
+.icon:hover{
+	cursor: pointer;
 }
 
 .fa-caret-left, .fa-caret-right{
