@@ -201,3 +201,19 @@ body{
 #roseGold{
 	color: #EACFC1;
 }
+
+
+@media only screen and (max-width: 768px;){
+	#scroller{
+		display: none;
+	}
+
+	body{
+		background-size: 100% 100%;
+	}
+
+	#imageInformation{
+		width: 100vh;
+		height: 100vh;
+	}
+}

@@ -196,11 +196,13 @@ spanListener.addEventListener("click", ()=>{
 });
 
 
+// Used to navigate to twitter link
 const twitterListener  = document.getElementById("twitterIcon");
 twitterListener.addEventListener("click", ()=>{
 	window.open("https://twitter.com/loopearplugs?lang=en", "_blank");
 });
 
+// Used to navigate to facebook link
 const facebookListener  = document.getElementById("facebookIcon");
 facebookListener.addEventListener("click", ()=>{
 	window.open("https://www.facebook.com/loopearplugs/", "_blank");
