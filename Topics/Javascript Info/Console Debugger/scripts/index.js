@@ -1,4 +1,4 @@
-console.log("Connected!");
+console.log("Connected!")
 
 function hello(name) {
   let phrase = `Hello, ${name}!`;
@@ -9,3 +9,5 @@ function hello(name) {
 function say(phrase) {
   alert(`** ${phrase} **`);
 }
+
+hello("Buddy");
