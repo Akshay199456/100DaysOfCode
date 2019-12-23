@@ -25,6 +25,11 @@ The characters in J are distinct.
 Brute Force Algorithm:
 Time Complexity: O(s+j)
 Space Complexity: O(s+j)
+
+
+
+Runtime: 4 ms, faster than 65.10% of C++ online submissions for Jewels and Stones.
+Memory Usage: 9.2 MB, less than 5.00% of C++ online submissions for Jewels and Stones.
 */
 
 // This solution can be made better by just using one map instead of the two by excluding the map 
