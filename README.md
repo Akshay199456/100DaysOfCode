@@ -45,4 +45,5 @@ The goal of this journey for me is to make myslef into a better software enginee
 - Day 11: Working on a project using animations trying to recreate the [Awwwards](http://awwwards.com/) featured landing site [Loop](https://loopearplugs.jp/)
 - Day 12/13: Completed work on the animation project. Cleaned and commented code
 - Day 14: Reading through [Javascript Info](https://javascript.info/) to brush up on JS skills so I can then use that knowledge to start building full-stack applications [1.1 - 3.4]
-- Day 15: [Javascript Info](https://javascript.info/) [3.5 - ]
+- Day 15: [Javascript Info](https://javascript.info/) [3.5 - 4.1]
+- Day 16: [Javascript Info](https://javascript.info/) [4.2 - ]
