@@ -48,3 +48,4 @@ The goal of this journey for me is to make myslef into a better software enginee
 - Day 15: [Javascript Info](https://javascript.info/) [3.5 - 4.1]
 - Day 16: [Javascript Info](https://javascript.info/) [4.2 - 4.5]; Worked on portfolio site for friend
 - Day 17: Working on portfolio website for friend; W3Schools CSS Section and FreeCode camp's Responsive certification.
+- Day 18: Same as day 17. Almost done with the W3Schools CSS Section and have been able to learn a lot of properties I didn't know before.
