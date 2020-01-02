@@ -51,3 +51,4 @@ The goal of this journey for me is to make myslef into a better software enginee
 - Day 18: Same as day 17. Almost done with the W3Schools CSS Section and have been able to learn a lot of properties I didn't know before.
 - Day 19: Worked on friend's portfolio; Today was a more relaxed day as family came in to celebrate the new year's. Progress might be slow for the next 2-3 days but will make sure to get progress on different projects.
 - Day 20: Working on friend's portfolio
+- Day 21: Working on friend's portfolio; refactored code; fixed bugs
