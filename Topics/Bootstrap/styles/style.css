@@ -3,6 +3,12 @@
 	padding: 0;
 }
 
+/* 
+	The properties set on body and html allow it to take up the space of the whole viewport
+	however small you scale the viewport to.
+
+	Without these, having the 'viewport' meta tag and usin
+ */
 html{
 	min-height: 100%;
 	min-width: 100%;
@@ -17,7 +23,7 @@ body{
 
 .row{
 	border:  1px solid black;
-	height: 100px;
+	height: auto;
 	min-width: 100%;
 }
 
