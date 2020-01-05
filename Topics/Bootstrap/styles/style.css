@@ -1,6 +1,7 @@
 *{
 	margin: 0;
 	padding: 0;
+	box-sizing: border-box;
 }
 
 /* 
@@ -30,4 +31,15 @@ body{
 .col{
 	border:  1px solid green;
 	text-align: center;
+}
+
+img{
+	/* height gets omitted out as height set to auto by .img-thumnail and .img-fluid */
+	height: 400px;
+	width: 400px;
+}
+
+table{
+	text-align: center;
+	margin: 0 auto;
 }
