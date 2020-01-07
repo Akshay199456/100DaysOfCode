@@ -43,3 +43,11 @@ table{
 	text-align: center;
 	margin: 0 auto;
 }
+
+
+
+.card{
+	width: 50%;
+	height: 100px;
+	margin: 0 auto;
+}
