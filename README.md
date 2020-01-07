@@ -54,3 +54,5 @@ The goal of this journey for me is to make myslef into a better software enginee
 - Day 21: Working on friend's portfolio; refactored code; fixed bugs
 - Day 22: Learning [Bootstrap](https://getbootstrap.com/) library, Completed 'Layout' section; Refactoring portfolio site in bootstrap code
 - Day 23: Working on [Bootstrap](https://getbootstrap.com/) library, Working on 'Content' section
+- Day 24: Working on [Bootstrap](https://getbootstrap.com/) library, Completed 'Content' section
+- Day 25: Working on [Bootstrap](https://getbootstrap.com/) library, Started 'Components' section; currently on 'Button Groups' section.
