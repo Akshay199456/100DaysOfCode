@@ -56,3 +56,4 @@ The goal of this journey for me is to make myslef into a better software enginee
 - Day 23: Working on [Bootstrap](https://getbootstrap.com/) library, Working on 'Content' section
 - Day 24: Working on [Bootstrap](https://getbootstrap.com/) library, Completed 'Content' section
 - Day 25: Working on [Bootstrap](https://getbootstrap.com/) library, Started 'Components' section; currently on 'Button Groups' section.
+- Day 26: Worked on [Javascript Info](https://javascript.info/). Completed section 4.6. Started 5.1.
