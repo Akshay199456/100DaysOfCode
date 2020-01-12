@@ -60,3 +60,4 @@ The goal of this journey for me is to make myslef into a better software enginee
 - Day 27: Worked on [Javascript Info](https://javascript.info/). Completed section 5.1, 5.2. Currently working on 5.3. *Quick note here* Even though my github profile shows that I haven't submitted code for a couple of days since I started the #100DayChallenge, I have been working on those days learning different material and working on projects. However, I did forget to submit code to the repo during those days.
 - Day 28: Worked on [Javascript Info](https://javascript.info/).
 - Day 29: Started on Learning Javascipt Data Structures and Algorithms (book) and completed Chapter 1. Revising notes on C++ data structures and algorithms for interview preparation.
+- Day 30: Started Python Crash Course (book); currently on Chapter 3.
