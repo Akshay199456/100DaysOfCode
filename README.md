@@ -62,5 +62,5 @@ The goal of this journey for me is to make myslef into a better software enginee
 - Day 29: Started on Learning Javascipt Data Structures and Algorithms (book) and completed Chapter 1. Revising notes on C++ data structures and algorithms for interview preparation.
 - Day 30: Started Python Crash Course (book); currently on Chapter 3.
 - Day 31: Currently on Chapter 6 of Python Crash Course (book).
-- Day 32: Currently on Chapter 8 8 of Python Crash Course (book).
-- Day 33: 
+- Day 32: Currently on Chapter 8 of Python Crash Course (book).
+- Day 33: Currently on Chapter 9: Inheritance of Python Crash Courwse (book)
