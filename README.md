@@ -64,3 +64,4 @@ The goal of this journey for me is to make myslef into a better software enginee
 - Day 31: Currently on Chapter 6 of Python Crash Course (book).
 - Day 32: Currently on Chapter 8 of Python Crash Course (book).
 - Day 33: Currently on Chapter 9: Inheritance of Python Crash Courwse (book)
+- Day 34: Worked on building the Material Counts library application. Got a flask application set up as well as implemented the OCR function that can recognize text from images
