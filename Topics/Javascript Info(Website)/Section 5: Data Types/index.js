@@ -1,3 +1,12 @@
+//  =========================
+
+/*
+	Remaining sections : 5.6, 
+*/
+
+
+//  =========================
+
 console.log('Connected!');
 
 /*
@@ -76,3 +85,50 @@ let arr = [5,3,8,1];
 filterRange(arr, 1, 4);
 
 
+
+
+
+/*
+	Section 5.7: Map and Set
+
+	Map properties and methods:
+		new Map([iterable]) 
+		map.set(key, value)
+		map.get(key)
+		map.has(key)
+		map.delete(key)
+		map.clear()
+		map.size
+
+	Set properties and methods:
+		new Set([iterable])
+		set.add(value)
+		set.delete(value)
+		set.has(value)
+		set.clear()
+		set.size
+
+	Iterators:
+		.keys(), .values(), .entries()
+*/
+
+console.log(' ------------------');
+console.log("Maps and Sets");
+console.log(' ------------------');
+
+
+let recipeMap = new Map([
+  ['cucumber', 500],
+  ['tomatoes', 350],
+  ['onion',    50]
+]);
+
+for(let entry of recipeMap.entries()){
+	console.log('Recipe: ', entry);
+}
+
+
+
+/*
+	Section 5.8: WeakMap and WeakSet
+*/
