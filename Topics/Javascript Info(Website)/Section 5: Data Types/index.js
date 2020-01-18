@@ -131,4 +131,15 @@ for(let entry of recipeMap.entries()){
 
 /*
 	Section 5.8: WeakMap and WeakSet
+
+	WeakMap and WeakSets are similar to Maps and Sets except that only objects can be used 
+	in the former as well as once they have no connections are automatically removed from the 
+	WeakMap and WeakSet for garbage-collection.
+*/
+
+
+
+/*
+	Section 5.9: 
+
 */
