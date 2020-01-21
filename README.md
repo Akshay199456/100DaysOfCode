@@ -68,3 +68,5 @@ The goal of this journey for me is to make myslef into a better software enginee
 - Day 35: Reading Javascript Info (website) in preparation for interview + Python Crash Course
 - Day 36: Reading Javascritp Info (website); Resumed Javascript + Jquery(Book) in preparation for interview.
 - Day 37: Completed jQuery; Revised HTML + CSS.
+- Day 38: Prepared and practiced for interview; Reviewed JS, jQuery, Java, HTML and CSS
+- Day 39: 
