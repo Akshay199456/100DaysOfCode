@@ -19,10 +19,17 @@ class Restaurant():
 
 
 
+# Inheritance 
 
-#  Creating an instance of the class
-asian = Restaurant('Bombay to Beijing', 'Asian')
-print(asian.restaurant_name)
-print(asian.cuisine_type)
-asian.describe_restaurant()
-asian.open_restaurant()
+class IceCreamStand(Restaurant):
+	def __init__(self, restaurant_name, cuisine_type, flavors):
+		super().__init__(restaurant_name, cuisine_type)
+		self.flavors = flavors
+
+	def display_intro(self):
+		print("Welcome to " + self.restaurant_name + ". We are an " + \
+				self.cuisine_type)
+
+	def display_flavors(self):
+		for type in self.flavors:
+			print(type, end=", ")
