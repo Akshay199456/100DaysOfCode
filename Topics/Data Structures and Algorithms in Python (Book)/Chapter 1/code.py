@@ -42,3 +42,8 @@ for value in factors(100):
 n = 100
 factor_list = [value for value in range(1, n) if n % value == 0]
 print('Factor List: ', factor_list)
+
+
+''' First - class objects '''
+scream = print
+scream('Hello from scream!')
