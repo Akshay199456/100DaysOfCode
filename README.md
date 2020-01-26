@@ -72,3 +72,4 @@ The goal of this journey for me is to make myslef into a better software enginee
 - Day 39: Completed Chapter 10 of Python Crash Course Book; Remaining sections are projects
 - Day 40: Started Data Structures and Algorithms (Book)
 - Day 41: Working on Chapter 1 : Data Structures and Algorithms in Python
+- Day 42: Completed Chapter 1 and Chapter 2 of the book
