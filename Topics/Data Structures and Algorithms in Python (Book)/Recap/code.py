@@ -81,3 +81,17 @@ print('String list: ', string_list)
 new_string = '$'.join(letter for letter in string)
 print('Original string: ', string)
 print('New string:', new_string)
+
+
+# Appending elements to set using list
+name_list = ['Hello', 'I', 'am', 'Akshay', 'Akshay']
+name_set = set()
+for name in name_list:
+	name_set.add(name)
+print('Name set: ', name_set)
+print('Class of name set: ', type (name_set))
+
+if 'Akshay' in name_set:
+	print('Akshay is in the set')
+	name_set.discard('Akshay')
+	print('Akshay has been discarded. Current contents of list are: ', name_set)
