@@ -28,11 +28,16 @@ void displayStack(stack<int> element_stack){
     }
 }
 
+void displaySize(stack<int> element_stack){
+    cout<<"\n Displaying size: "<<element_stack.size()<<"\n";
+}
+
 int main(){
     vector<int> list {1,2,3,5,6,7};
     stack<int> element_stack;
     displayList(list);
     pushStack(list, element_stack);
     displayStack(element_stack);
+    displaySize(element_stack);
     return 0;
 }
