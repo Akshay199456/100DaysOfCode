@@ -40,6 +40,7 @@ void chooseOperation(unordered_map<string,int> & map, string element, string ope
     }
 }
 
+// Deletes the map itself
 void deleteMap(unordered_map<string, int> & map){
     map.clear();
     cout<<"\n Map has been deleted \n";
@@ -47,7 +48,7 @@ void deleteMap(unordered_map<string, int> & map){
 
 int main() 
 { 
-    unordered_map<string, int> map ={{"Hello", 0}, {"World",1}};
+    unordered_map<string, int> map = {{"Hello", 0}, {"World",1}};
     printMap(map);
     chooseOperation(map, "HelloQueen", "find", NULL);
     chooseOperation(map, "HelloWorld", "delete", NULL);
