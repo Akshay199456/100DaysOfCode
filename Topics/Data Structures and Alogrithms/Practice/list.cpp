@@ -10,6 +10,8 @@ Other methods:
 #include<list>
 #include<utility>
 
+using namespace std;
+
 // Inserts elements into the list at the front or the back
 void insertElement(list<pair<string,int>> & elements, string stringElement, int intElement, string position){
     cout<<"\n Inserting elements into the list: \n";
