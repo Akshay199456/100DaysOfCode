@@ -2,6 +2,13 @@
     Tuples are objects that pack elements of different types together into
     a single object just like pair<string, int> but generalized for any number of
     elements
+
+    Other methods are:
+        1. tie -> can be used to abstract values based on positional arguments
+            eg:
+                mytuple = make_tuple(10,2.6,'a')
+                tie(myint, ignore, mychar) = mytuple
+                // myint = 10; mychar ='a'  
 */
 #include<tuple>
 #include<iostream>
