@@ -21,7 +21,6 @@ During the 100 days of code, I will aim to cover projects from different fields 
 - Full Stack Applications.
 - App development.
 - Data Structure and Algorithm Problem Solving.
-- Building Websites for different organizations on campus.
 
 
 The goal of this journey for me is to make myslef into a better software engineer by exposing to different technologies/frameworks, building projects and learning the fundamental skills. If you would like to collab with me or provide any feedback on how to make this journey better, please reach out to me at my different profiles:
@@ -74,3 +73,5 @@ The goal of this journey for me is to make myslef into a better software enginee
 - Day 41: Working on Chapter 1 : Data Structures and Algorithms in Python
 - Day 42: Completed Chapter 1 and Chapter 2 of the book
 - Day 43: Completed Chapter 5; Working on Chapter 10
+- Day 45: Started preparing data structures in C++
+- Day 46: Continuing preparation for data structures in C++
