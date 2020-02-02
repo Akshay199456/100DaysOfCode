@@ -75,3 +75,4 @@ The goal of this journey for me is to make myslef into a better software enginee
 - Day 43: Completed Chapter 5; Working on Chapter 10
 - Day 45: Started preparing data structures in C++
 - Day 46: Continuing preparation for data structures in C++
+- Day 47: Working on different data structures in C++
