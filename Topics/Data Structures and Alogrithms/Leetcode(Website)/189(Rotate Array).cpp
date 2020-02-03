@@ -1,5 +1,5 @@
 /*
-    Question:
+**Question:**
 
 Given an array, rotate the array to the right by k steps, where k is non-negative.
 
@@ -15,6 +15,7 @@ Example 2:
 
 Input: [-1,-100,3,99] and k = 2
 Output: [3,99,-1,-100]
+
 Explanation: 
 rotate 1 steps to the right: [99,-1,-100,3]
 rotate 2 steps to the right: [3,99,-1,-100]
@@ -25,14 +26,16 @@ Could you do it in-place with O(1) extra space?
 */
 
 /*
-    Approach:
+    **My Approach:**
 
     This initial appraoch which uses a map to keep track of the index of the element in the array and the 
     element itself gets the solution but is not the most optimum solution
     Time complexity: O(n)
     Space Complexity: O(n)
+*/
 
-    Better approach:
+/*
+    **Better approach:**
 
     If you notice the solution of rotating an array, it involves basically two subarrays
     which are swapped to give you the final solution.
@@ -50,7 +53,7 @@ Could you do it in-place with O(1) extra space?
     Space complexity: O(1)
 */
 
-// Approach
+// My approach
 class Solution {
 public:
     void rotateArray(vector<int> & nums, unordered_map<int,int> indexMap, int k){

@@ -1,5 +1,5 @@
 /* 
-    Question:
+**Question:**
 
 Given a sorted array nums, remove the duplicates in-place such that each element appear only once and return the new length.
 
@@ -38,7 +38,7 @@ for (int i = 0; i < len; i++) {
 */
 
 /*
-    Approach:
+    **My Approach:**
 
     The key to returning the sorted array in place is to keep track of the position
     where the changes are occuring and then replacing those indexes with unique values.
