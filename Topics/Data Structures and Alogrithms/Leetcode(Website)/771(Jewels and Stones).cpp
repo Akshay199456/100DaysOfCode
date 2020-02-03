@@ -1,6 +1,6 @@
 /*
 
-**Question:**
+-------------------------Question:**
 
 You're given strings J representing the types of stones that are jewels, and S representing the stones you have.  Each character in S is a type of stone you have.  You want to know how many of the stones you have are also jewels.
 
@@ -23,8 +23,9 @@ The characters in J are distinct.
 
 
 /*
+-------------------------My Approaches:**
 
-**My Brute Force Approach:**
+1. Brute Force
 
 Time Complexity: O(s+j)
 Space Complexity: O(s+j)
@@ -35,8 +36,19 @@ Runtime: 4 ms, faster than 65.10% of C++ online submissions for Jewels and Stone
 Memory Usage: 9.2 MB, less than 5.00% of C++ online submissions for Jewels and Stones.
 */
 
-// This solution can be made better by just using one map instead of the two by excluding the map 
-//  for string J
+/*
+-------------------------Better approaches:**
+
+1.
+
+This solution can be made better by just using one map instead of the two by excluding the map 
+for string J
+
+
+Improved Algorithm:
+Time Complexity: O(s+j)
+Space Complexity: O(s) 
+*/
 
 
 class Solution {
@@ -80,10 +92,3 @@ public:
         return getCount(mapJ, mapS);
     }
 };
-
-
-/*
-Improved Algorithm:
-Time Complexity: O(s+j)
-Space Complexity: O(s)
-*/

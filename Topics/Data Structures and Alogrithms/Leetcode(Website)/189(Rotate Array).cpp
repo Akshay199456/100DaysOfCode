@@ -1,5 +1,5 @@
 /*
-**Question:**
+-------------------------Question:
 
 Given an array, rotate the array to the right by k steps, where k is non-negative.
 
@@ -26,7 +26,9 @@ Could you do it in-place with O(1) extra space?
 */
 
 /*
-    **My Approach:**
+-------------------------My Approaches:
+
+1.
 
     This initial appraoch which uses a map to keep track of the index of the element in the array and the 
     element itself gets the solution but is not the most optimum solution
@@ -35,7 +37,9 @@ Could you do it in-place with O(1) extra space?
 */
 
 /*
-    **Better approach:**
+-------------------------Other approaches
+
+1. (Better)
 
     If you notice the solution of rotating an array, it involves basically two subarrays
     which are swapped to give you the final solution.
@@ -53,7 +57,7 @@ Could you do it in-place with O(1) extra space?
     Space complexity: O(1)
 */
 
-// My approach
+// My approach(1)
 class Solution {
 public:
     void rotateArray(vector<int> & nums, unordered_map<int,int> indexMap, int k){
@@ -72,7 +76,7 @@ public:
 };
 
 
-// Better approach
+// Better approach(1)
 class Solution {
 public:
     void displayVector(vector<int> nums){

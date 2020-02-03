@@ -1,6 +1,6 @@
 /*
 
-Question:
+-------------------------Question:
 
 Say you have an array for which the ith element is the price of a given stock on day i.
 
@@ -29,7 +29,9 @@ Explanation: In this case, no transaction is done, i.e. max profit = 0.
 */
 
 /*
-    My Approach:
+-------------------------    My Approaches:
+
+1. 
 
     This seems to be the best approach to the problem. It uses greedy algorithms to find the local maximum and
     adds those results. It continues this till the end of the array in the hope that adding the local
@@ -40,12 +42,20 @@ Explanation: In this case, no transaction is done, i.e. max profit = 0.
 */
 
 /*
-    Brute force approach: Find all posibble solutions and calculate the max profit from them
+-------------------------    Brute force approach: 
+
+1. (Worse)
+
+    Find all posibble solutions and calculate the max profit from them
     Time complexity: O(n^n)
     Space complexity: O(n) for recursion calls
 */
 
 /*
+-------------------------    Other approaches:
+
+1. (Same)
+
     There is another approach that is based on the approach that I used. Instead of adding the total
     at each index when start > curr or start <= curr <= end, we can just keep adding whenever we discover
     a peak-valley pair(nums[i] > nums[i-1]). This approach still adds the results like the previous
@@ -65,6 +75,10 @@ Explanation: In this case, no transaction is done, i.e. max profit = 0.
 
     From the above graph, we can observe that the sum A+B+CA+B+C is equal to the difference DD corresponding to the difference between the heights of the consecutive peak and valley.
 
+    Time complexity: O(n)
+    Space complexity: O(1)
+    
+    
     Code:
 
     class Solution {
@@ -80,7 +94,7 @@ Explanation: In this case, no transaction is done, i.e. max profit = 0.
 
 */
 
-// My Approach
+// My Approach(1)
 class Solution {
 public:
     void setParameters(int & start, int &end, int &current , int &total){
