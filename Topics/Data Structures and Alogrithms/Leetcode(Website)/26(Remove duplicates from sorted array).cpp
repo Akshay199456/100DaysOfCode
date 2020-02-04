@@ -49,6 +49,7 @@ for (int i = 0; i < len; i++) {
     Space complexity: O(1) 
 */
 
+// My approach(1)
 class Solution {
 public:
     int removeDuplicates(vector<int>& nums) {

@@ -50,7 +50,7 @@ Time Complexity: O(s+j)
 Space Complexity: O(s) 
 */
 
-
+// My approach(1)
 class Solution {
 public:
     void createMap(unordered_map<char,int> & mapTemplate, string element){

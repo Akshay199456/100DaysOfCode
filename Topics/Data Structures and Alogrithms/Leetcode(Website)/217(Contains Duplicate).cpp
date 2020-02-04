@@ -58,6 +58,7 @@ Space complexity: O(1)
 
 */
 
+// My approach(1)
 class Solution {
 public:
     bool containsDuplicate(vector<int>& nums) {
