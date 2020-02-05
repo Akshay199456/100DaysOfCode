@@ -48,6 +48,15 @@ we have seen the element before and as a result, can remove it from the set. Thi
 spanning the array, we will only have 1 element in the set and that is the element which occurs only once
 in the array. This prevents of having to go though the map a second time as in my approach(1).
 
+Time complexity: O(n) + O(1) = O(n)
+Space complexity: O(n) since it still requires O(n) space to store the elements.
+
+Definitely more faster than My approach(1) but not a big improvement. This is because it still takes O(n)
+time in iterating through the vector and creating the set.
+
+
+2.
+
 */
 
 // My approach(1)
@@ -75,6 +84,32 @@ public:
         unordered_map<int,int> map;
         constructMap(map, nums);
         return findSolution(map);
+        
+    }
+};
+
+// Other approaches(1)
+class Solution {
+public:
+    void constructSet(unordered_set<int> & set, vector<int> nums){
+        for(int i = 0; i< nums.size(); i++){
+            auto iterator = set.find(nums[i]);
+            if(iterator == set.end())
+                set.insert(nums[i]);
+            else
+                set.erase(nums[i]);
+        }
+    }
+    
+    int findSolution(unordered_set<int> set){
+        auto it = set.begin();
+        return *it;
+    }
+    
+    int singleNumber(vector<int>& nums) {
+        unordered_set<int> set;
+        constructSet(set, nums);
+        return findSolution(set);
         
     }
 };
