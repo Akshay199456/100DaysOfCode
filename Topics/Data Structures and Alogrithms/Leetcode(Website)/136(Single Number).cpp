@@ -55,7 +55,38 @@ Definitely more faster than My approach(1) but not a big improvement. This is be
 time in iterating through the vector and creating the set.
 
 
-2.
+2. Using math(Same)
+
+Another way to solve this problem is by using math. Now, the key to the problem is to find the only 
+element that is not repeated. 
+
+2*(a+b+c) - (a+a+b+b+c) = c
+    set          vector
+
+So, multiplying the sum of the set of the elements by 2 and subtracting that from the sum of the vector
+gives you the missing element
+
+Time complexity: O(n)[Build set and take sum] + O(n)[Find sum of vector] = O(n)
+Space complexity: O(n)[Space for set]
+
+
+
+
+3. Using bit manipulation(Best)
+
+This is the most efficient solution to solve the problem. The key to understand here is:
+
+a ^ a = 0
+a ^ 0 = a
+
+So, if we take the exor of all the elements in the vector, we should only have the element that occurs once
+in the vector
+
+eg: a ^ b ^ a = (a ^ a) ^ b = 0 ^ b = b
+
+Time complexity: O(n)
+Space complexity: O(1)
+
 
 */
 
@@ -113,3 +144,16 @@ public:
         
     }
 };
+
+// Other approaches(3)
+class Solution {
+public:
+    int singleNumber(vector<int>& nums) {
+        int result = 0;
+        for(int i = 0; i < nums.size(); i++){
+            result = result ^ nums[i];
+        }
+        return result;
+    }
+};
+
