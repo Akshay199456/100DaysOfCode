@@ -78,3 +78,4 @@ The goal of this journey for me is to make myslef into a better software enginee
 - Day 47: Working on different data structures in C++
 - Day 48: Started solving leetcode problems
 - Day 49: Worked on Introdcution to Java Programming and Data Structures(Book)
+- Day 50-52: Working on improving data structure and algorithm approaches by solving Leetcode 
