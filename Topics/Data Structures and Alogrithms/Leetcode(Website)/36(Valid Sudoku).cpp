@@ -64,7 +64,8 @@ rated solution that was given.
 /*
 -------------------------    Other approaches:
 
-1. Using 3 arrays to keep track of the occurrence of the element across the row, column and grid (Check
+1. (Better) 
+ Using 3 arrays to keep track of the occurrence of the element across the row, column and grid (Check
  the **Helping Images** folder with respect to this particular problem to get a better understanding 
  of the approach that was utilized).
 
@@ -76,8 +77,27 @@ rated solution that was given.
  Having these 3 arrays made it really easy to check if an element had already occurred. If it did, we 
  returned false, else we make sure to set that particular entry in all the 3 arrays to true to confirm 
  we have encountered the element.
+
+ Time complexity: O(n^2)
+ Space complexity: O(n^2) * 3 = O(n^2)
+
+
+
+ 2. (Best)
+
+ The second approach uses a bit masking system to understand whether or not an element occurs in
+ a particular row, column or box (check attachment in the **Helping Image** section with respect to this
+ problem). It starts off with the bit 1 being set to the left depending on the current element. We declare
+ 3 vectors for the row, column and box check. We then check if the bit for that element has been set
+ in either of the 3 vectors. If it has been set, we know that the element has occurred at that position
+ before and therefore return false. Else, we OR that bit into that particular row, column and box and
+ as keep continuing for all the elements of the board.
+
+ Time complexity: O(n^2)
+ Time complexity: O(n)
 */
 
+// Other approaches(1)
 class Solution {
 public:
     static const int LEVELS = 9;
@@ -114,5 +134,39 @@ public:
     
     bool isValidSudoku(vector<vector<char>>& board) {
         return checkValidSolution(board);    
+    }
+};
+
+
+
+// Other approaches(2)
+class Solution {
+public:
+    static const int LEVELS = 9;
+    
+    bool checkValidSolution(vector<vector<char>> board){
+        vector<short> rowCheck(9,0), columnCheck(9,0), boxCheck(9,0);
+        
+        for(int i = 0; i < LEVELS; i++)
+            for(int j = 0 ;j < LEVELS; j++){
+                if(board[i][j] != '.'){
+                    int currentElement = board[i][j] - '0';
+                    int bitSetter = 1 << currentElement;
+                    int k = ((i / 3) * 3) +(j / 3);
+                    if(rowCheck[i] & bitSetter || columnCheck[j] & bitSetter || boxCheck[k] & bitSetter)
+                        return false;
+                    else{
+                        rowCheck[i] |= bitSetter;
+                        columnCheck[j] |= bitSetter;
+                        boxCheck[k] |= bitSetter;
+                    }
+                }
+            }
+        return true;
+        }
+    
+    bool isValidSudoku(vector<vector<char>>& board) {
+        return checkValidSolution(board);
+        
     }
 };
