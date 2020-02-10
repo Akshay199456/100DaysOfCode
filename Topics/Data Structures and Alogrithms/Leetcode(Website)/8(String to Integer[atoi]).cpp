@@ -1,14 +1,6 @@
 /*
-8. String to Integer (atoi)
-Medium
+-------------------------Question:
 
-1295
-
-7827
-
-Add to List
-
-Share
 Implement atoi which converts a string to an integer.
 
 The function first discards as many whitespace characters as necessary until the first non-whitespace character is found. Then, starting from this character, takes an optional initial plus or minus sign followed by as many numerical digits as possible, and interprets them as a numerical value.
@@ -51,3 +43,145 @@ Output: -2147483648
 Explanation: The number "-91283472332" is out of the range of a 32-bit signed integer.
              Thefore INT_MIN (−231) is returned.
 */
+
+/*
+-------------------------    My Approaches:
+
+This approach uses modularity to assign different responsibilities to each function. While not
+complicated, it does involve using checks at certain intervals to make sure that the approach works.
+For this problem, I will comment the code and explain it there instead of explaining the solution
+in this section.
+
+Time complexity: O(n)
+Space complexity: O(1)
+
+*/
+
+
+// My approaches(1)
+class Solution {
+public:
+    int checkFirstCharacterValid(string element){
+    	/*
+		
+		This function is part of the core functionality of the algorithm.
+
+    	Purpose of this function is to check if the first character that's encountered in the string
+    	that's not a space character(' ') is a valid character in the form of '+', '-' or a digit.
+    	If so, we return the index of the character so the other functions can continue the rest
+    	of the operation to determine the value from that index.
+
+    	If it's not a valid character, we return -1.
+    	*/
+        int index = 0;
+        while(index < element.size()){
+            if(element[index] == ' ')
+                index++;
+            else if(element[index] == '+' || element[index] == '-' || isdigit(element[index]))
+                return index;
+            else
+                return -1;
+        }
+        return -1;
+    }
+    
+    int checkSignValue(int sign){
+    	/*
+    	This function is only called if the value embedded in the int variable exceeds the 
+    	MAX_INT or MIN_INT value.
+
+    	If the value of the sign is 1, we return the INT_MAX else we return INT_MIN.
+    	*/
+         if(sign == 1)
+             return INT_MAX;
+        else
+            return INT_MIN;
+    }
+    
+    int checkRemainingDigits(string element, int index){
+    	/*
+    	This function is  called to check the remaining valid digits in an element if we are about
+    	to hit the overflow condition of INT_MAX/10.
+
+    	If no valid digits exist, we return 0; if one exists, return 1; for more than one valid
+    	digit, we return 2.
+    	*/
+        if(index+1 < element.size() && isdigit(element[index+1])){
+            if(index + 2 < element.size() && isdigit(element[index+2]))
+                return 2;
+            else
+                return 1;
+        }  
+        else
+            return 0;
+    }
+    
+    int calculateIntValue(string element, int index){
+    	/*
+    	Core function to calculate the int value embedded in the string.
+    	*/
+        int sign = 1, total = 0;
+        // If the current index is a '+' or '-', we adjust the sign bit accordingly and continue
+        // the rest of the string.
+        if(element[index] == '+')
+            index++;
+        else if(element[index] == '-'){
+            sign = -1;
+            index++;
+        }
+        
+        while(isdigit(element[index]) && index < element.size()){
+            int value = element[index] - '0';
+            total = total * 10 + value;
+            int nDigits = checkRemainingDigits(element, index); 
+            if(total > INT_MAX / 10){
+            	/* 
+            	If the overflow condition is met but we don't have any additional digits, we know
+            	that it doesn't exceed the INT_MAX and so return the value multiplied by the 
+            	respective sign. Else we return INT_MAX or INT_MIN depending on the sign bit. 
+            	*/
+                if(!nDigits)
+                    return total * sign;
+                else
+                    return checkSignValue(sign);
+            }
+                
+            else if(total == INT_MAX / 10){
+            	/* 
+            	If the overflow condition is met but we don't have any additional digits, we know
+            	that it doesn't exceed the INT_MAX and so return the value multiplied by the 
+            	respective sign. If we have one digit remaining, we need to check if that digit
+            	exceeds the overflow or not. If it does, we return INT_MAX or INT_MIN. If it doesn;t
+            	we return the embedded value. 
+            	If more than one digit, we return INT_MAX or INT_MIN depending on the sign bit. 
+            	*/
+                if(!nDigits)
+                    return total * sign;
+                else{
+                    if(nDigits == 1){
+                        int nextValue = element[index+1] - '0';
+                        if( nextValue > 7)
+                            return checkSignValue(sign);
+                        else{
+                            total = total * 10 + nextValue;
+                            return total * sign;
+                        }
+                    }      
+                    else
+                        return checkSignValue(sign);
+                }
+            }
+            // Increment the current index to the next value
+            index++;
+        }   
+        return total * sign;
+    }
+    
+    int myAtoi(string str) {
+        int isValidIndex = checkFirstCharacterValid(str);
+        if(isValidIndex == -1)
+            return 0;
+        else
+            return calculateIntValue(str, isValidIndex);
+    }
+};
