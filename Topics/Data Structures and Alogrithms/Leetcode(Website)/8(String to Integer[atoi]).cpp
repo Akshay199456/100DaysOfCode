@@ -57,6 +57,19 @@ Space complexity: O(1)
 
 */
 
+/*
+-------------------------    Other approaches:
+
+1. (Same)
+
+This approach uses the same logic as in **My approaches(1)** but does it more concisely in its
+code. As a result, it's way more beautiful code written by someone else. Will comment the code
+to explain the logic utilized to make it more concise.
+
+Time complexity: O(n)
+Space complexity: O(n)
+*/
+
 
 // My approaches(1)
 class Solution {
@@ -183,5 +196,51 @@ public:
             return 0;
         else
             return calculateIntValue(str, isValidIndex);
+    }
+};
+
+
+// Other approaches(1)
+class Solution {
+public:
+    int skipSpaces(string str){
+    	/*
+    	Skips through spaces so that either '+', '-' or a digit is the first occurrence.
+    	*/
+        int index = 0;
+        while(str[index] == ' ' && index < str.size())
+            index++;
+        return index;
+    }
+    
+    int myAtoi(string str) {
+        int index  = skipSpaces(str), sign = 1, total = 0;
+
+        /*
+        If the current character is '+', the expression returns false and sign gets value 1.
+        Instead, the current character is '-', the expression returns true and sign gets value -1.
+        */
+        if(str[index] == '+' || str[index] == '-')
+            sign = 1 - 2 * (str[index++] == '-');
+        
+        // As long as character is a digit
+        while(str[index] >= '0' && str[index] <= '9'){
+        	/*
+        	Makes the check in beginning itself to verify if overflow has occurred
+        	*/
+            if(total > INT_MAX/10 || (total == INT_MAX/10 && str[index] > '7')){
+                if(sign == 1)
+                    return INT_MAX;
+                else
+                    return INT_MIN;
+            }
+            
+            // Updates total with the representation of the current character and increments index
+            // At any point, if we hit an invalid character, we come outside of the while loop
+            // and return the total * sign. If it hits overflow, we return INT_MAX or INT_MIN
+            // depending on sign.
+            total = 10 * total + (str[index++] - '0'); 
+        }
+        return total * sign;
     }
 };
