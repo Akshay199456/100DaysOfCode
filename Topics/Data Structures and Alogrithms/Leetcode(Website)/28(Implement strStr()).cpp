@@ -35,10 +35,31 @@ haystack. Obviously, if needle.size() > haystack.size() as well as haystack.size
 -1 as we can't find the needle in it. If instead, the needle.size() == 0, we return 0 as defined
 by the problem statement in this case. If they are of the same size, we write a separate algo to
 increase the speed taken for that particular case. Else we follow a general algorithm where we 
-check if the characters of the haystack and the needle are the same.
+check if the characters of the haystack and the needle are the same. This has a worst case time
+complexity of O(mn).
 
-Time complexity: O(n)
+We can technical combine the case for when the haystack.size() >= needle.size()
+
+m-> size of haystack
+n-> size of needle
+
+Time complexity: O(mn)
 Space complexity: O(1)
+*/
+
+/*
+-------------------------    Other approaches:
+
+1. Using KMP which is particularly built for finding substring within a string within linear
+time complexity:
+
+m-> size of haystack
+n-> size of needle
+
+Time complexity: O(m+n)
+Space complexity: O(n)
+
+Currently working on learning this approach and implementing it.
 */
 
 // My aoproaches(1)
