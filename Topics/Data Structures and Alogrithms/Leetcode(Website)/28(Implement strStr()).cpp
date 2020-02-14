@@ -112,3 +112,45 @@ public:
         return getIndex(haystack, needle);
     }
 };
+
+// Other approaches(1)[Work in progress]
+/*
+
+// Implements the lps creation properly
+
+class Solution {
+public:
+    void generateLps(string needle, int *lps){
+        int len = 0, index = 1;
+        lps[len] = 0;
+        while(index < needle.size()){
+            if(needle[index] == needle[len])
+                lps[index++] = ++len;
+            else{
+                if(len > 0)
+                    len = lps[len-1];
+                else
+                    lps[index++] = 0;
+            }
+        }
+    }
+    
+    void displayLps(int * lps, int size){
+        cout<<"Displaying the array lps: \n";
+        for(int i = 0; i < size; i++ )
+            cout<<lps[i]<<" ";
+        cout<<endl;
+    }
+    
+    int firstOccurrence(string haystack, string needle){
+        int lps[needle.size()];
+        generateLps(needle, lps);
+        displayLps(lps, needle.size());
+        return 1;
+    }
+    
+    int strStr(string haystack, string needle) {
+        return firstOccurrence(haystack, needle);
+    }
+};
+*/
