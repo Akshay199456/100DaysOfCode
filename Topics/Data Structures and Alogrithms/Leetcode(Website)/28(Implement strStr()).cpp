@@ -51,7 +51,7 @@ Space complexity: O(1)
 -------------------------    Other approaches:
 
 1. Using KMP which is particularly built for finding substring within a string within linear
-time complexity:
+time complexity (Images have been attached in respective folder to understand algorithm better):
 
 m-> size of haystack
 n-> size of needle
@@ -59,10 +59,33 @@ n-> size of needle
 Time complexity: O(m+n)
 Space complexity: O(n)
 
-Currently working on learning this approach and implementing it.
+KMP uses a two stepped approach to find the matching substring in O(m+n) time complexity:
+
+	a. Contructing an lps array to know the number of characters to skip by
+
+	This prevents us from allowing to check if each character that occurred before and only
+	compare with characters that are the start of a pattern.
+
+	Time complexity: O(n)
+	Space complexity: O(n)
+
+	b. Using the lps array to find matching substring
+
+	Whenever there is a match, we progress till we hit the end of the pattern. Else, if there is a
+	mismatch, we only compare it with the beginning of the previous pattern and continue to do so
+	with mismatches till we hit the beginning of the array.
+
+	Time complexity: O(m)
+	Space complexity: O(1)
+
+Total complexity:
+
+Time complexity: O(m+n)
+Space complexity: O(n)	
+
 */
 
-// My aoproaches(1)
+// My approaches(1)
 class Solution {
 public:
     int getIndex(string haystack, string needle){
@@ -113,11 +136,9 @@ public:
     }
 };
 
+
+
 // Other approaches(1)[Work in progress]
-/*
-
-// Implements the lps creation properly
-
 class Solution {
 public:
     void generateLps(string needle, int *lps){
@@ -142,15 +163,45 @@ public:
         cout<<endl;
     }
     
+    int searchAlgorithm(string haystack, string needle, int * ptr){
+        int i = 0, j = 0;
+        while(i < haystack.size()){
+            // cout<<"I: "<< i <<" J: "<<j<<endl;
+            if( j == needle.size())
+                return i - j; 
+            else if(haystack[i] == needle[j]){
+                // cout<<"We getting here\n";
+                ++i;
+                ++j;
+            }
+            else{
+                if(j > 0)
+                    j = ptr[j-1];
+                else
+                    ++i;
+            }
+        }
+        
+        if(j == needle.size())
+            return i-j;
+        else
+            return -1;
+    }
+    
     int firstOccurrence(string haystack, string needle){
-        int lps[needle.size()];
-        generateLps(needle, lps);
-        displayLps(lps, needle.size());
-        return 1;
+        if(needle.size() == 0)
+            return 0;
+        else if(haystack.size() == 0 || haystack.size() < needle.size())
+            return -1;
+        else{
+            int lps[needle.size()];
+            generateLps(needle, lps);
+            // displayLps(lps, needle.size());
+            return searchAlgorithm(haystack, needle, lps);
+        }
     }
     
     int strStr(string haystack, string needle) {
         return firstOccurrence(haystack, needle);
     }
 };
-*/
