@@ -1,0 +1,9 @@
+/Users/gaguest/Akshay/C#/Hello/Hello/bin/Debug/netstandard2.0/Hello.deps.json
+/Users/gaguest/Akshay/C#/Hello/Hello/bin/Debug/netstandard2.0/Hello.dll
+/Users/gaguest/Akshay/C#/Hello/Hello/bin/Debug/netstandard2.0/Hello.pdb
+/Users/gaguest/Akshay/C#/Hello/Hello/obj/Debug/netstandard2.0/Hello.csprojAssemblyReference.cache
+/Users/gaguest/Akshay/C#/Hello/Hello/obj/Debug/netstandard2.0/Hello.csproj.CoreCompileInputs.cache
+/Users/gaguest/Akshay/C#/Hello/Hello/obj/Debug/netstandard2.0/Hello.AssemblyInfoInputs.cache
+/Users/gaguest/Akshay/C#/Hello/Hello/obj/Debug/netstandard2.0/Hello.AssemblyInfo.cs
+/Users/gaguest/Akshay/C#/Hello/Hello/obj/Debug/netstandard2.0/Hello.dll
+/Users/gaguest/Akshay/C#/Hello/Hello/obj/Debug/netstandard2.0/Hello.pdb

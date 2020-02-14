@@ -1,0 +1,11 @@
+/Users/gaguest/Akshay/C#/new/democonsole/bin/Debug/netcoreapp2.2/democonsole.deps.json
+/Users/gaguest/Akshay/C#/new/democonsole/bin/Debug/netcoreapp2.2/democonsole.runtimeconfig.json
+/Users/gaguest/Akshay/C#/new/democonsole/bin/Debug/netcoreapp2.2/democonsole.runtimeconfig.dev.json
+/Users/gaguest/Akshay/C#/new/democonsole/bin/Debug/netcoreapp2.2/democonsole.dll
+/Users/gaguest/Akshay/C#/new/democonsole/bin/Debug/netcoreapp2.2/democonsole.pdb
+/Users/gaguest/Akshay/C#/new/democonsole/obj/Debug/netcoreapp2.2/democonsole.csprojAssemblyReference.cache
+/Users/gaguest/Akshay/C#/new/democonsole/obj/Debug/netcoreapp2.2/democonsole.csproj.CoreCompileInputs.cache
+/Users/gaguest/Akshay/C#/new/democonsole/obj/Debug/netcoreapp2.2/democonsole.AssemblyInfoInputs.cache
+/Users/gaguest/Akshay/C#/new/democonsole/obj/Debug/netcoreapp2.2/democonsole.AssemblyInfo.cs
+/Users/gaguest/Akshay/C#/new/democonsole/obj/Debug/netcoreapp2.2/democonsole.dll
+/Users/gaguest/Akshay/C#/new/democonsole/obj/Debug/netcoreapp2.2/democonsole.pdb
