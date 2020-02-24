@@ -95,6 +95,24 @@ Time complexity: O(S) where S= m*n in the worst case; m-> no of letters in strin
 Space complexity: O(m) m->length of first string in array of strings
 
 
+
+5. Using binary search
+
+This approach uses binary search to deliver the result. 
+
+Once we have the minimum length of all strings in the array, we use that to decide the beg and 
+end to be used for the binary search algorithm. Using this as the mid, we search wther or not 
+that prefix exists in the rest of the vector strings. If it does, we push beg to mid+1, else
+we push end to mid - 1 and keep continuing till beg <= end. Beg > end at the point when the 
+longest prefix exists. Hence, we use that mid to return the result
+
+Time complexity: O(S*log N) where S is the sum of all characters in all strings.
+
+The algorithm makes log n iterations, for each of them there are S = m*n comparisons, which gives 
+total O(S log n) 
+
+Space complexity: O(1)
+
 */
 
 // My Approaches(1)
@@ -240,5 +258,50 @@ public:
             createTrie(strs[0], root);
             return findLongestPrefix(root,strs);
         }
+    }
+};
+
+
+
+// Other approaches(5)
+class Solution {
+public:
+    int getMinLength(vector<string> strs){
+        int min = INT_MAX;
+        for(int i = 0; i < strs.size(); i++)
+            if(min > strs[i].size())
+                min = strs[i].size();
+        return min;
+    }
+    
+    bool checkExists(vector<string> strs, int len){
+        string element = strs[0].substr(0, len);
+        for(int i = 1; i < strs.size(); i++)
+            if(element.compare(strs[i].substr(0, len)) != 0)
+                return false;
+
+        return true;      
+    }
+    
+    string findLongestPrefix(vector<string> strs){
+        int min = getMinLength(strs);
+        int beg = 1, end = min;
+        while(beg <= end){
+            int mid = (beg + end) / 2;
+            if(checkExists(strs, mid))
+                beg = mid + 1;
+            else
+                end = mid - 1;
+        }
+        return strs[0].substr(0, (beg+end) / 2);
+    }
+    
+    string longestCommonPrefix(vector<string>& strs){
+        if(strs.size() == 0)
+            return "";
+        else if (strs.size() == 1)
+            return strs[0];
+        else
+            return findLongestPrefix(strs);
     }
 };
