@@ -75,6 +75,26 @@ Space complexity: O(m * log N)
 	to store the result
 
 
+4. Using trie ()
+
+Tries can be used effectively to obtain the longest prefix of the word. We know that the longest
+prefix will be of the same length of the first word or less than it and can use that to construct
+the trie for the first word of the vector of strings. Once we have that, we can keep checking every
+other string with the trie we have constructed. If it's of a length greater than the string in the
+trie, we don't have to worry about inserting it into the trie since we have already found a prefix
+that's common and irrespective of inserting it or not, we have found a common prefix. If it's of
+a length less than that the string in the trie, we indicate the endOfWord since that's the common
+prefix.
+
+This way when we go through the trie, whenever we hit an endOfWord, we know that's the common
+prefix with respective to all the strings and return that as the result. Obviously if the first
+trie node has an end of word, we know that there's no common prefix and return that instead as the 
+result.
+
+Time complexity: O(S) where S= m*n in the worst case; m-> no of letters in string, n-> no of strings.
+Space complexity: O(m) m->length of first string in array of strings
+
+
 */
 
 // My Approaches(1)
@@ -105,8 +125,9 @@ public:
     }
 };
 
-// Other approaches(3)
 
+
+// Other approaches(3)
 class Solution {
 public:
     string longestCommonPrefix(vector<string>& strs) {
@@ -140,5 +161,84 @@ public:
         }
         
         return result;
+    }
+};
+
+
+
+
+// Other approaches(4)
+const int SIZE = 26;
+struct TrieNode{
+    TrieNode* children[SIZE];
+    bool endOfWord;
+};
+
+class Solution {
+public:
+    TrieNode* getNode(){
+        TrieNode * pointer = new TrieNode();
+        for(int i = 0; i < SIZE; i++)
+            pointer->children[i] = NULL;
+        pointer->endOfWord = false;
+        return pointer;
+    }
+    
+    void createTrie(string element, TrieNode * root){
+        TrieNode * curr = root;
+        for(int i = 0; i < element.size(); i++){
+            int index = element[i] - 'a';
+            if(!curr->children[index])
+                curr->children[index] = getNode();
+            curr = curr->children[index];
+        }    
+    }
+    
+    string getString(TrieNode * root, string element){
+        string result = "";
+        TrieNode * temp = root;
+        for(int i = 0; i < element.size(); i++){
+            if(temp->endOfWord)
+                return result;
+            else{
+                int index = element[i] - 'a';
+                result.push_back(element[i]);
+                temp = temp->children[index];
+            }
+        }
+        return result;
+    }
+    
+    string findLongestPrefix(TrieNode * root, vector<string> strs){
+        for(int i = 1; i < strs.size(); i++){
+            TrieNode * curr = root;
+            string element = strs[i];
+            bool end = false;
+            for(int j = 0; j < min(element.size(), strs[0].size()) && !end; j++){
+                int index = element[j] - 'a';
+                if(!curr->children[index]){
+                    curr->endOfWord = true;
+                    end = true;
+                }
+                else if(curr->endOfWord)
+                    end = true;
+                else
+                    curr = curr->children[index];
+            }
+            curr->endOfWord = true;
+        }
+        return getString(root, strs[0]);
+    }
+    
+    string longestCommonPrefix(vector<string>& strs) {
+        if(strs.size() == 0)
+            return "";
+        else if(strs.size() == 1)
+            return strs[0];
+        else{
+            TrieNode * root = getNode();
+            createTrie(strs[0], root);
+            return findLongestPrefix(root,strs);
+        }
     }
 };
