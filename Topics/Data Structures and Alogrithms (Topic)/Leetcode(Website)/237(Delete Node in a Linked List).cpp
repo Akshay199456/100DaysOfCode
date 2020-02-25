@@ -31,6 +31,7 @@ Do not return anything from your function.
 
 /*
 -------------------------My Approaches:
+1.
 
 To solve this problem, you can use two pointers, one pointing to the current one and the other to
 the next node. You have to keep swapping node values till the last node is encountered by the next
@@ -42,6 +43,7 @@ Space complexity: O(1)
 
 /*
 -------------------------Other approaches
+1.
 
 Rather than using two pointers to swap values till the end, you can just exchange the value of the 
 current node with the next node and make sure to point the current node to the node after the next
