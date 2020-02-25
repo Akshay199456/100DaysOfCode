@@ -37,7 +37,18 @@ the next node. You have to keep swapping node values till the last node is encou
 node. Then set the current node to null.
 
 Time complexity: O(n)
-Space: O(1)
+Space complexity: O(1)
+*/
+
+/*
+-------------------------Other approaches
+
+Rather than using two pointers to swap values till the end, you can just exchange the value of the 
+current node with the next node and make sure to point the current node to the node after the next
+node and deleting the next node. This doesn't make you go through the whole list.
+
+Time complexity: O(1)
+Space complexity: O(1)
 */
 
 
@@ -64,5 +75,25 @@ public:
                 node = node->next;
         }
         node->next = NULL;
+    }
+};
+
+
+// Other Approaches(1)
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode(int x) : val(x), next(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    void deleteNode(ListNode* node) {
+        ListNode * nextNode = node->next;
+        node->val = nextNode->val;
+        node->next = nextNode->next;
+        nextNode->next = NULL;   
     }
 };
