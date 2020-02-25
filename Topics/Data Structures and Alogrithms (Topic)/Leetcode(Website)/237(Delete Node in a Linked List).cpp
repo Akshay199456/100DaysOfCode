@@ -32,5 +32,37 @@ Do not return anything from your function.
 /*
 -------------------------My Approaches:
 
+To solve this problem, you can use two pointers, one pointing to the current one and the other to
+the next node. You have to keep swapping node values till the last node is encountered by the next
+node. Then set the current node to null.
 
+Time complexity: O(n)
+Space: O(1)
 */
+
+
+
+// My Approaches(1)
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode(int x) : val(x), next(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    void deleteNode(ListNode* node) {
+        ListNode * nextNode = node->next;
+        while(nextNode != NULL){
+            swap(node->val, nextNode->val);
+            nextNode = nextNode->next;
+            if(!nextNode){
+            }
+            else
+                node = node->next;
+        }
+        node->next = NULL;
+    }
+};
