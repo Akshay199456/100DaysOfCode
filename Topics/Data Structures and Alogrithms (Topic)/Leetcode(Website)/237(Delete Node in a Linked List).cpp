@@ -43,7 +43,7 @@ Space complexity: O(1)
 
 /*
 -------------------------Other approaches
-1.
+1. (Better)
 
 Rather than using two pointers to swap values till the end, you can just exchange the value of the 
 current node with the next node and make sure to point the current node to the node after the next
