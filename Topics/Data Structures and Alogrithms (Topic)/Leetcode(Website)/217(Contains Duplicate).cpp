@@ -32,7 +32,7 @@ Time complexity: O(n)
 Space complexity: O(n)
 
 Note: For certain test cases with not very large n, the runtime of this method can be slower 
-than Approach #2. The reason is hash table has some overhead in maintaining its property. One should 
+than Other Approaches(2). The reason is hash table has some overhead in maintaining its property. One should 
 keep in mind that real world performance can be different from what the Big-O notation says. 
 The Big-O notation only tells us that for sufficiently large input, one will be faster than the other. 
 Therefore, when nn is not sufficiently large, an O(n) algorithm can be slower than an 
