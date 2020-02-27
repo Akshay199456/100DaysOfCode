@@ -84,3 +84,4 @@ The goal of this journey for me is to make myslef into a better software enginee
 - Day 60-61: Primarily building the *Expense Tracker* flask application. Solved a couple of Leetcode problems
 - Day 62: Worked on a system design problem *ElephantCarpaccio*(forgot to push to github; uploaded to the next day).
 - Day 63-66: Working on Leetcode problems
+- Day 67: Working on a paper so didn't code today
