@@ -85,3 +85,4 @@ The goal of this journey for me is to make myslef into a better software enginee
 - Day 62: Worked on a system design problem *ElephantCarpaccio*(forgot to push to github; uploaded to the next day).
 - Day 63-66: Working on Leetcode problems
 - Day 67: Working on a paper so didn't code today
+- Day 68: Working on leetcode problems
