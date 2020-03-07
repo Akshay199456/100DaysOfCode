@@ -23,5 +23,6 @@ public class ComputeArea{
 		// This results in a float operation; either one of the operands must be float
 		System.out.println("Result of division 2: " + 5.0/2 );
 
+		// Working on type casting
 	}
 }
