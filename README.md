@@ -86,4 +86,4 @@ The goal of this journey for me is to make myslef into a better software enginee
 - Day 63-66: Working on Leetcode problems
 - Day 67: Working on a paper so didn't code today
 - Day 68: Working on leetcode problems
-- Day 69-71: Working on Introduction to Java Programming and Data Structures(Book)
+- Day 69-72: Working on Introduction to Java Programming and Data Structures(Book)
