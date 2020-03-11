@@ -36,11 +36,26 @@ Time complexity: O(n)
 Space complexity: O(n)
 
 
-3. Recursively from the tail(Worse)
+/*
+-------------------------    Other Approaches:
 
+1. Recursively from the tail(Worse)
 
+The final apporach uses recursive iteration from the tail of the linked list to solve the problem.
+We need access to the current node as well as the head node. When curr->next = NULL, we know that
+we are at the last node of the linked list so we need to set the head to the last node. This then 
+takes us a layer higher in the recursive chain. We then set the pointer for the curr->next->next
+(the next node of the current node) to the current node and then set the pointer to the curr node
+to NULL. We continue this till we hit what was the first node of the linked list. This sets the
+linked list recursively in reverse order.
+Space compplexity remains O(n) since we still need to remember the n level deep nature of the 
+recursive call.
+
+Time complexity: O(n)
+Space complexity: O(n)
 
 */
+
 
 // My Approaches(1)
 /**
@@ -115,5 +130,34 @@ public:
 };
 
 
-// My Approaches(3)
+// Other Approaches(1)
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode(int x) : val(x), next(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    ListNode * reversedLinkedList(ListNode *head, ListNode *curr){
+        if(!(curr->next))
+            head = curr;
+        else{
+            head = reversedLinkedList(head, curr->next);
+            curr->next->next = curr;
+            curr->next = NULL;
+        }
+        // cout<<"Head value: "<<head->val<<" Curr value: "<<curr->val<<"\n";
+        return head;
+    }
+    
+    ListNode* reverseList(ListNode* head) {
+        if(!head || !(head->next))
+            return head;
+        else
+            return reversedLinkedList(head, head);
+    }
+};
 
