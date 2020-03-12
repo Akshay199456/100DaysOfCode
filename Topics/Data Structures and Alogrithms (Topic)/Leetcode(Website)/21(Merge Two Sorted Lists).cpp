@@ -27,8 +27,15 @@ nodes (Better)
 Rather than creating new nodes in this approach, we instead change the next pointer of the nodes
 so that they point to the next nodes. We continue this till all the nodes are linked.
 
+Edit: A slight modification can be made to the code. Instead of having copyToEnd when either 
+the l1 or l2 is NULL, we can just instead assign the remaining pointer (l1 OR l2) to the temp
+pointer instead since the remaining pointer will have all the remainging elements connected to it.
+We can do this instead of using the while pointer to go through each element.
+
 Time complexity: O(m+n)
 Space complexity: O(1)
+
+
 
 
 
