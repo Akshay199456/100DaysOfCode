@@ -48,7 +48,15 @@ Space complexity: O(n)
 /*
 -------------------------Other approaches
 
-1. 
+1. Recursive approach to check the beginning with the end of the list[Same]
+
+This method uses a recursive approach to test the beginning pointer wih the end pointer. It does
+this till the beginning pointer hits NULL as well as the end pointer hits the first element. As
+a result, this approach goes through the whole linked list even though it may not be a palindrome.
+
+
+Time complexity: O(n)
+Space complexity: O(n)
 */
 
 
@@ -190,3 +198,31 @@ public:
 
 
 // Other Approaches(1)
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode(int x) : val(x), next(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    bool checkPalindrome(ListNode *& startPointer, ListNode * current){
+        if(!current)
+            return true;
+        else{
+            bool status = checkPalindrome(startPointer, current->next) && (startPointer->val == current->val);
+            startPointer = startPointer->next;
+            return status;
+        }
+    }
+    
+    
+    bool isPalindrome(ListNode* head) {
+        if(!head || !(head->next))
+            return true;
+        else
+            return checkPalindrome(head, head);
+    }
+};
