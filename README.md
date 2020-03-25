@@ -90,4 +90,5 @@ The goal of this journey for me is to make myslef into a better software enginee
 - Day 76: Working on leetcode problems
 - Day 77: Working on Introduction to Java Programming and Data Structures(Book) - Completed Chapter 6
 - Day 78: Working on [*Expense Tracker*](https://github.com/Akshay199456/ExpenseTracker) as well as Leetcode
-- Day 79 - 82: Working on [*Expense Tracker*](https://github.com/Akshay199456/ExpenseTracker)
+- Day 79 - 83: Working on [*Expense Tracker*](https://github.com/Akshay199456/ExpenseTracker)
+- Day 80: Working on Introduction to Java Programming and Data Structures(Book)
