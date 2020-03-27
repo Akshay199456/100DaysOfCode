@@ -38,7 +38,7 @@ Can you solve it using O(1) (i.e. constant) memory?
 /*
 -------------------------My Approaches:
 
-1. Two pointer approach
+1. Two pointer approach (Called Floyd's Tortoise and Hare algorithm)
 
 This approach uses two pointers to determine the end of the linked list. If the two pointers meet
 at any time, then there exists a cycle in the linked list else if we reach null with the fast poitner
