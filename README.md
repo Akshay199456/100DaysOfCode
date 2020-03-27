@@ -92,3 +92,4 @@ The goal of this journey for me is to make myslef into a better software enginee
 - Day 78: Working on [*Expense Tracker*](https://github.com/Akshay199456/ExpenseTracker) as well as Leetcode
 - Day 79 - 83: Working on [*Expense Tracker*](https://github.com/Akshay199456/ExpenseTracker)
 - Day 80: Working on Introduction to Java Programming and Data Structures(Book)
+- Day 81: Working on corona virus application
