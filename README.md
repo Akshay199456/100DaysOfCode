@@ -95,3 +95,4 @@ The goal of this journey for me is to make myslef into a better software enginee
 - Day 81: Working on corona virus application
 - Day 82: Worked on LinkedIn Learning - Python for Data Visualization and Javascript Info
 - Day 83: Spend time b/w working on leetcode problems and working on corona virus application
+- Day 84: Working on data structures and algorithms(Leetcode)
