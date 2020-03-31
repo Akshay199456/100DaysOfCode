@@ -42,6 +42,22 @@ checked.
 
 Time complexity: O(n)
 Space complexity: O(h) -> O(n)
+
+
+2. BFS with queue iterative approach[Same]
+
+The iterative approach to this problem makes use of a BFS esque approach where we check the nodes
+at each level. If both are NULL, we move to the next iteration while if either one of them or NULL,
+we return false. Else, we check the values of the two nodes. Again, if they are not equal we return
+false else we insert the left and right children of the two nodes into the queue. It's important
+here that we insert the left of one node followed by the right of the other and then the right of
+the first node with the left of the second. At the end of this, if we have the queue empty, we 
+know that the left and right subtrees are mirrors of each other[Check images for more info]
+
+Time complexity: O(n)
+Space complexity: O(2n) -> O(n)
+
+
 */
 
 
@@ -71,5 +87,56 @@ public:
             return true;
         else
             return checkSymmetric(root->left, root->right);
+    }
+};
+
+
+// Other Approaches(2)
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    bool checkSymmetric(TreeNode * root){
+        queue<TreeNode *> q;
+        q.push(root->left);
+        q.push(root->right);
+        TreeNode * child1, * child2;
+        
+        while(!q.empty()){
+            child1 = q.front();
+            q.pop();
+            child2 = q.front();
+            q.pop();
+            
+            if(!child1 && !child2){
+                
+            }
+            else if(!child1 || !child2)
+                return false;
+            else{
+                if(child1->val != child2->val)
+                    return false;
+
+                q.push(child1->left);
+                q.push(child2->right);
+                q.push(child1->right);
+                q.push(child2->left);  
+            }      
+        }
+        return true;
+    }
+    
+    bool isSymmetric(TreeNode* root) {
+        if(!root)
+            return true;
+        else
+            return checkSymmetric(root);
     }
 };
