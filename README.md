@@ -99,4 +99,5 @@ The goal of this journey for me is to make myslef into a better software enginee
 
 Apparently, have not been calculating the dates properly and am already at Day 108. So, we shall continue from here:
 
-- Day 108-111: Working on data structures and algorithms(Leetcode)
+- Day 108-110: Working on data structures and algorithms(Leetcode)
+- Day 111: Working on data structures and algorithms(Leetcode) and Started the book Hands on machone learning with scikit learn, keras and tensorflow.
