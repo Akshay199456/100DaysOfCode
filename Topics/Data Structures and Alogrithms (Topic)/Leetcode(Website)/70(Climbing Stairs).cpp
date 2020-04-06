@@ -96,6 +96,19 @@ problem. As a result, we can minimize on the space utilized this way
 
 Time complexity: O(n)
 Space complexity: O(1) 
+
+
+5,6. Binets method, Fibonacci formula
+
+These remaining 2 approaches only apply to the fibonacci series in particular. In case the 
+finbonacci series ever becomes a bottle neck and you want to reduce it's runtime, you can
+use any one of these 2 approaches to improve the efficiency and continue with the rest of the
+problem.
+
+[Check 'Helping Images' for more info on the 2 approaches]
+
+Time complexity: O(log n) pow takes log n time
+Space complexity: O(1)
 */
 
 
@@ -175,5 +188,20 @@ public:
             }
             return result;
         }
+    }
+};
+
+
+
+// Other Approaches(5)
+class Solution {
+public:
+    int climbStairs(int n) {
+        if( n == 0)
+            return 0;
+        else{
+            int total = (1/sqrt(5)) * (pow((1+ sqrt(5))/2, n+1) - pow((1 - sqrt(5))/2, n+1));
+            return total;
+        }   
     }
 };
