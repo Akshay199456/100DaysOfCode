@@ -36,6 +36,43 @@ Space complexity: O(1)
 /*
 -------------------------Other approaches
 
+1. One pass through the array[Best]
+
+In order to get the result in a single pass, we want to make sure that maximize the value of
+prices[j] - prices[i] in a single pass. In addition, the price at which we sell the stock must
+be greater than the price at which we buy the stick which means that the min profit must always be
+0. 
+
+If you plot the points on a graph, you want to find the greatest diff between a valley and a peak
+starting from the valley to maximize the profit. If you encounter the next valley, you repeat the 
+same till you get the global max profit.
+
+Time complexity: O(n)
+Space complexity: O(1)
+
+
+2. Adopting Kadane's algorthm [Same as above]
+
+
+We can perform an adoptation of kadane's algorithm to get the answer to this problem so let's step
+through the logic.
+
+If our array is [a0,a1,a2,a3,a4] and if the max exists b/w a4 and a1, our solution is given by
+a4 - a1
+
+If we have an array b = [b0,b1,b2,b3,b4] where b[i] = 0 if i = 0 and b[i] = a[i] - a[i-1], we are
+looking for the sum b2+b3+b4. This is because:
+
+b2 = a2 - a1;
+b3 = a3 - a2;
+b4 = a4 - a3;
+
+b2 + b3 + b4 = (a2-a1) + (a3-a2) + (a4-a3) = a4 - a1 which is the solution we are looking for.
+Thus, we are looking for the max subarray to get the max profit which is nothing but Kadane's 
+algorithm.
+
+Time complexity: O(n)
+Space complexity: O(1)
 */
 
 
@@ -63,25 +100,45 @@ public:
 };
 
 
-// Other Approaches(1)[Doesn't work]
+// Other Approaches(1)
 class Solution {
 public:
     int getMaxProfit(vector<int> prices){
-        int best_buy, best_sell, max_profit = 0;
-        best_buy = best_sell = prices[0];
-        for(int i= 1; i < prices.size(); i++){
-            if(prices[i] - best_buy > max_profit)
-                best_sell = prices[i];
-            else if(prices[i] < best_buy && max_profit == 0)
-                best_buy = best_sell = prices[i];
-            
-            max_profit = best_sell - best_buy;
+        int minPrice = prices[0];
+        int maxProfit = 0;
+        for(int i = 1; i < prices.size(); i++){
+            if(prices[i] < minPrice)
+                minPrice = prices[i];
+            else if(prices[i] - minPrice > maxProfit)
+                maxProfit = prices[i] - minPrice;
         }
-        return max_profit;
+        return maxProfit;
     }
     
     int maxProfit(vector<int>& prices) {
-        if(prices.size() == 0)
+        if (prices.size() == 0)
+            return 0;
+        else
+            return getMaxProfit(prices);
+    }
+};
+
+
+
+// Other Approaches(2)
+class Solution {
+public:
+    int getMaxProfit(vector<int> prices){
+        int maxCurrent = 0, maxGlobal = 0;
+        for(int i  = 1; i < prices.size(); i++){
+            maxCurrent = max(0, maxCurrent += prices[i] - prices[i-1]);
+            maxGlobal = max(maxCurrent, maxGlobal);
+        }
+        return maxGlobal;
+    }
+    
+    int maxProfit(vector<int>& prices) {
+        if (prices.size() == 0)
             return 0;
         else
             return getMaxProfit(prices);
