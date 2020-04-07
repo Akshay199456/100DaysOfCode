@@ -77,21 +77,6 @@ Explanation: In this case, no transaction is done, i.e. max profit = 0.
 
     Time complexity: O(n)
     Space complexity: O(1)
-    
-    
-    Code:
-
-    class Solution {
-    public int maxProfit(int[] prices) {
-        int maxprofit = 0;
-        for (int i = 1; i < prices.length; i++) {
-            if (prices[i] > prices[i - 1])
-                maxprofit += prices[i] - prices[i - 1];
-        }
-        return maxprofit;
-    }
-}
-
 */
 
 // My Approach(1)
@@ -122,5 +107,20 @@ public:
             total += end - start;
             return total;
         }
+    }
+};
+
+
+
+// Other Approaches(1)
+class Solution {
+public:
+    int maxProfit(vector<int>& prices) {
+        int maxprofit = 0;
+        for (int i = 1; i < prices.size(); i++) {
+            if (prices[i] > prices[i - 1])
+                maxprofit += prices[i] - prices[i - 1];
+        }
+        return maxprofit;
     }
 };
