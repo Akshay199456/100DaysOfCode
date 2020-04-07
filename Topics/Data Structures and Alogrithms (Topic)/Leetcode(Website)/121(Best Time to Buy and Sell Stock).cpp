@@ -68,8 +68,8 @@ b3 = a3 - a2;
 b4 = a4 - a3;
 
 b2 + b3 + b4 = (a2-a1) + (a3-a2) + (a4-a3) = a4 - a1 which is the solution we are looking for.
-Thus, we are looking for the max subarray to get the max profit which is nothing but Kadane's 
-algorithm.
+Thus, we are looking for the max continuous subarray to get the max profit which is nothing but 
+Kadane's algorithm.
 
 Time complexity: O(n)
 Space complexity: O(1)

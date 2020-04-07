@@ -64,7 +64,7 @@ Space complexity: O(log n)
 // Other Approaches(1)
 class Solution {
 public:
-    int maxSubArray(vector<int>& nums){
+    int maxSubArray(vector<int>& nums) {
         if(nums.size() == 0)
             return INT_MIN;
         else{
@@ -73,11 +73,10 @@ public:
             
             for(int i = 1 ; i < nums.size(); i++){
                 current_max = max(nums[i], nums[i] + current_max);
-                if(current_max > global_max)
-                    global_max = current_max;
+                global_max = max(current_max, global_max);
             }         
             return global_max;
-        }
+        }   
     }
 };
 
