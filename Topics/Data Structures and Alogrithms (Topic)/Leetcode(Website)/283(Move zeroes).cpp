@@ -47,8 +47,7 @@ first loop, all the non-zero elements are in the correct order. So, you use a wh
 the remainging elements to zero
 
 Time complexity: O(n)
-Space complexity: O(n)
-
+Space complexity: O(1)
 */
 
 // My approach(1)
