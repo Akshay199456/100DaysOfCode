@@ -40,10 +40,43 @@ For shuffle, we can generate random numbers from a clone of the original array a
 into a randomArray as well removing those elements from the cloneArray. We do this for all the
 elements of the cloneArray
 
+shuffle()
+
 Time complexity: O(n^2) since removing an element from an array takes O(n) time for each element
 so for n elements, it will take O(n^2) time
-
 Space complexity: O(n)
+
+
+Overall time complexity: O(n^2)
+Overall space complexity: O(n)
+
+
+
+2. Fisher - Yates algorithm
+
+
+The second approach modifies upon the first approach by modifying the array in place. This prevents
+the O(n^2) time complexity we had before. In additional, we store the original array so that when
+reset is called, we reset the array to its original value.
+
+constructor():
+
+Time comeplxity: O(n)
+Space complexity: O(n)
+
+
+reset():
+Time complexity; O(n)
+Space complexity: O(1)
+
+
+shuffle():
+Time complexity: O(n)
+Space complexity: O(n)
+
+
+Overall time complexity: O(n)
+Overall space complexity: O(n)
 */
 
 
@@ -89,3 +122,39 @@ public:
  * vector<int> param_2 = obj->shuffle();
  */
 
+
+
+
+
+// Other Approaches(2)
+class Solution {
+public:
+    vector<int> array, original;
+    Solution(vector<int>& nums) {
+        this->array = this->original = nums;
+        srand(time(NULL));
+    }
+    
+    /** Resets the array to its original configuration and return it. */
+    vector<int> reset() {
+        this->array = this->original;
+        return this->array;
+    }
+    
+    /** Returns a random shuffling of the array. */
+    vector<int> shuffle() {
+        int length = this->array.size();
+        for(int i = 0; i < length; i++){
+            int index = rand() % (length - i) + i;
+            swap(this->array[i], this->array[index]);
+        }
+        return this->array;
+    }
+};
+
+/**
+ * Your Solution object will be instantiated and called as such:
+ * Solution* obj = new Solution(nums);
+ * vector<int> param_1 = obj->reset();
+ * vector<int> param_2 = obj->shuffle();
+ */
