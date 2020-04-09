@@ -105,3 +105,4 @@ Apparently, have not been calculating the dates properly and am already at Day 1
 - Day 113: Working on data structures and algorithms(Leetcode) and working on the book 'Hands on machone learning with scikit learn, keras and tensorflow''
 - Day 114-115: Working on data structures and algorithms(leetcode)
 - Day 116: Working on C# for class
+- Day 117: Workin on C# and working on leetcode problems
