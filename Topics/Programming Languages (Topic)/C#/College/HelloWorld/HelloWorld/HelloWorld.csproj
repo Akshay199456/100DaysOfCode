@@ -1,0 +1,13 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Reference Include="LaYumba.Functional">
+      <HintPath>..\..\..\..\..\..\..\..\UHCL\School\Classes\SWEN5237\functional-csharp-code\LaYumba.Functional\bin\Debug\netstandard1.6\LaYumba.Functional.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+</Project>

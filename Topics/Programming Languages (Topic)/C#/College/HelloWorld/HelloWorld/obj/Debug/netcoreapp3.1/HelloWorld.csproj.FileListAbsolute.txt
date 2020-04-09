@@ -1,0 +1,14 @@
+/Users/gaguest/Akshay/Programming and Coding Related/GitHub/Career/Topics/Programming Languages (Topic)/C#/College/HelloWorld/HelloWorld/bin/Debug/netcoreapp3.1/HelloWorld.deps.json
+/Users/gaguest/Akshay/Programming and Coding Related/GitHub/Career/Topics/Programming Languages (Topic)/C#/College/HelloWorld/HelloWorld/bin/Debug/netcoreapp3.1/HelloWorld.runtimeconfig.json
+/Users/gaguest/Akshay/Programming and Coding Related/GitHub/Career/Topics/Programming Languages (Topic)/C#/College/HelloWorld/HelloWorld/bin/Debug/netcoreapp3.1/HelloWorld.runtimeconfig.dev.json
+/Users/gaguest/Akshay/Programming and Coding Related/GitHub/Career/Topics/Programming Languages (Topic)/C#/College/HelloWorld/HelloWorld/bin/Debug/netcoreapp3.1/HelloWorld.dll
+/Users/gaguest/Akshay/Programming and Coding Related/GitHub/Career/Topics/Programming Languages (Topic)/C#/College/HelloWorld/HelloWorld/bin/Debug/netcoreapp3.1/HelloWorld.pdb
+/Users/gaguest/Akshay/Programming and Coding Related/GitHub/Career/Topics/Programming Languages (Topic)/C#/College/HelloWorld/HelloWorld/bin/Debug/netcoreapp3.1/LaYumba.Functional.dll
+/Users/gaguest/Akshay/Programming and Coding Related/GitHub/Career/Topics/Programming Languages (Topic)/C#/College/HelloWorld/HelloWorld/bin/Debug/netcoreapp3.1/LaYumba.Functional.pdb
+/Users/gaguest/Akshay/Programming and Coding Related/GitHub/Career/Topics/Programming Languages (Topic)/C#/College/HelloWorld/HelloWorld/obj/Debug/netcoreapp3.1/HelloWorld.csproj.CoreCompileInputs.cache
+/Users/gaguest/Akshay/Programming and Coding Related/GitHub/Career/Topics/Programming Languages (Topic)/C#/College/HelloWorld/HelloWorld/obj/Debug/netcoreapp3.1/HelloWorld.AssemblyInfoInputs.cache
+/Users/gaguest/Akshay/Programming and Coding Related/GitHub/Career/Topics/Programming Languages (Topic)/C#/College/HelloWorld/HelloWorld/obj/Debug/netcoreapp3.1/HelloWorld.AssemblyInfo.cs
+/Users/gaguest/Akshay/Programming and Coding Related/GitHub/Career/Topics/Programming Languages (Topic)/C#/College/HelloWorld/HelloWorld/obj/Debug/netcoreapp3.1/HelloWorld.csproj.CopyComplete
+/Users/gaguest/Akshay/Programming and Coding Related/GitHub/Career/Topics/Programming Languages (Topic)/C#/College/HelloWorld/HelloWorld/obj/Debug/netcoreapp3.1/HelloWorld.dll
+/Users/gaguest/Akshay/Programming and Coding Related/GitHub/Career/Topics/Programming Languages (Topic)/C#/College/HelloWorld/HelloWorld/obj/Debug/netcoreapp3.1/HelloWorld.pdb
+/Users/gaguest/Akshay/Programming and Coding Related/GitHub/Career/Topics/Programming Languages (Topic)/C#/College/HelloWorld/HelloWorld/obj/Debug/netcoreapp3.1/HelloWorld.genruntimeconfig.cache
