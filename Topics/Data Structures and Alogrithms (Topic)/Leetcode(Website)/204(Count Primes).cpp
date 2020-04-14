@@ -73,7 +73,7 @@ In addition, in the inner loop, we don't have to start from the value of i. Inst
 from i*i since every value below i*i would have already been covered by the other prime factors and
 increment it by i till we reach n.
 
-Time complexity: O(n)
+Time complexity: O(n log(log n))
 Space complexity: O(n)
 */
 
