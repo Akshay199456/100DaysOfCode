@@ -31,6 +31,15 @@ We can optimize the checking if a number is prime procedure by only checking til
 find some other factor as we go from 2 to sqrt(n), then we know it can't be prime since it has
 an additional factor other from 1 and the number itself.
 
+The reason we make the check with the square root of the number is as follows:
+
+For a given number n, if it's divisible by p, then n = p * q where p <=q. This means that we can
+also derive p < sqrt(n) since sqrt(n) * sqrt(n) = n = p * q. Since we know that p<=q, this means
+that for sqrt(n) * sqrt(n) = p * q to be valid, p must be <=sqrt(n) since q is greater than p.
+As a result, we only need to check the results till sqrt(n) and check if there is any additional
+factor and if so, that number can't be a prime since it has a factor other than 1 and the number
+itself. 
+
 
 Time complexity: O(nlogn)
 Space complexity: O(1)
