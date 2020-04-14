@@ -31,15 +31,6 @@ We can optimize the checking if a number is prime procedure by only checking til
 find some other factor as we go from 2 to sqrt(n), then we know it can't be prime since it has
 an additional factor other from 1 and the number itself.
 
-The reason we make the check with the square root of the number is as follows:
-
-For a given number n, if it's divisible by p, then n = p * q where p <=q. This means that we can
-also derive p < sqrt(n) since sqrt(n) * sqrt(n) = n = p * q. Since we know that p<=q, this means
-that for sqrt(n) * sqrt(n) = p * q to be valid, p must be <=sqrt(n) since q is greater than p.
-As a result, we only need to check the results till sqrt(n) and check if there is any additional
-factor and if so, that number can't be a prime since it has a factor other than 1 and the number
-itself. 
-
 
 Time complexity: O(nlogn)
 Space complexity: O(1)
@@ -55,16 +46,32 @@ prime and knock off every value that's based on that value till the number itsle
 at the end when we reach the number, all the values that are primes will be left behind while every
 other number will be eliminated
 
-Time complexity: O(n)
+Time complexity: O(n log(log n))
 Space complexity: O(n)
 
 
-2. Checking till sqrt(n)[Slightly better]
+2. Checking till sqrt(n)[Slightly better in theory since we skip across more results. On paper 
+both are equivalent.]
 
 
 We can build upon the previous apporoach by only evaluating the numbers till their sqrt root since
 every composite number has a proper factor less than or equal to its square root and we can use
 that to eliminate the rest of the factors of the composite number.
+
+
+The reason we make the check with the square root of the number is as follows:
+
+For a given number n, if it's divisible by p, then n = p * q where p <=q. This means that we can
+also derive p < sqrt(n) since sqrt(n) * sqrt(n) = n = p * q. Since we know that p<=q, this means
+that for sqrt(n) * sqrt(n) = p * q to be valid, p must be <=sqrt(n) since q is greater than p.
+As a result, we only need to check the results till sqrt(n) and check if there is any additional
+factor and if so, that number can't be a prime since it has a factor other than 1 and the number
+itself. 
+
+
+In addition, in the inner loop, we don't have to start from the value of i. Instead, we can start
+from i*i since every value below i*i would have already been covered by the other prime factors and
+increment it by i till we reach n.
 
 Time complexity: O(n)
 Space complexity: O(n)
@@ -172,8 +179,8 @@ public:
         int nPrimes = 0;
         for(int i = 2; i*i <= number; i++){
             if(primeList[i]){
-                for(int j = 2; i*j < number; j++)
-                    primeList[i*j] = false;
+                for(int j = i*i; j < number; j+=i)
+                    primeList[j] = false;
             }
         }
         
