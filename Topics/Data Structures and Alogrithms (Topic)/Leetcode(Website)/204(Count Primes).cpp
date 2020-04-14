@@ -38,7 +38,27 @@ Space complexity: O(1)
 
 /*
 -------------------------Other approaches
+1. Using an array to store occurences of primes and non-primes
 
+We can use an array to store the occurrences of both primes and non-primes. While we initialize
+all values from 2 to the number itself to be true. For every true value, we record it as a 
+prime and knock off every value that's based on that value till the number itslelf. This way
+at the end when we reach the number, all the values that are primes will be left behind while every
+other number will be eliminated
+
+Time complexity: O(n)
+Space complexity: O(n)
+
+
+2. Checking till sqrt(n)[Slightly better]
+
+
+We can build upon the previous apporoach by only evaluating the numbers till their sqrt root since
+every composite number has a proper factor less than or equal to its square root and we can use
+that to eliminate the rest of the factors of the composite number.
+
+Time complexity: O(n)
+Space complexity: O(n)
 */
 
 
@@ -101,6 +121,66 @@ public:
             return 0;
         else{
             return countPrimeNumbers(n);
+        }
+    }
+};
+
+
+// Other approaches(1)
+class Solution {
+public:
+    int getCountPrimes(int number){
+        vector<bool> primeList(number, true);
+        primeList[0] = primeList[1] = false;
+        int nPrimes = 0;
+        for(int i = 2; i < number; i++){
+            if(primeList[i]){
+                nPrimes++;
+                for(int j = 2; i*j < number; j++)
+                    primeList[i*j] = false;
+            }
+        }
+        return nPrimes;
+    }
+    
+    
+    int countPrimes(int n) {
+        if(n < 2)
+            return 0;
+        else{
+            return getCountPrimes(n);
+        }
+    }
+};
+
+
+// Other Approaches(2)
+class Solution {
+public:
+    int getCountPrimes(int number){
+        vector<bool> primeList(number, true);
+        primeList[0] = primeList[1] = false;
+        int nPrimes = 0;
+        for(int i = 2; i*i <= number; i++){
+            if(primeList[i]){
+                for(int j = 2; i*j < number; j++)
+                    primeList[i*j] = false;
+            }
+        }
+        
+        for(int j = 2; j < primeList.size(); j++){
+            if(primeList[j])
+                nPrimes++;
+        }      
+        return nPrimes;
+    }
+    
+    
+    int countPrimes(int n) {
+        if(n < 2)
+            return 0;
+        else{
+            return getCountPrimes(n);
         }
     }
 };
