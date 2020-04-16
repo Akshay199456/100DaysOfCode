@@ -55,12 +55,9 @@ Time complexity: O(n)
 Space complexity: O(n)
 
 
-
-*/
-
-/*
--------------------------Other approaches
-
+If we only had a single type of bracket and we had to check for valid parantheses, we could use
+a counter to check if there was a valid combination of the parantheses instead of using a stack
+thereby reducing the space complexity to O(1).
 
 */
 
