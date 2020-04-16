@@ -106,3 +106,4 @@ Apparently, have not been calculating the dates properly and am already at Day 1
 - Day 114-115: Working on data structures and algorithms(leetcode)
 - Day 116: Working on C# for class
 - Day 117--120: Workin on C# and working on leetcode problems
+- Day 121: Working on Leetcode problems
