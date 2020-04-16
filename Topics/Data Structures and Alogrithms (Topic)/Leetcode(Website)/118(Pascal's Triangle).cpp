@@ -29,10 +29,7 @@ We can use a double for loop to caluclate the sum from adjacent elements on the 
 add it into the current level.
 
 Time complexity: O(n^2)
-Space complexity: O(n)
-*/
-
-/*
+Space complexity: O(n^2)
 */
 
 
