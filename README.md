@@ -108,3 +108,4 @@ Apparently, have not been calculating the dates properly and am already at Day 1
 - Day 117-120: Workin on C# and working on leetcode problems
 - Day 121-122: Working on Leetcode problems
 - Day 123: Working on Leetcode problems and Data Structures and Algorithms in Python[Book]
+- Day 124: Participated in Google's Kickstart 2020 Round B Competition
