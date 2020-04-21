@@ -48,10 +48,34 @@ binary search here as well to find in which section it exists.
 
 Time complexity: O(log n)
 Space complexity: O(h) -> O(log n) for height of the recursive calls.
+
+We can get righ of the recurisve call to make it a O(1) space complexity solution
 */
 
 /*
 -------------------------Other approaches
+
+1. Being on the same or opposite side of the pivot
+
+This approach has been explained well in the 'Helping Images' section for this problem. To summarize,
+we basically check if the target element we are searching for and the middle element are on the 
+same side or on the opposite side of the pivot element. The pivot element that we are considering
+is the element at the beginning of the array. We call it the pivot element because if the array
+were in its sorted order, the elements on the left side of the pivot element would be less than
+the pivot while the elements on the right side of the pivot element would be more than the pivot.
+
+As long as the mid element and the target element are on the same side, we can keep applying
+normal binary search to find the element we are looking for since we will eventually get there
+as both the middle and target element are on the same side. However, if the mid and target element
+are on opposite sides, 2 conditions exist:
+
+1. If the target element is less than the pivot, we make the middle element as -Inf as the element
+we are searching for is on the right side of the middle element in order to keep applying binary 
+search. Else we make the middle element as +Inf so that we start applying binary search to the left
+of the middle elements.
+
+Time complexity: O(log n)
+Space complexity: O(1) 
 
 */
 
@@ -101,5 +125,42 @@ public:
             else
                 return findElement(nums, pivot+1, nums.size() - 1, target);
         }
+    }
+};
+
+
+
+// Other Approaches()
+class Solution {
+public:
+    int findElement(vector<int> nums, int beg, int end, int target){
+        int pivot = nums[0];
+        int comparator = INT_MIN;
+        while(beg <= end){
+            int mid = beg + (end-beg) / 2;
+            if((nums[mid] >= pivot) == (target >= pivot))
+                comparator = nums[mid];
+            else{
+                if(target < pivot)
+                    comparator = INT_MIN;
+                else
+                    comparator = INT_MAX;
+            }
+            
+            if(target == comparator)
+                return mid;
+            else if(target > comparator)
+                beg = mid + 1;
+            else
+                end = mid - 1;
+        }
+        return -1;
+    }
+    
+    int search(vector<int>& nums, int target) {
+        if(nums.size() == 0)
+            return -1;
+        else
+            return findElement(nums, 0, nums.size() - 1, target);
     }
 };
