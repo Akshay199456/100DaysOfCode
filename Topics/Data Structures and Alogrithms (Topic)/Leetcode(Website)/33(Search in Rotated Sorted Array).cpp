@@ -74,6 +74,16 @@ we are searching for is on the right side of the middle element in order to keep
 search. Else we make the middle element as +Inf so that we start applying binary search to the left
 of the middle elements.
 
+	Here, we don't need to check any condition with respect to the mid element as we can infer that
+	information. For example, if the target element is less than the pivot element, we can infer
+	that the mid element is greater than the target element because we entered that if condition
+	only because the middle element and the target element were on different sides of the pivot
+	element. Since in this case, the target elment is less than the pivot element whih also means
+	the mid element is greater than the target element, we cknow that the target eleemtn to find
+	will be in the section from mid+1 to end. As a result, we are assigning mid the value of 
+	INT_MIN so that the secction of the array from mid+1 to end is selected for the binary search
+	in the next iteration of the loop. This also works for the vice versa condition.
+
 Time complexity: O(log n)
 Space complexity: O(1) 
 
