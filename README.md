@@ -109,4 +109,4 @@ Apparently, have not been calculating the dates properly and am already at Day 1
 - Day 121-122: Working on Leetcode problems
 - Day 123: Working on Leetcode problems and Data Structures and Algorithms in Python[Book]
 - Day 124: Participated in Google's Kickstart 2020 Round B Competition
-- Day 125-126: Working on Leetcode problems
+- Day 125-127: Working on Leetcode problems
