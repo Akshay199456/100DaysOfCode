@@ -28,6 +28,10 @@ here.
 
 To elaborate here, I was unable to solve this particular problem but have only included in 
 My Approaches the approach I used to generate all possible solutions including duplicates.
+
+To make this approach work, we could implement the inner loop condition from the Other Approaches(1)
+to get rid of duplicates. That way we end up with a solution that's O(n^2) time complexity and
+O(n) space complexity
 */
 
 /*
@@ -83,6 +87,54 @@ the current element, which means it will always be greater than the target.
 Time complexity: O(n^2)
 Space compelxity: O(1)
 */
+
+
+// My Approaches(1) - Doesn't work. Added for showing implementation
+class Solution {
+public:
+    vector<vector<int>> getAllResults(vector<int> nums){
+        vector<vector<int>> allResults;
+        int target = 0;
+        bool verified = false;
+        
+        sort(nums.begin(), nums.end());
+        for(int i = 0 ; i < nums.size(); i++){
+            verified = (i == 0 || nums[i] != nums[i-1]) ? true: false;
+            if(verified){
+                int diff = target - nums[i];
+                unordered_map<int,int> sumMap;
+                for(int j = i+1; j < nums.size(); j++){
+                    auto it = sumMap.find(nums[j]);
+                    if(it == sumMap.end())
+                        sumMap[diff - nums[j]] = j;
+                    else{
+                        vector<int> result {nums[i], nums[it->second], nums[j]};
+                        allResults.push_back(result);
+                        sumMap.erase(it);
+                    }
+                }
+            }
+        }
+        return allResults;
+    }
+    
+    void printResults(vector<vector<int>> allResults){
+        for(int i = 0; i < allResults.size(); i++){
+            for(int j = 0; j < allResults[i].size(); j++){
+                cout<<allResults[i][j]<<" ";
+            }
+            cout<<endl;
+        }
+    }
+    
+    vector<vector<int>> threeSum(vector<int>& nums) {
+        vector<vector<int>> allResults = getAllResults(nums);
+        // printResults(allResults);
+        return allResults;
+    }
+};
+
+
 
 
 
