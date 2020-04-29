@@ -12,3 +12,4 @@
 /Users/gaguest/Akshay/Programming and Coding Related/GitHub/Career/Topics/Programming Languages (Topic)/C#/College/HelloWorld/HelloWorld/obj/Debug/netcoreapp3.1/HelloWorld.dll
 /Users/gaguest/Akshay/Programming and Coding Related/GitHub/Career/Topics/Programming Languages (Topic)/C#/College/HelloWorld/HelloWorld/obj/Debug/netcoreapp3.1/HelloWorld.pdb
 /Users/gaguest/Akshay/Programming and Coding Related/GitHub/Career/Topics/Programming Languages (Topic)/C#/College/HelloWorld/HelloWorld/obj/Debug/netcoreapp3.1/HelloWorld.genruntimeconfig.cache
+/Users/gaguest/Akshay/Programming and Coding Related/GitHub/Career/Topics/Programming Languages (Topic)/C#/College/HelloWorld/HelloWorld/obj/Debug/netcoreapp3.1/HelloWorld.csprojAssemblyReference.cache

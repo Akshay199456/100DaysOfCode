@@ -1,0 +1,32 @@
+{
+   // Use IntelliSense to find out which attributes exist for C# debugging
+   // Use hover for the description of the existing attributes
+   // For further information visit https://github.com/OmniSharp/omnisharp-vscode/blob/master/debugger-launchjson.md
+   "version": "0.2.0",
+   "configurations": [
+    {
+        "type": "java",
+        "name": "CodeLens (Launch) - HelloWorld",
+        "request": "launch",
+        "mainClass": "HelloWorld",
+        "projectName": "Career_c90d8a91"
+    },
+    {
+        "name": ".NET Core Launch (console)",
+        "type": "coreclr",
+        "request": "launch",
+        "preLaunchTask": "build",
+        "program": "${workspaceFolder}/Topics/Programming Languages (Topic)/C#/College/HelloWorld/HelloWorld/bin/Debug/netcoreapp3.1/HelloWorld.dll",
+        "args": [],
+        "cwd": "${workspaceFolder}/Topics/Programming Languages (Topic)/C#/College/HelloWorld/HelloWorld",
+        "console": "internalConsole",
+        "stopAtEntry": false
+    },
+    {
+        "name": ".NET Core Attach",
+        "type": "coreclr",
+        "request": "attach",
+        "processId": "${command:pickProcess}"
+    }
+]
+}
