@@ -1,4 +1,5 @@
 /*
+Problem: Generate all substrings of a string
 
 Got C++ compiler setup on VS Code. To run the file, need to first build the file to create the debugging
 file. Need to follow the steps provided in https://code.visualstudio.com/docs/cpp/config-clang-mac
@@ -6,7 +7,10 @@ to set it up. Once we have the debuggin file, can run it in the terminal. All in
 provided in the link.
 
 */
-
+/*
+Time complexity: O(n^2)
+Space complexity: O(1)
+*/
 #include<iostream>
 #include<string>
 #include<vector>
@@ -22,8 +26,8 @@ void displayVector(vector<string> result){
 int main(){
     string test = "abcd";
     vector<string> result;
-    result.push_back("");
-
+    //result.push_back("");
+    /*
     for(int i = 0 ; i < test.size(); i++){
         int endSize = result.size();
         for(int j = 0; j < endSize ; j++){
@@ -35,7 +39,17 @@ int main(){
             }
         }
     }
+    */
 
+   for(int i = 0; i < test.size(); i++){
+       string substr = string(1,test[i]);
+       result.push_back(substr);
+       for(int j = i+1; j < test.size(); j++){
+           substr += string(1,test[j]);
+           result.push_back(substr);
+       }
+   }
+    cout<<"Hello world\n";
     displayVector(result);
     return 0;
 }

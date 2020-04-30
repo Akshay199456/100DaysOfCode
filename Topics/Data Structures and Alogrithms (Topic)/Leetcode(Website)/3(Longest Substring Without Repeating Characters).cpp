@@ -48,13 +48,56 @@ Space compelxity: O(n)
 */
 
 /*
+-------------------------Other approaches
+
+1. Generate all substrings and test whether each substring is unique in its characters[Worst]
+
+The brute force approach to this problem is to generate all possible substrings and test for character
+uniqueness in each of the substrings. Generating substrings is an O(n^2) operation[As illustrated in the
+allSubstrings.cpp file in ProgrammingLanguages/C++/vimSetup]. Testing for uniqueness of each of the
+substirngs is anohter O(n) operation. Thus, the total time complexity for this solution is O(n^3).
+
+We can test for uniqueness of a substring using a hashset. The hashset space is determined by the min
+of the length of the substring and the total number of characters in the langauge.
+
+Time complexity:O(n^3)
+Space complexity:O(min(n,m))
+
+
+2. Using a window slider/two pointer
+
+A sliding window is an abstract concept commonly used in array/string problems. A window is a range of 
+elements in the array/string which usually defined by the start and end indices, i.e. [i, j)[i,j) 
+(left-closed, right-open). A sliding window is a window "slides" its two boundaries to the certain 
+direction. For example, if we slide [i, j)[i,j) to the right by 11 element, then it becomes 
+[i+1, j+1)[i+1,j+1) (left-closed, right-open).
+
+In this approach, we use the window slider to basically decide if a character has been seen before. As long
+as we have not seen the character, we keep moving the right end of the slider and add the character to the
+set since we will be using the set to keep track of all of the characters that we have encountered. By 
+moving the right end of the slider, we are able to get the new set of elements that we can test for since
+we know that as there was no duplciate from 0 - j, we can add and test of character at j+1. Anytime we 
+encounter a duplicate, the key is to move the left window. This is because, since we have encountered a 
+duplicate, we want to make sure to get rid of any characters that existed at or before the character we
+encoutnered since adding the new character in that case would break the substring condition. This is why
+we keep removing the characters from the left window one at a time till the duplicate value has been removed 
+from the set. Once the duplicate value has been removed, we know that adding the current character which 
+triggered the duplicate condition will be safe since it will be unique in the set and will start counting 
+as the next substring.
+
+Another point to note here is that if we have part of a substring that's a duplicate, any substring
+that's derived from that part will also contain a duplicate. As a result, the window slider helps effciciently
+deal with those scenarios by making sure that the characters in the set will always be unique and be part
+of the substring.
+
+Time compleity: O(n)
+Space complexity: O(min(n,m))
+
+
+
 */
-#include <unordered_map>
-#include <string>
-#include <iostream>
 
-using namespace std;
-
+// My Approaches(1)
 class Solution {
 public:
     int getLongestSubstring(string s){
@@ -85,5 +128,32 @@ public:
         if(s.empty())
             return 0;
         return getLongestSubstring(s);
+    }
+};
+
+
+
+// Other Approaches(2)
+class Solution {
+public:
+    int getLengthSubstring(string s){
+        int left = 0, right = 0, maxLength = 0;
+        unordered_set<char> charSet;
+        while(left < s.size() && right < s.size()){
+            if(charSet.find(s[right]) == charSet.end()){
+                charSet.emplace(s[right++]);
+                maxLength = max(maxLength, right - left);
+            }
+            else
+                charSet.erase(s[left++]);
+        }
+        return maxLength;
+    }
+    
+    int lengthOfLongestSubstring(string s) {
+        if(s.empty())
+            return 0;
+        else
+            return getLengthSubstring(s);
     }
 };
