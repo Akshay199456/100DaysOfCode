@@ -49,5 +49,6 @@ class HelloWorld{
 		Arrays.sort(list);
 		System.out.println("After sorting: ");
 		System.out.println(Arrays.toString(list));
+		System.out.print("Buy world!\n");
 	}
 }
