@@ -90,10 +90,45 @@ that's derived from that part will also contain a duplicate. As a result, the wi
 deal with those scenarios by making sure that the characters in the set will always be unique and be part
 of the substring.
 
-Time compleity: O(n)
+Time compleity: O(2*n)=> O(n)
 Space complexity: O(min(n,m))
 
 
+3. Efficient window slider
+
+The bottleneck ni My Approaches(1) and Other Approaches(2) was always deleting elements from the set/map
+when the duplicate occurred. As a result, in the first case we had a runtime if O(n^2) while in the second,
+we had a run time of O(n). This approach aims to improve upon that.
+
+We don't have to delete the elements that have been encountered and all the elements before it. We could
+rather set a new beginning indicator which we can use to skip through those characters. Yes, the characters
+which were duplicate encounters will still continue to be in the map. However, by using the new beginning,
+we can start with the new beginning level and make our calculations of the length of the max substring
+from it.
+
+In the map, we are storing the index of the next character from which to begin with if we encounter a 
+duplicate. IF we ecnouner a duplicate, we make sure to adjsut the new beginning 'currStart' accordingly
+so that we are considerign the length that has been attributed from the duplicate values and values
+before it. This way, we are able to reduce the bottleneck of deleting entries from the map and as a result,
+are restricted to O(n) runtime since we onlly pass through each element once and make the decision during
+the pass.
+
+Time complexity: O(n)
+Space comeplxity: O(min(m,n))
+
+If we have prior idea of the kind of characters we are dealing with, instead of using a hashmap, we can
+use an array of constant size. That way our space complexity becomes O(1).
+
+The previous implements all have no assumption on the charset of the string s.
+
+If we know that the charset is rather small, we can replace the Map with an integer array as direct 
+access table.
+
+Commonly used tables are:
+
+int[26] for Letters 'a' - 'z' or 'A' - 'Z'
+int[128] for ASCII
+int[256] for Extended ASCII
 
 */
 
@@ -155,5 +190,30 @@ public:
             return 0;
         else
             return getLengthSubstring(s);
+    }
+};
+
+
+// Other Approaches(3)
+class Solution {
+public:
+    int getLongestLength(string s){
+        int currStart = 0, maxLevel = 0;
+        unordered_map<char, int> charMap;
+        for(int currIndex = 0; currIndex < s.size(); currIndex++){
+            if(charMap.find(s[currIndex]) != charMap.end()){
+                currStart = max(currStart, charMap[s[currIndex]]);
+            }
+            maxLevel = max(maxLevel, currIndex - currStart + 1);
+            charMap[s[currIndex]] = currIndex + 1;
+        }
+        return maxLevel;
+    }
+    
+    int lengthOfLongestSubstring(string s) {
+        if(s.size() == 0)
+            return 0;
+        else
+            return getLongestLength(s);
     }
 };
