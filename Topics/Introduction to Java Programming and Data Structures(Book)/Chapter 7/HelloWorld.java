@@ -1,3 +1,5 @@
+import java.util.Arrays;
+
 class HelloWorld{
 	// Testing out variable argument lists and Java's foreach equivalent
 	public static void printMax(int... list){
@@ -43,8 +45,9 @@ class HelloWorld{
 		// printMax(new int[] {2,44,3,11,77,33});
 		System.out.println("Before sorting: ");
 		displayArray(list);
-		selectionSort(list);
+		// selectionSort(list);
+		Arrays.sort(list);
 		System.out.println("After sorting: ");
-		displayArray(list);
+		System.out.println(Arrays.toString(list));
 	}
 }
