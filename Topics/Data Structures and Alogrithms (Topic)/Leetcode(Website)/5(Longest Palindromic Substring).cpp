@@ -64,6 +64,29 @@ Time complexity: O(n^2) => Going through the string of length n and for each cen
 we will go throguh the whole string.
 Space complexity: O(1)
 
+
+
+2. Using a 2d array as reference to store whether a string of a certain length is a palindrome or not
+
+As suggested above, we could use a 2d array as reference. As was shown in the Other Approaches(1), strings
+of length 1 and 2 are the base cases from which everything else will be derived. As a result, we use 
+a couple of loops to set the elements in the array to 1. For length 1, we set all [i][i] to 1 since any
+character is a palindrome to itself. For length 2, we set [i][i+1] to true if element[i]==element[j]. These
+base cases will help set up for any length of string > 2.
+
+For any string Si...Sj of length > 2, we are able to deduce if it is a palindrome if Si+1...Sj-1 is also
+a palindrome and S[i] == S[j]. In the 2d array, hence we check for array[i+1][j-1] to check if it's a 
+palindrome(if it is set to 1) and if S[i] == S[j]. If it is, we know this is also a palindrome so we set
+the array[i][j] = 1 to set as a guide for the next level. In addition, if it exceeds the max size, we make
+sure to store it as the maxSize. We continue this till we have covered a level whose length is equal to the
+length of the stirng element.
+
+Thus, starting from level 1 and 2, we extend what we learn from the previous level about the string and
+deduce if the string in the current level is a palindrome.
+
+Time complexity: O(n^2)
+Space complexity: O(n^2)
+
 */
 
 // My Approaches(1)
@@ -138,6 +161,71 @@ public:
         return right - left - 1;
     }
     
+    
+    string longestPalindrome(string s) {
+        if(s.empty())
+            return "";
+        else
+            return findLongestPalindrome(s);
+    }
+};
+
+
+// Other Approaches(2)
+class Solution {
+public:
+    string findLongestPalindrome(string element){
+        bool palindromeArray[element.size()][element.size()];
+        int maxLength = -1, startIndex = -1;
+        
+        for(int i = 0; i < element.size(); i++)
+            for(int j = 0; j < element.size(); j++)
+                palindromeArray[i][j] = 0;
+        
+        // Setting palindromes of length 1 and 2;
+        for(int i = 0; i < element.size(); i++){
+            maxLength = 1;
+            startIndex = i;
+            palindromeArray[i][i] = 1;
+        }
+        
+        // Setting palindromes of length 2
+        for(int i = 0; i < element.size() - 1; i++){
+            if(element[i] == element[i+1]){
+                maxLength = 2;
+                startIndex = i;
+                palindromeArray[i][i+1] = 1;
+            }
+        }
+        
+        // Palindromes of length >= 3
+        // k is the length of the string we will be covering
+        for(int k = 3; k <= element.size(); k++){
+            // i is the start index
+            for(int i = 0; i < element.size() - k + 1; i++){
+                // j is the end index
+                int j = k + i - 1;
+                if(palindromeArray[i+1][j-1] && (element[i] == element[j])){
+                    palindromeArray[i][j] = 1;
+                    
+                    if(k > maxLength){
+                        startIndex = i;
+                        maxLength = k;
+                    }
+                }
+            }
+        }
+        //printMatrix((bool *)palindromeArray, element.size());
+        return element.substr(startIndex, maxLength);
+    }
+    
+    void printMatrix(bool * array, int size){
+        for(int i = 0; i < size; i++){
+            for(int j = 0; j < size; j++)
+                cout<<*((array + i*size) + j)<<" ";
+            cout<<endl;
+        }
+    }
     
     string longestPalindrome(string s) {
         if(s.empty())
