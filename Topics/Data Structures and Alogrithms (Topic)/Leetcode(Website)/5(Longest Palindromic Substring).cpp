@@ -84,6 +84,9 @@ length of the stirng element.
 Thus, starting from level 1 and 2, we extend what we learn from the previous level about the string and
 deduce if the string in the current level is a palindrome.
 
+Check out [https://www.geeksforgeeks.org/longest-palindrome-substring-set-1/] for reference with respect
+to this solution
+
 Time complexity: O(n^2)
 Space complexity: O(n^2)
 
