@@ -2,7 +2,7 @@ import java.util.Date;
 
 public class Chapter9 {
     public static void main(String [] args){
-        Circle object = new Circle(10);
+        Circle object = new Circle();
         object.printRadius();
         System.out.println(new Date().getTime());
     }
@@ -10,8 +10,9 @@ public class Chapter9 {
 }
 
 class Circle{
-    int radius = 0;
+    int radius;
     Circle(){
+        this(25);
     }
 
     Circle(int radius){
