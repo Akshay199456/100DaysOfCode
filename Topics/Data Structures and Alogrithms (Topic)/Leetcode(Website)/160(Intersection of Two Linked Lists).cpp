@@ -53,11 +53,36 @@ of the list are of the same length. This way, if there is an intersection, we wi
 intersecting element as lists of the same length will intersect at the same length from the beginning.
 If no intersection is found, we just return NULL.
 
-Time complexity: O(n)
+Time complexity: O(m+n)
 Space complexity: O(1)
 */
 
 /*
+-------------------------Other approaches
+
+1. Using two pointers but not having to determine length
+
+If you think of what we did in My Approaches(1), we basically used the pointers to determine the length of
+the lists and then made sure to adjust the pointers so that they start from the same length. We actually
+don't need to know the length to adjust the differences in the length between the two lists.
+
+In thsi approach, what we do is to keep pushing the pointers forward as long as they don't hit NULL. If they
+hit NULL, we interchange the pointers. This means that ptrA will start pointing from the head of ptrB and
+vice versa. The reason this approach works is as follows:
+
+Let's assume A is of a greater length than B. During the first iteration of the elements, the pointer at
+B will always be ahead of A by the difference in length between A and B. When B hits NULL, A will still be
+iteraing through its list. By changing B to now A and when A hits NULL changing A to B, we are removing the
+difference in length between A and B. This is because, in our case, by the time ptrA starts from the 
+beginning of list B, ptrB would have travelled the differnce in length between A and B. As a result, as we
+are passing through the elements in the second iteration, now there is no difference in length between A
+and B. This means that, the two pointers will always meet irrespective of whether they meet at NULL(meaning
+they don't intersect) or at a node. Thus, by switching the pointers to the lists they are pointing to we
+are able to minimize the difference between the two lists and are able to acheive what we did in 
+My Appraoches(1) without knowing the lrngth of the list.
+
+Time complexity: O(m+n)
+Space complexity: O(1)
 */
 
 // My Approaches(1)
@@ -115,5 +140,41 @@ public:
             return NULL;
         else
             return getIntersection(headA, headB);
+    }
+};
+
+
+
+// Other Approaches(1)
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode(int x) : val(x), next(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    ListNode * findIntersection(ListNode * headA, ListNode * headB){
+        ListNode * ptrA = headA, * ptrB = headB;
+        while(ptrA != ptrB){
+            if(ptrA)
+                ptrA = ptrA->next;
+            else
+                ptrA = headB;
+            
+            if(ptrB)
+                ptrB = ptrB->next;
+            else
+                ptrB = headA;
+        }
+        return ptrA;
+    }
+    
+    ListNode *getIntersectionNode(ListNode *headA, ListNode *headB) {
+        if(!headA || !headB)
+            return NULL;
+        return findIntersection(headA, headB);
     }
 };
