@@ -14,7 +14,7 @@ Explanation: 342 + 465 = 807.
 
 /*
 -------------------------My Approaches:
-1. Pointer approach
+1. Pointer approach[Best]
 
 In this approach, you basically use pointers to keep adding the sum from each pair of digits and keep
 view of carry as you move along. There are one of 3 possibilities that can exist when you are adding the 
@@ -60,6 +60,19 @@ Space complexity: O(1)
 
 
 2. Refactored version of My Approaches(1)
+
+
+3. Getting the number from the list and adding them[Not coded][Worse]
+
+We could also obtain the numerical value of the number stored in the two lists, add them and then store
+the sum in reverse in the list digit by digit that is longer or create a new list and store the sum in it
+digit by digit.
+
+Time complexity: O(m+n)
+Space complexity: O(1) / O(max(m,n)
+
+
+)
 */
 
 /*
