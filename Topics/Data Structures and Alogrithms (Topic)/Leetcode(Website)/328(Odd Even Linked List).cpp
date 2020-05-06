@@ -37,11 +37,6 @@ Time complexity: O(n)-> n: number of nodes
 Space complexity: O(1)
 */
 
-/*
--------------------------Other approaches
-
-*/
-
 // My approaches(1)
 /**
  * Definition for singly-linked list.
