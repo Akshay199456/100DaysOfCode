@@ -32,6 +32,20 @@ Space complexity: O(n)
 /*
 -------------------------Other approaches
 
+1. Sorting the array
+
+We can sort the array and return the mid element. This will always guarantee to hold the element that
+occurs more than n/2 as long as there is an element that exceeds it. Check 'Helping Images' for more info
+on this approach. 
+
+As can be seen in the 'Helping Images', if the majority element exists in the beginning of the array,
+it will always exist at the mid and/or exceed it towards the end of the array. If the majority element
+exists at the end of the array, it will always exist at the mid and/or exceed it towards the beginning of
+the array. If it exists anywhere in between, the line will always cross over the middle and hence irrespective
+of where the majorith element exists, it will always be in the middle of the array.
+
+Time complexity:O(nlogn)
+Space complexity: O(1)
 */
 
 
@@ -56,5 +70,15 @@ public:
     int majorityElement(vector<int>& nums) {
         int threshold = nums.size() / 2;
         return getMajorityElement(nums, threshold);
+    }
+};
+
+
+// Other Approaches(1)
+class Solution {
+public:
+    int majorityElement(vector<int>& nums) {
+        sort(nums.begin(), nums.end());
+        return nums[nums.size() / 2];     
     }
 };
