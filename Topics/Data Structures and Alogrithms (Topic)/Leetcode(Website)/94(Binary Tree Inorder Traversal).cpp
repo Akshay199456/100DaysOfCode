@@ -77,7 +77,7 @@ followed by the right node. That's why, in this algorithm, any time we have a le
 to attach the current node tree to the left as in the inorder traversal as the current node only occurs after
 the left subtree has been explored. We keep doing this for all the nodes as long as they have a left node.
 This way, once the tree nodes have been put into place, we will have an inorder tree structure also known
-as a threaded tree and we would just need to traverse it to get the inorder traversal solution to the 
+as a threaded bianry tree and we would just need to traverse it to get the inorder traversal solution to the 
 problem. 
 
 Time complexity: O(n)
