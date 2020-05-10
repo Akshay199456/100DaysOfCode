@@ -45,6 +45,44 @@ this as long as the stack is not empty or node is not null.
 
 Time complexity: O(n)
 Space complexity; O(log n) -> stores depth of the tree at max
+
+
+
+2. Morris Traversal
+
+We can use the Morris Traversal algorithm to get the inorder traversal of the algorithm. This algorithm
+helps achieve the same result in O(n) time and O(1) space. The algorithm is as follows:
+
+Step 1: Initialize current as root
+
+Step 2: While current is not NULL,
+
+If current does not have left child
+
+    a. Add current’s value
+
+    b. Go to the right, i.e., current = current.right
+
+Else
+
+    a. In current's left subtree, make current the right child of the rightmost node
+
+    b. Go to this left child, i.e., current = current.left
+
+
+The reasoning of the algorithm is a s follows:
+
+Since we are trying to find the inorder traversal, our goal is to go left node, then the current node value,
+followed by the right node. That's why, in this algorithm, any time we have a left, we want to make sure
+to attach the current node tree to the left as in the inorder traversal as the current node only occurs after
+the left subtree has been explored. We keep doing this for all the nodes as long as they have a left node.
+This way, once the tree nodes have been put into place, we will have an inorder tree structure also known
+as a threaded tree and we would just need to traverse it to get the inorder traversal solution to the 
+problem. 
+
+Time complexity: O(n)
+Space complexiuty: O(1)
+
 */
 
 
@@ -108,6 +146,48 @@ public:
             result.push_back(current->val);
             elementStack.pop();
             current = current->right;
+        }
+        return result;
+    }
+};
+
+
+// Other Approaches(2)
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
+class Solution {
+public:
+    vector<int> inorderTraversal(TreeNode* root) {
+        TreeNode * current = root, * parent = NULL;
+        vector<int> result;
+        while(current){
+            if(current->left){
+                TreeNode * next = current->left;
+                TreeNode * rightMost = next;
+                while(rightMost->right)
+                    rightMost = rightMost->right;
+                
+                current->left = NULL;
+                if(parent)
+                    parent->right = rightMost;
+                rightMost->right = current;
+                current = next;
+            }
+            
+            else{
+                result.push_back(current->val);
+                parent = current;
+                current = current->right;
+            }
         }
         return result;
     }
