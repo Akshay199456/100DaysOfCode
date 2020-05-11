@@ -1,5 +1,6 @@
 
 // Testing out abstract methods and classes
+// Working on interfaces
 abstract class GeometricObject{
     public String toString(){
         return("This is a geometric object");
