@@ -37,6 +37,17 @@ n -> no of bits to represent number
 
 Time complexity: O(n) 
 Space complexity: O(n)
+
+
+2. Using binary complement pattern
+
+To find the complement of a number, there's a more easier way to find the complement rather than using a
+vector to store the binary representation. For any number that's a factor of 2, the complement is num-1.
+For any other number the complement is 2^n(greater than the number) - num -1.
+
+n: number of bits
+Time complexity: O(n)
+Space complexity: O(1)
 */
 
 /*
@@ -71,5 +82,27 @@ public:
     int findComplement(int num) {
         vector<bool> result = convertDecToBinaryComplement(num);
         return getNumber(result);
+    }
+};
+
+
+// My approaches(2)
+class Solution {
+public:
+    double getHigherExponentiation(int num){
+        double result = 0;
+        int nBits = 0;
+        while(num > result){
+            nBits++;
+            result = pow(2, nBits);
+        }
+        return result;
+    }
+    
+    int findComplement(int num) {
+        double result = getHigherExponentiation(num);
+        if(result == num)
+            return num - 1;
+        return result - 1 - num;
     }
 };
