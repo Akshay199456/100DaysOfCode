@@ -53,6 +53,17 @@ Space complexity: O(1)
 /*
 -------------------------Other approaches
 
+1. Using bitmask
+
+We can use bitmask to obtain the number of bits used to represent the number and then use that information
+to return the complement of the number. By setting the bitmnask to ~0(or all 1s) and & with the num, we are
+basically checking for the number of bits used to represent the number. Once we have that info, 0s will
+be present in the indexes used to represent the number whiles 1s will be present everywhere else. So, if 
+we exor with the complement of the number, we are basially selecting the bits which are active in the 
+complement which is the compleemnt of the number itself.
+
+Time complexity: O(1) since 32 bits at max used to represent number at most
+Space complexity: O(1)
 */
 
 // My Approaches(1)
@@ -104,5 +115,19 @@ public:
         if(result == num)
             return num - 1;
         return result - 1 - num;
+    }
+};
+
+
+// Other Approaches(1)
+class Solution {
+public:
+    int findComplement(int num) {
+        unsigned int bitMask = ~0;
+        while(bitMask & num)
+            bitMask<<=1;
+        return bitMask ^ ~num;
+        // OR
+        // return ~bitMask & ~num;
     }
 };
