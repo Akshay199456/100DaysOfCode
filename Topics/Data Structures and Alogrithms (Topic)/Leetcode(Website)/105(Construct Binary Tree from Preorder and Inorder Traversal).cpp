@@ -22,6 +22,8 @@ Return the following binary tree:
 /*
 -------------------------My Approaches:
 
+1/2.  
+
 */
 
 /*
@@ -144,6 +146,112 @@ public:
             preorderMap.emplace(root->val, make_pair(1, root));
             insertTree(head1, head2, preorder, inorder, inorderMap, preorderMap);
             assignDirections(root, head1, head2, inorder, preorder, inorderMap);            
+        }
+        return root;
+        
+    }
+};
+
+
+// Other Approaches(1)
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
+class Solution {
+public:
+    /*
+    void buildInorderMap(vector<int> inorder, unordered_map<int,int> & inorderMap){
+        for(int i = 0; i < inorder.size(); i++)
+            inorderMap[inorder[i]] = i;
+    }
+    */
+    
+    TreeNode * buildTreeFormat(int preorderStart, int inorderStart, int inorderEnd, vector<int> preorder, vector<int> inorder, unordered_map<int,int> inorderMap, TreeNode * & root){
+        TreeNode * temp = NULL;
+        if(preorderStart > preorder.size() || inorderStart > inorderEnd){
+            
+        }
+        
+        else{
+            temp = new TreeNode(preorder[preorderStart]);
+            if(!root)
+                root = temp;
+            
+            int inorderIndex = inorderMap[temp->val]; 
+            temp->left = buildTreeFormat(preorderStart + 1, inorderStart, inorderIndex - 1, preorder, inorder, inorderMap, root);
+            temp->right = buildTreeFormat(preorderStart + (inorderIndex - inorderStart) + 1, inorderIndex + 1, inorderEnd, preorder, inorder, inorderMap, root);
+        }
+        return temp;
+    }
+    
+    TreeNode* buildTree(vector<int>& preorder, vector<int>& inorder) {
+        TreeNode * root = NULL;
+        if(preorder.size()){
+            unordered_map<int,int> inorderMap;
+            // buildInorderMap(inorder, inorderMap);
+            
+            for(int i = 0; i < inorder.size(); i++)
+                inorderMap[inorder[i]] = i;
+            
+            buildTreeFormat(0,0,inorder.size() - 1, preorder, inorder, inorderMap, root);
+        }
+        return root;
+        
+    }
+};
+
+
+// Other Approaches(2)
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
+class Solution {
+public:
+    unordered_map<int,int> inorderMap;
+    
+    void buildInorderMap(vector<int> inorder){
+        for(int i = 0; i < inorder.size(); i++)
+            inorderMap[inorder[i]] = i;
+    }
+    
+    TreeNode * buildTreeFormat(int preorderStart, int inorderStart, int inorderEnd, vector<int> preorder, vector<int> inorder, TreeNode * & root){
+        TreeNode * temp = NULL;
+        if(preorderStart > preorder.size()-1 || inorderStart > inorderEnd){
+        }
+        
+        else{
+            temp = new TreeNode(preorder[preorderStart], NULL, NULL);
+            if(!root)
+                root = temp;
+            
+            int inorderIndex = inorderMap[temp->val]; 
+            temp->left = buildTreeFormat(preorderStart + 1, inorderStart, inorderIndex - 1, preorder, inorder, root);
+            temp->right = buildTreeFormat(preorderStart + (inorderIndex - inorderStart) + 1, inorderIndex + 1, inorderEnd, preorder, inorder,  root);
+        }
+        return temp;
+    }
+    
+    TreeNode* buildTree(vector<int>& preorder, vector<int>& inorder) {
+        TreeNode * root = NULL;
+        if(preorder.size()){
+            buildInorderMap(inorder);
+            buildTreeFormat(0,0,inorder.size() - 1, preorder, inorder, root);
         }
         return root;
         
