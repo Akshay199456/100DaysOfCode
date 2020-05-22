@@ -31,24 +31,55 @@ public class Solution {
         Stack<Character> operatorStack = new Stack<>();
 
         String expression = "(51+(54*(3+2)))";
-        generateStacks(numberStack, operatorStack, expression);
-        System.out.println("Number stack: " + Arrays.toString(numberStack.toArray()));
-        System.out.println("Operator stack: " + Arrays.toString(operatorStack.toArray()));
+        double finalResult = generateStacks(numberStack, operatorStack, expression);
+        System.out.println("Final result: " + finalResult);
+        // System.out.println("Number stack: " + Arrays.toString(numberStack.toArray()));
+        // System.out.println("Operator stack: " + Arrays.toString(operatorStack.toArray()));
+    }
+
+    public static double calculateValue(double element1, double element2, char operator){
+        double result = 0;
+        System.out.println("Element 1: " + element1 + " Element 2: " + element2 + " Operator: " + operator);
+        if(operator == '+')
+            result = element1 + element2;
+        else if(operator == '-')
+            result = element1 - element2;
+        else if(operator == '/')
+            result = element1 / element2;
+        else if(operator == '*')
+            result = element1 * element2;
+        System.out.println("Result: " + result);
+        return result;
     }
 
 
-    public static void generateStacks(Stack<Double> numberStack, Stack<Character> operatorStack, String expression){
+    public static double generateStacks(Stack<Double> numberStack, Stack<Character> operatorStack, String expression){
         StringBuffer buffer = new StringBuffer();
         for(int i = 0; i < expression.length(); i++){
             char currentChar = expression.charAt(i);
             if(Character.isDigit(currentChar))
                 buffer.append(Character.toString(currentChar));
             else{
-                if(buffer.length() > 0)
-                    numberStack.add(Double.parseDouble(buffer.toString()));
-                operatorStack.add(currentChar);
-                buffer.delete(0, buffer.length());
+                if(currentChar != ')'){
+                    if(buffer.length() > 0)
+                        numberStack.add(Double.parseDouble(buffer.toString()));
+                    operatorStack.add(currentChar);
+
+                    System.out.println("Current symbol: " + currentChar + " Value: " +buffer.toString());
+                    buffer.delete(0, buffer.length());  
+                }
+                else{
+                    if(buffer.length() > 0){
+                        numberStack.add(Double.parseDouble(buffer.toString()));
+                        buffer.delete(0, buffer.length());
+                    }
+                    numberStack.add(calculateValue(numberStack.pop(), numberStack.pop(), operatorStack.pop()));
+                    operatorStack.pop();
+                    System.out.println("Index: " + i + " Number stack: " + Arrays.toString(numberStack.toArray()));
+                    System.out.println("Operator stack: " + Arrays.toString(operatorStack.toArray()));
+                }
             }
         }
+        return numberStack.pop();
     }
 }
