@@ -26,7 +26,7 @@ Return the following binary tree:
 
 /*
 -------------------------Other approaches
-1/2. Using preorder and inorder to fill tree
+1/2. Using preorder and inorder to fill tree:
 
 [Different between 1 and 2 is that while in 1, we have passed the map from one function to another. In 2, we 
 instead make the map a global entity so that we can access it directly instead of creating copies of it
@@ -57,6 +57,25 @@ element as it is the element in the next index after the root element
 
 We continue to do this in a recursive fashion till all the elements are filled out.
 
+
+Time complexity: O(n)
+Space complexity: O(log n)
+
+
+3. Iterative approach
+
+We can solve this problem iteratively as well. 
+From the previous approaches, we know that preorder follows (Root, L, R) while inorder follows (L, Root, R).
+
+As long as the top of the stack doesn't equal the inorder node, we know that we are on the left subtree
+so we can continue to move along the left subtree as shown by preorder (Root->left). However, if the top
+of the tree is the same as the inorder node, from the inorder order we definitely know that the next node
+from the preorder tree that's not the same as inorder node will be a right node. We can say this because
+inorder follows the order(L->Root->Right). If we are on the left for inorder, the nex tnode will be the root
+in which case it will equal the top of the stack since preorder is in the order(root->L->R) and so preorder
+tree would already have that element stored in it. So, as soon as we hit a node from the inorder and the
+preorder tree, the next node that's not the same with the two will be the next right node. As a resukt, we
+use a flag to indicate that status.
 
 Time complexity: O(n)
 Space complexity: O(log n)
@@ -289,5 +308,58 @@ public:
         }
         return root;
         
+    }
+};
+
+
+// Other Approaches(3)
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
+class Solution {
+public:
+    TreeNode* buildTree(vector<int>& preorder, vector<int>& inorder) {
+        stack<TreeNode *> elementStack;
+        TreeNode * root = NULL, * temp = NULL;
+        int preIndex = 0, inIndex = 0, flag = 0;
+        if(preorder.size()){
+            root = new TreeNode(preorder[0]);
+            temp = root;
+            elementStack.push(temp);
+            preIndex++;
+            while(preIndex < preorder.size()){
+                if(!elementStack.empty() && elementStack.top()->val == inorder[inIndex]){
+                    flag = 1;
+                    temp = elementStack.top();
+                    inIndex++;
+                    elementStack.pop();
+                }
+                
+                else{
+                    if(flag){
+                        temp->right = new TreeNode(preorder[preIndex]);
+                        temp = temp->right;
+                        flag = 0;
+                    }
+                    
+                    else{
+                        temp->left = new TreeNode(preorder[preIndex]);
+                        temp = temp->left;
+                    }
+                    
+                    elementStack.push(temp);
+                    preIndex++;
+                }
+            }
+        }
+        return root;
     }
 };
