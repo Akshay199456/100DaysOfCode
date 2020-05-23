@@ -1,0 +1,97 @@
+/*
+-------------------------Question:
+
+You are given a perfect binary tree where all leaves are on the same level, and every parent has two children. The binary tree has the following definition:
+
+struct Node {
+  int val;
+  Node *left;
+  Node *right;
+  Node *next;
+}
+Populate each next pointer to point to its next right node. If there is no next right node, the next pointer should be set to NULL.
+
+Initially, all next pointers are set to NULL.
+
+ 
+
+Follow up:
+
+You may only use constant extra space.
+Recursive approach is fine, you may assume implicit stack space does not count as extra space for this problem.
+
+*/
+
+/*
+-------------------------My Approaches:
+1. Using a vector to store the nodes
+
+We can use a vector to store the nodes at each level. By using DFS, the nodes are inserted into the vector
+from left to right. Once we have stored them into the vector, the remainging step is to connect the nodes
+at each level by attaching the next pointer of one node to the next
+
+
+Time complexity: O(n)
+Space complexity: O(n)
+*/
+
+/*
+-------------------------Other approaches
+
+*/
+
+// My Approaches(1)
+/*
+// Definition for a Node.
+class Node {
+public:
+    int val;
+    Node* left;
+    Node* right;
+    Node* next;
+
+    Node() : val(0), left(NULL), right(NULL), next(NULL) {}
+
+    Node(int _val) : val(_val), left(NULL), right(NULL), next(NULL) {}
+
+    Node(int _val, Node* _left, Node* _right, Node* _next)
+        : val(_val), left(_left), right(_right), next(_next) {}
+};
+*/
+
+class Solution {
+public:
+    void generateCollection(Node * root, vector<vector<Node *>> & elementCollection, int level){
+        if(root){
+            if(level >= elementCollection.size()){
+                vector<Node *> row;
+                row.push_back(root);
+                elementCollection.push_back(row);
+            }
+            
+            else
+                elementCollection[level].push_back(root);
+            
+            generateCollection(root->left, elementCollection, level + 1);
+            generateCollection(root->right, elementCollection, level + 1);
+        }
+    }
+    
+    void linkNodes(vector<vector<Node *>> & elementCollection){
+        for(int i = 0; i < elementCollection.size(); i++){
+            for(int j = 0 ; j < elementCollection[i].size() - 1; j++){
+                elementCollection[i][j]->next = elementCollection[i][j+1];
+            }
+        }
+    }
+    
+    
+    Node* connect(Node* root) {
+        if(root){
+            vector<vector<Node *>> elementCollection;
+            generateCollection(root, elementCollection, 0);
+            linkNodes(elementCollection);
+        }
+        return root;
+    }
+};
