@@ -33,6 +33,16 @@ at each level by attaching the next pointer of one node to the next
 
 Time complexity: O(n)
 Space complexity: O(n)
+
+
+2. Linking right nodes to left nodes for same level
+
+If you think about it, you don't need to store the nodes at each level into a vector to link them together.
+At the end, you just need to link nodes which are derived from the same parent as well as link the right node
+with the left node of it;s immediate cousin if it has one.
+
+Time complexity: O(n)
+Space complexity: O(log n)
 */
 
 /*
@@ -92,6 +102,52 @@ public:
             generateCollection(root, elementCollection, 0);
             linkNodes(elementCollection);
         }
+        return root;
+    }
+};
+
+
+// My Approaches(2)
+/*
+// Definition for a Node.
+class Node {
+public:
+    int val;
+    Node* left;
+    Node* right;
+    Node* next;
+
+    Node() : val(0), left(NULL), right(NULL), next(NULL) {}
+
+    Node(int _val) : val(_val), left(NULL), right(NULL), next(NULL) {}
+
+    Node(int _val, Node* _left, Node* _right, Node* _next)
+        : val(_val), left(_left), right(_right), next(_next) {}
+};
+*/
+
+class Solution {
+public:
+    void linkNodes(Node * root){
+        if(!(root->left) && !(root->right)){
+            
+        }
+        else{
+            root->left->next = root->right;
+            if(root->next)
+                root->right->next = root->next->left;
+            
+            linkNodes(root->left);
+            linkNodes(root->right);
+        }
+    }
+    
+    Node* connect(Node* root) {
+        if(!root || !(root->left)){
+            
+        }
+        else
+            linkNodes(root);
         return root;
     }
 };
