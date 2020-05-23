@@ -43,6 +43,19 @@ with the left node of it;s immediate cousin if it has one.
 
 Time complexity: O(n)
 Space complexity: O(log n)
+
+
+3. Iterative approach to My approaches(2)
+
+We can implement My Approaches(2) iteratively as well. In this case, we can keep moving from left to right in
+the same level using the next pointers which we established in the previous step either between nodes with 
+the same parent or with nodes whose parents are immeditate cousins. We keep moving from left to right on the
+same levelt to  establish the connections for the next stage. We continue this till we hit the leaf nodes 
+cause once we hit the leaf nodes, we have already established all the connections since the connections
+in the current level had been implemented in the previous level.
+
+Time complexity: O(n)
+Space complexity: O(1)
 */
 
 /*
@@ -136,7 +149,6 @@ public:
             root->left->next = root->right;
             if(root->next)
                 root->right->next = root->next->left;
-            
             linkNodes(root->left);
             linkNodes(root->right);
         }
@@ -144,6 +156,52 @@ public:
     
     Node* connect(Node* root) {
         if(!root || !(root->left)){
+            
+        }
+        else
+            linkNodes(root);
+        return root;
+    }
+};
+
+
+// My Approaches(3)
+/*
+// Definition for a Node.
+class Node {
+public:
+    int val;
+    Node* left;
+    Node* right;
+    Node* next;
+
+    Node() : val(0), left(NULL), right(NULL), next(NULL) {}
+
+    Node(int _val) : val(_val), left(NULL), right(NULL), next(NULL) {}
+
+    Node(int _val, Node* _left, Node* _right, Node* _next)
+        : val(_val), left(_left), right(_right), next(_next) {}
+};
+*/
+
+class Solution {
+public:
+    void linkNodes(Node * root){
+        Node * levelStart = root;
+        while(levelStart->left){
+            root = levelStart;
+            while(root){
+                root->left->next = root->right;
+                if(root->next)
+                    root->right->next = root->next->left;
+                root = root->next;
+            }
+            levelStart = levelStart->left;
+        }
+    }
+    
+    Node* connect(Node* root) {
+        if(!root){
             
         }
         else
