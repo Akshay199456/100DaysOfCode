@@ -80,6 +80,11 @@ Time complexity: O(H + k) => H ->height of tree; O(log n + k) for balanced tree 
 tree
 Space complexity: O(H + k) -> O(n)
 
+We can also apply this technique to the recursive approach to make sure we don't store the elements into
+an array and instead use the value of k at the root stage to return the kth element. This way even if we
+are adding/deleting elements, we are not using extra space except stack space and return the elements 
+in the order. This helps with the follow up procedure since we are not using extra space to store the 
+array as well as calculate it every time a new element is added.
 */
 
 
