@@ -67,6 +67,19 @@ Space complexity: O(n)
 /*
 -------------------------Other approaches
 
+1. Iterative approach
+
+We can solve this problem iteratively as well. If we notice the inorder traversal, the elements on the left
+are the ones which are the minimum followed by the root node and followed by the right node. Using this
+knowledge,we can return the kth minimum element without having to store the elements into an inorder array.
+As long as there is a left node, we keep pushing it into stack. At the root level, we decrement k and check
+if we hit 0. If so, we return the value of that root. Else, we go to the right node and continue the same
+procedue of finding the left element and continuing from there. 
+
+Time complexity: O(H + k) => H ->height of tree; O(log n + k) for balanced tree and O(n + k) for unbalanced
+tree
+Space complexity: O(H + k) -> O(n)
+
 */
 
 
@@ -133,5 +146,39 @@ public:
         priority_queue<int, vector<int>, greater<int>> pq;
         fillPriorityQueue(pq, root);
         return getKthSmallest(pq, k);
+    }
+};
+
+
+// Other Approaches(1)
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
+class Solution {
+public:
+    int kthSmallest(TreeNode* root, int k) {
+        stack<TreeNode *> elementStack;
+        while(true){
+            while(root){
+                elementStack.push(root);
+                root = root->left;
+            }
+            
+            root = elementStack.top();
+            elementStack.pop();
+            if(--k == 0)
+                return root->val;
+            
+            root = root->right;
+        }
+        return -1;
     }
 };
