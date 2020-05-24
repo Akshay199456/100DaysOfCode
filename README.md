@@ -118,3 +118,4 @@ Apparently, have not been calculating the dates properly and am already at Day 1
 - Day 146 - 147: Relaxing
 - Day 148 - 149: Working on java
 - Day 150 - 152: Working on Leetcode problems and data structures in java
+- Day 153: Working on leetcode problems; reseraching technologies and products
