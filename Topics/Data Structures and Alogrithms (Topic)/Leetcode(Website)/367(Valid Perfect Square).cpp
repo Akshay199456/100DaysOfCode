@@ -32,6 +32,15 @@ We can use a double value as a container to take care of the overflow condition.
 Time complexity: O(log n)
 Space complexity: O(1)
 
+
+2. Dividing num by integer rather than mutipying integer with itself to get num
+
+Since we know that i*i = num for a perfect square, we can use that info for the check status instead
+to prevent overflow by i <= (num/i) and then check inside if we hit the value and return true if we do.
+
+Time complexity: O(log n)
+Space complexity: O(!)
+
 */
 
 /*
@@ -45,6 +54,19 @@ public:
     bool isPerfectSquare(int num) {
         for(double i = 1; i*i <= num; i++){
             if(i*i == num)
+                return true;
+        }
+        return false;
+    }
+};
+
+
+// My Approaches(2)
+class Solution {
+public:
+    bool isPerfectSquare(int num) {
+        for(int i = 1; i <= num / i; i++){
+            if(i == (num / (double)i))
                 return true;
         }
         return false;
