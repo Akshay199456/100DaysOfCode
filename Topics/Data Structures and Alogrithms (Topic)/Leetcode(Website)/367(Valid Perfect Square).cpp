@@ -61,6 +61,18 @@ We can use this property to test if a number is a perfect square
 Time complexity: O(sqrt n)
 Space complexity: O(1)
 
+
+2. Binary Search
+
+Another interesting approach that you can use to solve this problem is to use binary search. This way
+any vlaue that would have casued an overflow can be weeded out inside the binary search as we move
+towards the middle. Since the list of numbers is a sorted list, this approach can be used to find the 
+number we are looking for. If mid^2 == num, we return true, else we adjust beg and end accordingly to
+keep moving towards the square of the number.
+
+Time complexity: O(log n)
+Space complexity: O(1)
+
 */
 
 // My Approaches(1)
@@ -99,6 +111,25 @@ public:
             valueCheck+=2;
             if(!num)
                 return true;
+        }
+        return false;
+    }
+};
+
+
+// Other Approaches(2)
+class Solution {
+public:
+    bool isPerfectSquare(int num) {
+        long beg = 0, end = num, mid = 0;
+        while(beg <= end){
+            mid = beg + (end - beg) / 2;
+            if( mid * mid == num)
+                return true;
+            else if(mid * mid > num)
+                end = mid - 1;
+            else
+                beg = mid + 1;
         }
         return false;
     }
