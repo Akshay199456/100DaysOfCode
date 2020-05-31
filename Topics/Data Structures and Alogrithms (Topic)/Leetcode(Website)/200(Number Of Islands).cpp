@@ -32,13 +32,21 @@ of 1s which indicate the islands. As a result, if we encounter a 1, we keep expl
 hit 0s or have visted paths that have already been visited. When we finally enter a pause in the islands,
 we increment the number of islands and continue to do so till we have exploreed all the isalnd paths
 
-Time complexity:
-Space complexity; 
+Time complexity: O(mn)
+Space complexity; O(mn)
 */
 
 /*
 -------------------------Other approaches
+1. Setting visited index to 0 instead.
 
+This approach is very similar to My approaches(1). However, the key difference in this approach is that
+we can avoid the O(mn) space complexity by instead settign the visited nodes to 0 and explore the path from
+there. This way we will only start exploring if a node is 1 and can avoid the time required to index
+the visited array and modifying it.
+
+Time compleity: O(mn)
+Space complexity: O(max(m,n))
 */
 
 // My Approaches(1)
@@ -74,10 +82,38 @@ public:
                     if(grid[i][j] == '1'){
                         explore(i, j + 1, grid, visited);
                         explore(i + 1, j, grid, visited);
-                        explore(i - 1, j, grid, visited);
-                        explore(i, j - 1, grid, visited);
                         nIslands++;
                     }
+                }
+            }
+        }
+        return nIslands;
+    }
+};
+
+
+// Other Approaches(1)
+class Solution {
+public:
+    void explore(int i, int j, vector<vector<char>> & grid){
+        if(i >=0 && j>=0 && i < grid.size() && j < grid[i].size()){
+            if(grid[i][j] == '1'){
+                grid[i][j] = '0';
+                explore(i, j + 1, grid);
+                explore(i + 1, j, grid);
+                explore(i - 1, j, grid);
+                explore(i, j - 1, grid);
+            }
+        }
+    }
+    
+    int numIslands(vector<vector<char>>& grid) {
+        int nIslands = 0;
+        for(int i = 0; i < grid.size(); i++){
+            for(int j = 0; j < grid[i].size(); j++){
+                if(grid[i][j] == '1'){
+                    explore(i, j, grid);
+                    nIslands++;
                 }
             }
         }
