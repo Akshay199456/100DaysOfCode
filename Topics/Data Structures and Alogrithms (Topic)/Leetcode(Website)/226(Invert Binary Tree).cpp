@@ -30,6 +30,16 @@ right side of each node. As long as we can do that for every node in the tree, w
 
 Time complexity: O(n)
 Space complexity: O(h)
+
+
+2. BFS
+
+We can implement this approach using BFS as well. Here also we swap the left and right level nodes using
+the node at the front of the queue. However, we keep inserting nodes into the queue level by level.
+
+Time complexity: O(n)
+Space complexity: h
+
 */
 
 /*
@@ -66,6 +76,42 @@ public:
     TreeNode* invertTree(TreeNode* root) {
         if(root)
             swapTrees(root);
+        return root;
+    }
+};
+
+
+// My Approaches(2)
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
+class Solution {
+public:
+    TreeNode* invertTree(TreeNode* root) {
+        queue<TreeNode *> elementQueue;
+        if(root){
+            elementQueue.push(root);
+            while(!elementQueue.empty()){
+                TreeNode * element = elementQueue.front(), * temp = NULL;
+                elementQueue.pop();
+                temp = element->left;
+                element->left = element->right;
+                element->right = temp;
+                
+                if(element->left)
+                    elementQueue.push(element->left);
+                if(element->right)
+                    elementQueue.push(element->right);
+            }
+        }
         return root;
     }
 };
