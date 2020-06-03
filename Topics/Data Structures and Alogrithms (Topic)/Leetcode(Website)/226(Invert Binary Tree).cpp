@@ -38,7 +38,7 @@ We can implement this approach using BFS as well. Here also we swap the left and
 the node at the front of the queue. However, we keep inserting nodes into the queue level by level.
 
 Time complexity: O(n)
-Space complexity: h
+Space complexity: O(n)
 
 */
 
