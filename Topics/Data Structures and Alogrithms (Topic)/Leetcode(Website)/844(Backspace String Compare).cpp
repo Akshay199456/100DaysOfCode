@@ -54,6 +54,22 @@ as in My approaches(1)
 
 Time complexity: O(m+n)
 Space complexity: O(m+n)
+
+
+3. Two pointer approach
+
+We can also solve this problem using the two pointer approach. This way we don't have to use extra space.
+With the two pointer appraoch, we start the pointers from the end of the strings. This gives us a good 
+idea to compare the characters. That way we can skip the characters easily by adjusting the pointer when
+we encounter '#'. Also, since the strings may not be of the sme length, we need to adjust the pointers
+so that we are comparing the characters. In addition, if we encounter a situation where we have encoutnered
+the beginning of one string but are still progressing through the other, we have to ensure that the other
+string is equivalent to the first string by making sure it evalautes to null for the two stirngs to be 
+equal. Check 'Helpong Images' for more info on this approach. 
+
+
+Time complexity: O(m+n)
+Space complexity: O(1)
 */
 
 /*
@@ -87,5 +103,74 @@ public:
         constructMap(S, sMap);
         constructMap(T, tMap);
         return sMap == tMap;
+    }
+};
+
+
+// My Approaches(3)
+class Solution {
+public:
+    void skipPtr(string element, int & ptr){
+        int skipNumber = 0;
+        bool end = false;
+        while(ptr >= 0 && !end){
+            if(element[ptr] == '#'){
+                skipNumber++;
+                ptr--;
+            }
+            else{
+                if(!skipNumber)
+                    end = true;
+                else{
+                    ptr--;
+                    skipNumber--;
+                }
+            }
+        }
+    }
+    
+    bool traverseString(string element, int & ptr){
+        int nCharacters = 0;
+        for(int i = 0; i <= ptr; i++){
+            if(element[ptr] != '#')
+                nCharacters++;
+            else{
+                if(nCharacters > 0)
+                    nCharacters--;
+            }
+        }
+        
+        ptr = -1;
+        if(!nCharacters)
+            return true;
+        return false;
+    }
+    
+    bool backspaceCompare(string S, string T) {
+        int sptr = S.size() - 1, tptr = T.size() - 1;
+        while(sptr >= 0 || tptr >= 0){
+            if(sptr >= 0 && tptr >= 0){
+                if(S[sptr] != '#' && T[tptr] != '#'){
+                    if(S[sptr] == T[tptr]){
+                        sptr--;
+                        tptr--;
+                    }
+                    else
+                        return false;
+                }
+                
+                else{
+                    skipPtr(S, sptr);
+                    skipPtr(T, tptr);
+                }
+            }
+            
+            else{
+                if(sptr < 0)
+                    return traverseString(T, tptr);
+                return traverseString(S, sptr);
+            }
+        }
+        return true;
     }
 };
