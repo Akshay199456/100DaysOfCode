@@ -34,6 +34,15 @@ Space complexity:
 /*
 -------------------------Other approaches
 
+1. Brute force approach[Not coded]
+
+The brute force approach is pretty simple. We generate all the 2^n combinations that can
+possibly exist. Once we have that we have to make sure to go through each combination to keep
+check that they are valid by making sure the close is alwyas less than or equal to the number of
+open brackets
+
+Time complexity: O(n*2^n)
+Space complexity: O(n*2^n)
 */
 
 // My Approaches(1)
