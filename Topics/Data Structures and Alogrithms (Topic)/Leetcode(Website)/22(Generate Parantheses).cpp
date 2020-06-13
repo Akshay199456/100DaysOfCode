@@ -26,8 +26,8 @@ with a '(' and ends with a ')'. Second, the number of ( has to be more than or e
 number of ) at all times since the ( associated with a pair always comes before the ) of that 
 pair. Using those two conditions, we can use the backtracking technique to solve the problem.
 
-Time complexity: 
-Space complexity:
+Time complexity: O(4^n/sqrt(n))
+Space complexity: O(4^n/sqrt(n))
 
 */
 
