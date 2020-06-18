@@ -38,6 +38,16 @@ Space complexity: O(n!)
 /*
 -------------------------Other approaches
 
+1. Recursive backtracking approach
+
+We can also solve this problem recursively. The key gist of this approach is that you
+want to keep adding elements into the array till the length of the list is equal to the
+length of the nums array. One thing to make sure though is that you don't want to be
+storing the state at each level. If you do, you want to get id of it for the next
+iteration to take the next element in the array into consideration.
+
+Time complexity: O(n!)
+Space complexity: O(n!)
 */
 
 // My Approaches(1)
@@ -80,6 +90,36 @@ public:
         }
         else
             result.push_back(list);
+        return result;
+    }
+};
+
+
+// Other Approaches(1)
+class Solution {
+public:
+    vector<vector<int>> result;
+    void generatePermutations(vector<int> nums, unordered_set<int> elementSet, vector<int> list, int n){
+        if(list.size() == n)
+            result.push_back(list);
+        else{
+            for(int i = 0; i < nums.size(); i++){
+                if(elementSet.find(nums[i]) == elementSet.end()){
+                    vector<int> listCopy = list;
+                    unordered_set<int> elementSetCopy = elementSet;
+                    listCopy.push_back(nums[i]);
+                    elementSetCopy.emplace(nums[i]);
+                    generatePermutations(nums, elementSetCopy, listCopy, n);
+                }
+            }
+        }
+    }
+    
+    vector<vector<int>> permute(vector<int>& nums) {
+        vector<int> list;
+        unordered_set<int> elementSet;
+        if(nums.size())
+            generatePermutations(nums, elementSet, list, nums.size());
         return result;
     }
 };
