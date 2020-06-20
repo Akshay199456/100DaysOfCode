@@ -30,8 +30,8 @@ Output:
 We can build up the solution for the current step using the solutions from the previous step. To each of the solutions from
 the previous step, we make a copy of it and add the new element to those solutions
 
-Time complexity: O(n!)
-Space complexity: O(n!)
+Time complexity: O(2^n)
+Space complexity: O(2^n)
 
 
 2. Recursive approach
@@ -39,8 +39,8 @@ Space complexity: O(n!)
 We can implement the previous approach in a recursive manner as well. As long as the currIndex is less than the length of
 the array, we can keep copying elements and inserting them into the result.
 
-Time complexity: O(n!)
-Space complexity: O(n!)
+Time complexity: O(2^n)
+Space complexity: O(2^n)
 */
 
 /*
