@@ -32,6 +32,15 @@ the previous step, we make a copy of it and add the new element to those solutio
 
 Time complexity: O(n!)
 Space complexity: O(n!)
+
+
+2. Recursive approach
+
+We can implement the previous approach in a recursive manner as well. As long as the currIndex is less than the length of
+the array, we can keep copying elements and inserting them into the result.
+
+Time complexity: O(n!)
+Space complexity: O(n!)
 */
 
 /*
@@ -60,6 +69,32 @@ public:
         result.push_back(list);
         if(nums.size())
             generateSubsets(nums);
+        return result;
+    }
+};
+
+// My Approaches(2)
+class Solution {
+public:
+    vector<vector<int>> result;
+    
+    void generateSubsets(vector<int> & nums, int currIndex){
+        if(currIndex < nums.size()){
+            int size = result.size();
+            for(int i = 0; i < size; i++){
+                vector<int> listCopy = result[i];
+                listCopy.push_back(nums[currIndex]);
+                result.push_back(listCopy);
+            }
+            generateSubsets(nums, currIndex + 1);
+        }
+    }
+    
+    vector<vector<int>> subsets(vector<int>& nums) {
+        vector<int> list;
+        result.push_back(list);
+        if(nums.size())
+            generateSubsets(nums, 0);
         return result;
     }
 };
