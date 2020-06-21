@@ -54,6 +54,13 @@ rather than the candidate number itself and generate all combinations for a give
 Time complexity: O(n*2^n)
 Space complexity: O(n*2^n)
 
+
+2. Bit generation to represent the subsets
+
+This approach has been summarized well through comments given in the code for this approach.
+
+Time complexity: O(n*2^n)
+Space complexity: O(n*2^n)
 */
 
 // My Approaches(1)
@@ -153,6 +160,66 @@ public:
         if(nums.size()){
             createMap(nums);
             generateSubsets(nums, result, 0);
+        }
+        return result;
+    }
+};
+
+
+// Other Approaches(2)
+class Solution {
+public:
+    vector<vector<int>> result;
+    
+    /*
+        This method returns a string representation of the integer value that is provided to it. Given a number nBits,
+        we use a mask of 1 to check the status of the bit. By the operation (mask & nBits) we are basically isolating if
+        the last bit is a one or not. If it is, we append a 1 to the string at the end. Else we append a 0 to the end.
+        We then repeat this procedure till the number is set to 0 by the operation nBits >> 1 
+    */
+    string getStringRepresentation(int nBits){
+        string result = "";
+        int mask = 1;
+        while(nBits){
+            if((mask & nBits) >= 1)
+                result = "1" + result;
+            else
+                result = "0" + result;
+            
+            nBits = nBits >>1;
+        }
+        return result;
+    }
+    
+    /*
+        Generates bit representation for each of the possible solutions for the problem since there are 2^n subsets and
+        there are 2^n possible combinations of bits for each n. Hence, we associate each bit value with a subset
+        combination. We want to make sure to get all the n bits corresponding to the n inputs. As a result, we use a 
+        mask with 1 as its initial value and then fill it with remaining 0s by pushing it left n times. We then OR with the
+        paritcular value of i so that we capture the number correponding to the bit pattern.
+
+        Once we get the bit representation, we then check for any 1s. Whereever, we get a 1 , we push the nums associated
+        with that index into the list and push it into the solution at the end.
+
+        eg:
+        For an input [1,2,3]
+        0 -> 1000 -> []
+        1 -> 1001 -> [3]
+        2 -> 1010 -> [2]
+        3 -> 1011 -> [2,3]
+        ....
+    */
+    vector<vector<int>> subsets(vector<int>& nums) {
+        for(int i = 0; i < (int) pow(2, nums.size()); i++){
+            // We use this bit masking trick to capture all the n digits.
+            int nBits = (1 << nums.size()) | i;
+            string bitRepresentation = getStringRepresentation(nBits).substr(1);
+            vector<int> list;
+            for(int i = 0; i <bitRepresentation.size(); i++){
+                if(bitRepresentation[i] == '1')
+                    list.push_back(nums[i]);
+            }
+            result.push_back(list);
         }
         return result;
     }
