@@ -99,3 +99,71 @@ public:
         return head;
     }
 };
+
+
+// My Approaches(2) [Not complete/ In progress]
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode() : val(0), next(nullptr) {}
+ *     ListNode(int x) : val(x), next(nullptr) {}
+ *     ListNode(int x, ListNode *next) : val(x), next(next) {}
+ * };
+ */
+class Solution {
+public:
+    void removeDuplicates(ListNode * & head){
+        ListNode * slow = head;
+        ListNode * fast = head->next;
+        ListNode * prev = NULL;
+        bool deleteBeg = false, skipNode = false;
+        
+        while(fast){
+            if(slow->val == fast->val){
+                if(slow == head)
+                    deleteBeg = true;
+                
+                ListNode * temp = fast;
+                fast = fast->next;
+                temp->next = NULL;
+                slow->next = fast;
+                skipNode = true;
+            }
+            else{
+                if(skipNode && prev){
+                    skipNode = false;
+                    prev->next = slow->next;
+                    slow->next = NULL;    
+                }
+                else{
+                    if(!prev)
+                        skipNode = false;
+                    prev = slow;
+                }
+                
+                slow = fast;
+                fast = fast->next;
+            }
+        }
+        
+        if(skipNode){
+            skipNode = false;
+            prev->next = slow->next;
+            slow->next = NULL;
+        }
+        
+        if(deleteBeg){
+            ListNode * temp = head;
+            head = head->next;
+            temp->next = NULL;
+        }
+    }
+    
+    ListNode* deleteDuplicates(ListNode* head) {
+        if(head)
+            removeDuplicates(head);
+        return head;
+    }
+};
