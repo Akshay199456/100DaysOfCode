@@ -27,6 +27,16 @@ duplicate.
 
 Time complexity: O(n)
 Space complexity: O(n)
+
+
+2. Using three pointers to store the current node, next node and prev node
+
+Instead of using a map to store the occurences of the elements in the map, we can achieve the same result with just 3 
+pointers instead. These pointers will help us adjust the position of the duplicate elements and remove them from the 
+linked list when they are encountered.
+
+Time complexity: O(n)
+Space complexity: O(1)
 */
 
 /*
@@ -101,7 +111,7 @@ public:
 };
 
 
-// My Approaches(2) [Not complete/ In progress]
+// My Approaches(2) 
 /**
  * Definition for singly-linked list.
  * struct ListNode {
@@ -115,45 +125,58 @@ public:
 class Solution {
 public:
     void removeDuplicates(ListNode * & head){
+        // fast pointer is one node ahead of slow pointer
+        // prev pointer is used to point to the previous pointer of slow pointer
         ListNode * slow = head;
         ListNode * fast = head->next;
         ListNode * prev = NULL;
+        // Used to check if the beginning element is a duplicate element as well as used to indicate if the node that's
+        // a duplicare is to be skipped.
         bool deleteBeg = false, skipNode = false;
         
+        // As lon as fast exists we run the loop
         while(fast){
+            // If the vlaues are equal, we know we have encountered a duplicate
             if(slow->val == fast->val){
+                // If it's the beginning of the linked list, we want to make sure to remove the beginning node.
                 if(slow == head)
                     deleteBeg = true;
                 
+                // temp used to remove the duplicate node which is fast
                 ListNode * temp = fast;
                 fast = fast->next;
                 temp->next = NULL;
                 slow->next = fast;
-                skipNode = true;
+                skipNode = true; // setting to true to remove the slow pointer associated with this fast pointer
             }
             else{
+                // If we have to skip the slow pointer since it's a duplicate and it's not at the beginning of the linked list
                 if(skipNode && prev){
                     skipNode = false;
                     prev->next = slow->next;
                     slow->next = NULL;    
                 }
                 else{
+                    // we adjust the prev pointer to the slow pointer for the next loop run.
                     if(!prev)
                         skipNode = false;
                     prev = slow;
                 }
                 
+                //  move pointers ahead
                 slow = fast;
                 fast = fast->next;
             }
         }
         
-        if(skipNode){
+        // if we are not at the beginning of the linked list and we have to skip a node after coming out of a loop
+        if(skipNode && prev){
             skipNode = false;
             prev->next = slow->next;
             slow->next = NULL;
         }
         
+        // If the beinning element of the linked list is dupplicate, it must be removed.
         if(deleteBeg){
             ListNode * temp = head;
             head = head->next;
