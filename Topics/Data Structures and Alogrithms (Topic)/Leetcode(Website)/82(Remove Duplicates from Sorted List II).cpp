@@ -42,6 +42,8 @@ Space complexity: O(1)
 /*
 -------------------------Other approaches
 
+Other approaches very similar to My Approaches(2)
+
 */
 
 // MY Approahces(1)
