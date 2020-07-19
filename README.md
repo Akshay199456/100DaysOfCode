@@ -134,3 +134,4 @@ Apparently, have not been calculating the dates properly and am already at Day 1
 - Day 191 - 192: Work
 - Day 193: Plans on work and life
 - Day 195 - 196: Work
+- Day 197: Working on improving pokemon battle game
