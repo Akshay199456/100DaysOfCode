@@ -33,8 +33,18 @@ outer vector dicatates the order in whcih elements are inserted, in our case fro
 looking for is the opposite of this, we need to swap the ith vector with vector.size() - i -1th index.
 
 Time complexity: O(n)
-Space complexity: O(1)
+Space complexity: O(log n)
+
+
+2. BFS
+
+We can implement the same problem in BFS as well. As long as we keep count of the number of nodes in each level, we can
+insert it into the array in a top to bottom order. We then just need to reverse the order and we get the reesult.
+
+Time complexity: O(n)
+Space complexity; O(n)
 */
+
 
 /*
 -------------------------Other approaches
@@ -92,6 +102,77 @@ public:
         if(root){
             buildTraversal(root, result, 0);
             // printResult(result);
+            swapLayers(result);
+        }
+        return result;
+    }
+};
+
+
+// My Approaches(2)
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
+class Solution {
+public:
+    void buildTraversal(TreeNode * root, vector<vector<int>> & result, queue<TreeNode *> & elements){
+        int level = 0;
+        while(!elements.empty()){
+            int size = elements.size();
+            for(int i = 0; i < size; i++){
+                TreeNode * currentNode = elements.front(); 
+                if(currentNode->left)
+                    elements.push(currentNode->left);
+                if(currentNode->right)
+                    elements.push(currentNode->right);
+                
+                if(level == result.size()){
+                    vector<int> list;
+                    list.push_back(currentNode->val);
+                    result.push_back(list);
+                }
+                else
+                    result[level].push_back(currentNode->val);
+            
+                elements.pop();
+            }
+            level++;
+        }
+    }
+    
+    void swapLayers(vector<vector<int>> & result){
+        for(int i = 0; i < result.size() / 2; i++){
+            vector<int> list = result[i];
+            result[i] = result[result.size() - 1 - i];
+            result[result.size() - i - 1] = list;
+        }
+    }
+    
+    vector<vector<int>> levelOrderBottom(TreeNode* root) {
+        vector<vector<int>> result;
+        if(root){
+            queue<TreeNode *> elements;
+            elements.push(root);
+            buildTraversal(root, result, elements);
             swapLayers(result);
         }
         return result;
