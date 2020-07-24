@@ -30,6 +30,26 @@ board and word consists only of lowercase and uppercase English letters.
 /*
 -------------------------My Approaches:
 
+1. Backtracking using the UMPIRE method
+
+We can use backtracking here to solve this problem. If the current character matches with the charcter in the board, we 
+continue finding path from it that only visits nodes that have not been visited before. At any stage if the character
+doesn't match, we return false instead and explore a different path as no solution can be obtained from the current path.
+If all the characters match then we have obtained a solution and we can say that it exists in the 2d array and return true. 
+Since the  only possible paths the next character can exist given the current character matches is left, right, top and bottom, 
+we explore those paths to find the match of the next character.
+
+Time complexity: O(n^2)
+Space complexity: O(n^2)
+
+A main reason I feel I did well on this problem is by following the UMPIRE method from codepath properly. Using it as a 
+guiding material while solving the problem helped me understand the different stages to the problem clearly without
+spending too much time on any one stage. A key aspect that I understood here is that the P - planning and I - implement
+stage and inversely proportional to each other. The better planned your approach is, the less time it takes to implement
+the code as you have planned approaches to the different scenarios that might occur. Therefore, you want to spend more time
+in planning th eproblem before actually implmenting the code. The less time you take in planning, the more time you will 
+take in implementing the code and you will fumble through the code as well.
+
 */
 
 /*
