@@ -49,6 +49,21 @@ elements in the array.
 
 Time complexity: O(n)
 Space complexity: O(n)
+
+
+3. Variation of brute force approach
+
+This approach builds upon my theory of storing the n-1 and n+1 entry into the map. Basically, you search for the element in the map. If it
+exists , you don't need to do anything and can skip it. Else, you use the entries in the map to find the length of the 
+max subsequence that includes the current element and store it with respect to the current element into the map. We also
+want to adjust the boundaries so that the next elements that are near the boundary can use that information to get the 
+max length of the subsequence and don't need to do any thing about the elements betwen the current element and the boundaries
+as the only elements that will use that information are duplicates and since we are not doing any work for duplicates, we
+can skip it.
+
+Time complexity: O(n)
+Space complexity: O(n)
+
 */
 
 // My Approaches(1)
@@ -120,5 +135,36 @@ public:
             fillSet(nums, elementSet);
             return getLengthLongestConsecutive(nums, elementSet);
         }
+    }
+};
+
+
+// Other Approaches(3)
+class Solution {
+public:
+    int getLengthLongestConsecutive(vector<int> nums){
+        int maxLength = 0;
+        unordered_map<int,int> map;
+        for(int i=0; i<nums.size(); i++){
+            if(map.find(nums[i]) == map.end()){
+                
+                int left = (map.find(nums[i] - 1) != map.end()) ? map[nums[i] - 1]: 0;
+                int right = (map.find(nums[i] + 1) != map.end()) ? map[nums[i] + 1]: 0;   
+                int length = left + right + 1;
+                map[nums[i]] = length;
+                maxLength = max(length, maxLength);
+                
+                map[nums[i] - left] = length;
+                map[nums[i] + right] = length;
+            }
+        }
+        return maxLength;
+    }
+    
+    int longestConsecutive(vector<int>& nums) {
+        if(nums.size() == 0 || nums.size() == 1)
+            return nums.size();
+        else
+            return getLengthLongestConsecutive(nums);
     }
 };
