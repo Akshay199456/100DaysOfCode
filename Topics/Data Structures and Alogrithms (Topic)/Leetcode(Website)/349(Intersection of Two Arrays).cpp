@@ -35,6 +35,20 @@ Space complexity: O(n)
 /*
 -------------------------Other approaches
 
+1. Sorting and using two pointers (Not implemented)
+
+Typical approach. Check 'Helping Images' for this problem for more info.
+
+Time complexity: O(nlogn)
+Space complexity: O(1)
+
+
+2. Sorting the longer array and using binary search for searching an element
+
+Typoical approach. Check 'Helping Images' for this problem for more info.
+
+Time complexity: O(nlogn)
+Space complexity: O(1)
 */
 
 
