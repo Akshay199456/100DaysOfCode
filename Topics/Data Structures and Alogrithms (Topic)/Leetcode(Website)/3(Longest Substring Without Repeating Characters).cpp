@@ -90,6 +90,10 @@ that's derived from that part will also contain a duplicate. As a result, the wi
 deal with those scenarios by making sure that the characters in the set will always be unique and be part
 of the substring.
 
+Note here: the window slider approach is very useful in substrings generating problems here like this problem since it
+only takes into consideration the substrings that are valid and are potential solutions rather than building upon
+substrings that don't fit the condition.
+
 Time compleity: O(2*n)=> O(n)
 Space complexity: O(min(n,m))
 
