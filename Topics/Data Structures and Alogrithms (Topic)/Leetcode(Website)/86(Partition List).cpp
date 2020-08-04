@@ -13,7 +13,16 @@ Output: 1->2->2->4->3->5
 
 /*
 -------------------------My Approaches:
+1. Using dummy pointers as head followed by inserting nodes into separate categories based on condition
 
+We can use dummy pointers and have 4 different pointer, ltHead, ltTail, gtHead, gtTail which we can use to point
+to the dummy pointers. We then go through th elinked list and insert the nodes respectively into the respective group 
+depending on whther the value of the current node is less than or greater than or equal to the node and adjust pointers
+accordingly. At the end, we reset the pointer headers by getting rid of the dummy nodes and adjusting the head pointer
+accordingly.
+
+Time complexity: O(n)
+Space complexity: O(1)
 */
 
 /*
