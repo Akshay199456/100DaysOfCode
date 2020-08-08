@@ -37,6 +37,16 @@ linked list when they are encountered.
 
 Time complexity: O(n)
 Space complexity: O(1)
+
+
+3. Using dummy pointer and 3 pointer approach from above
+
+Using a dummy pointer helps us with a few issues we can be running into with respect to adjusting the pointers. As a result,
+I have used a dummy pointer to smooth that process along with continiuing the 3 pointer approach. Check 'Helping Images'
+for more information on the approach.
+
+Time complexity: O(n)
+Space complexity: O(1)
 */
 
 /*
@@ -189,6 +199,79 @@ public:
     ListNode* deleteDuplicates(ListNode* head) {
         if(head)
             removeDuplicates(head);
+        return head;
+    }
+};
+
+
+// My Approaches(3)
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode() : val(0), next(nullptr) {}
+ *     ListNode(int x) : val(x), next(nullptr) {}
+ *     ListNode(int x, ListNode *next) : val(x), next(next) {}
+ * };
+ */
+class Solution {
+public:
+    void insertDummy(ListNode * & head){
+        ListNode * temp = new ListNode(head->val - 1, head);
+        head = temp;
+    }
+    
+    void removeDuplicates(ListNode * head){
+        bool deleteBeg = false;
+        ListNode * prev = head, * slow = prev->next, * fast = slow->next;
+        while(fast){
+            if(slow->val == fast->val){
+                deleteBeg = true;
+                ListNode * temp = fast;
+                slow->next = temp->next;
+                fast = fast->next;
+                temp->next = NULL;
+                delete temp;
+            }
+            else{
+                if(deleteBeg){
+                    deleteBeg = false;
+                    ListNode * temp = slow;
+                    slow = fast;
+                    fast = fast->next;
+                    prev->next = slow;
+                    temp->next = NULL;
+                    delete temp;
+                }
+                else{
+                    prev = slow;
+                    slow = fast;
+                    fast = fast->next;
+                }
+            }
+        }
+        
+        if(deleteBeg){
+            deleteBeg = false;
+            prev->next = slow->next;
+            delete slow;
+        }
+    }
+    
+    void resetHead(ListNode * & head){
+        ListNode * temp = head;
+        head = head->next;
+        temp->next = NULL;
+        delete temp;
+    }
+    
+    ListNode* deleteDuplicates(ListNode* head) {
+        if(head && head->next){
+            insertDummy(head);
+            removeDuplicates(head);
+            resetHead(head);
+        }
         return head;
     }
 };
