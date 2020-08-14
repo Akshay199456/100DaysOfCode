@@ -35,6 +35,17 @@ pointer helps us break the list into collections which we can traverse through t
 
 Time complexity: O(n)
 Space complexity: O(1)
+
+
+2. Using an array for additional storage
+
+This approach doesn't abide by the conditions of the problem. However, it is a good solution to use if the conditions were a
+little relaxed. In this case, we use an array to store the elements as we go through the linked list the first time k
+ nodes at a time. As we go through the second time, we insert the elements into the linked list in the reverse order from
+ the array.
+
+Time complexity: O(n)
+Space complexity: O(n)
 */
 
 // Other Approaches(1)
@@ -92,5 +103,47 @@ public:
             ListNode * dummyNode = new ListNode(-1, head);
             return reverseNodes(dummyNode, k);
         }
+    }
+};
+
+// Other Approaches(2)
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode() : val(0), next(nullptr) {}
+ *     ListNode(int x) : val(x), next(nullptr) {}
+ *     ListNode(int x, ListNode *next) : val(x), next(next) {}
+ * };
+ */
+class Solution {
+public:
+    void reverseNodes(ListNode * & head, int k){
+        ListNode * beg = head, * end = head;
+        vector<int> array(k,-1);
+        bool isEnd = false;
+        while(!isEnd){
+            int count = 0;
+            while(end && count < k){
+                array[count++] = end->val;
+                end = end->next;
+            }
+            
+            if(count != k)
+                isEnd = true;
+            else{
+                while(beg != end){
+                    beg->val = array[--count];
+                    beg = beg->next;
+                }
+            }
+        }
+    }
+    
+    ListNode* reverseKGroup(ListNode* head, int k) {
+        if(!(!head || !(head->next) || k==1 ))
+            reverseNodes(head, k);
+        return head;
     }
 };
