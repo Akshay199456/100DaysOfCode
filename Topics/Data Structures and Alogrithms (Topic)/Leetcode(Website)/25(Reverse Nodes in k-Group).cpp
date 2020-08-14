@@ -26,7 +26,15 @@ You may not alter the values in the list's nodes, only nodes itself may be chang
 
 /*
 -------------------------Other approaches
+1. Two pointer and dummy node
 
+This problem uses the same UMPIRE approach that we have been applying. Since Linked List problems can come in 3 different
+patterns: dummy node, 2 pointer and multiple pass, we can use the first 2 here. The dummy node can be used to help adjust
+the pointer that is at the beginning of the first collection and make it point to the end of the next collection. The 2
+pointer helps us break the list into collections which we can traverse through to reverse nodes accordingly.
+
+Time complexity: O(n)
+Space complexity: O(1)
 */
 
 // Other Approaches(1)
@@ -46,24 +54,29 @@ public:
         ListNode * beg = dummyNode->next, * end = dummyNode->next, * movingNode = dummyNode;
         bool isEnd = true;
         while(isEnd){
-            int count = 0;
+            int count = 0; // used to check if we have a valid collection
             while(end && count < k){
+                // adjusts the end pointer so that we are sorting only 1 collection with k nodes at a time
                 end = end->next;
                 ++count;
             }
-
+            // if it's not a valid collection of k nodes in size, it's invalid and hence we stop it.
             if(count != k)
                 isEnd = false;
             else{
                 count = 0;
+                // reversing the nodes but in a slightly different manner
+                // we make the beginning of first collection point to end of second collection and adjust it later
                 ListNode * prev = end, * curr = beg;
                 while(count++ < k){
+                    // reverses nodes in between
                     ListNode * temp = curr->next;
                     curr->next = prev;
                     prev = curr;
                     curr = temp;
                 }
-
+                // using the moving node we can adjust the head of each collection to the new node instead and make it
+                // ready for the next collection by adjusting itself to the tail of the current collection
                 movingNode->next = prev;
                 movingNode = beg;
                 beg = end;
