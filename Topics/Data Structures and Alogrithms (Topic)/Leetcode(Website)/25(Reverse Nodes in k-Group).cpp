@@ -46,6 +46,9 @@ little relaxed. In this case, we use an array to store the elements as we go thr
 
 Time complexity: O(n)
 Space complexity: O(n)
+
+
+3. 
 */
 
 // Other Approaches(1)
@@ -144,6 +147,65 @@ public:
     ListNode* reverseKGroup(ListNode* head, int k) {
         if(!(!head || !(head->next) || k==1 ))
             reverseNodes(head, k);
+        return head;
+    }
+};
+
+
+// Other Approaches(3)
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode() : val(0), next(nullptr) {}
+ *     ListNode(int x) : val(x), next(nullptr) {}
+ *     ListNode(int x, ListNode *next) : val(x), next(next) {}
+ * };
+ */
+class Solution {
+public:
+    ListNode * reverseBetweenBegEnd(ListNode * begin, ListNode * end){
+        ListNode * prev = begin, * curr = begin->next, * first = curr;
+        while(curr != end){
+            ListNode * temp = curr->next;
+            curr->next = prev;
+            prev = curr;
+            curr = temp;
+        }
+        
+        // Adjusting pointers for next iteration
+        begin->next = prev;
+        first->next = curr;
+        return first;
+    }
+    
+    ListNode * reverseNodes(ListNode * & head, int k){
+        ListNode * dummy = new ListNode(-1, head);
+        int count = 0;
+        ListNode * begin = dummy;
+        while(head){
+            ++count;
+            if(count % k == 0){
+                begin = reverseBetweenBegEnd(begin, head->next);
+                head = begin->next;
+            }
+            else{
+                head = head->next;
+            }
+        }
+        
+       // deleting dummy and returning head
+        ListNode * temp = dummy->next;
+        dummy->next = NULL;
+        delete dummy;
+        return temp;
+        
+    }
+    
+    ListNode* reverseKGroup(ListNode* head, int k) {
+        if(!(!head || !(head->next) || k==1 ))
+            return reverseNodes(head, k);
         return head;
     }
 };
