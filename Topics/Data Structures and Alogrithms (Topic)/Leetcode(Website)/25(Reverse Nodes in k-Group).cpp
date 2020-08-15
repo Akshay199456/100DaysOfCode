@@ -48,7 +48,15 @@ Time complexity: O(n)
 Space complexity: O(n)
 
 
-3. 
+3. Imporvisation on Other Approaches(1)
+
+This approach is very similar to Other Approaches(1) but it has a clear explanation and direction. We create a dummy pointer
+initially and cover k pointers at a time. Our goal is to reverse pointers between beg and end, both exclusive. Since this
+reverses the pointers in betwen, the only thing remainign is to reverse the begin and end pointers. As a result, we adjust the 
+pointers accordingly and set it up for the next k nodes.
+
+Time complexity: O(n)
+Space complexity: O(1)
 */
 
 // Other Approaches(1)
