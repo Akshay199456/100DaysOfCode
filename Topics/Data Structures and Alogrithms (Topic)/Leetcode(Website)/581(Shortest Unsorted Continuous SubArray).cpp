@@ -31,6 +31,26 @@ Space complexity: O(1)
 /*
 -------------------------Other approaches
 
+1. Sorting and finding limits of subarray
+
+We can sort a copy of the array and compare it with the original array. Once we do this, starting at the beginning we 
+compare the orgiinal with teh copy and wherever there is a discrpancy, that's the start of the subarray to be sorted.
+Similarly, for the end, we start at the end of athe arrays and whereever there is a discrepancy that's the end.
+
+Time complexity: O(nlogn)
+Space complexity: O(1)
+
+
+2. Implementation of selection sort
+
+We can use an implementation of insertion sort to solve this problem as well. Basically, like insertion sort, we are trying
+to find if an element is already in place or not. If it is, good enough. However, if it isn't, instead of swapping the values
+with the min, we keep track of the left and right indexes where this occurs. As we move along with the differnet elements,
+we can use this knowledge from the previous step to extend the limits of the index if we keep finding elements out of 
+position.
+
+Time complexity: O(n^2)
+Space complexity: O(1)
 */
 
 // My Approaches(1)
@@ -97,6 +117,31 @@ public:
             }
             return right - left + 1;
         }
+    }
+    
+    int findUnsortedSubarray(vector<int>& nums) {
+        if(nums.size()== 0 || nums.size() == 1)
+            return 0;
+        else
+            return getLengthUnsorted(nums);
+    }
+};
+
+
+// Other Approaches(2)
+class Solution {
+public:
+    int getLengthUnsorted(vector<int> nums){
+       int left = nums.size(), right = 0;
+        for(int i =0; i < nums.size() - 1; i++){
+            for(int j = i+1; j < nums.size(); j++){
+                if(nums[j] < nums[i]){
+                    left = min(left, i);
+                    right = max(right, j);
+                }
+            }
+        }
+        return right - left < 0 ? 0 : right - left + 1;
     }
     
     int findUnsortedSubarray(vector<int>& nums) {
