@@ -64,6 +64,9 @@ an increasing slop as we are traversing back.
 
 Time complexity: O(n)
 Space complexity: O(n)
+
+This si a common approach that I see in array based problems where you can plot the numbers on a graph to find and
+understand the problem clearly and find oout the conditions for the results you are looking for.
 */
 
 // My Approaches(1)
