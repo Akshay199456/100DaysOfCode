@@ -51,6 +51,19 @@ position.
 
 Time complexity: O(n^2)
 Space complexity: O(1)
+
+
+3. Selective sorting using information about elements in graph
+
+This implementation is similar to selective sorting as well. If we plot the elements onto the graph, we see elements
+with slopes moving up and down. Our goal at the end is to obtin a graph withe only an increasing slope. As a result,
+in order to find the left point we need to find the point at which the slope starts falling. In addiiton,we need to make
+a check to make sure the elements in the subarray are not less than this left. If thery are , we adjust the left 
+accordingly. We do the smae for the right but for the opposite conditions. Eg: we need to find the point at which we see
+an increasing slop as we are traversing back.
+
+Time complexity: O(n)
+Space complexity: O(n)
 */
 
 // My Approaches(1)
@@ -142,6 +155,42 @@ public:
             }
         }
         return right - left < 0 ? 0 : right - left + 1;
+    }
+    
+    int findUnsortedSubarray(vector<int>& nums) {
+        if(nums.size()== 0 || nums.size() == 1)
+            return 0;
+        else
+            return getLengthUnsorted(nums);
+    }
+};
+
+
+// Other Approaches(3)
+class Solution {
+public:
+    int getLengthUnsorted(vector<int> nums){
+       stack<int> elements;
+        int left = nums.size(), right = 0;
+        for(int i = 0; i < nums.size(); i++){
+            while(!elements.empty() && nums[elements.top()] > nums[i]){
+                left = min(left, elements.top());
+                elements.pop();
+            }
+            elements.push(i);
+        }
+        
+        elements.empty();
+        
+        for(int i = nums.size() - 1; i >= 0 ; i--){
+            while(!elements.empty() && nums[elements.top()] < nums[i]){
+                right = max(right, elements.top());
+                elements.pop();
+            }
+            elements.push(i);
+        }
+        
+        return right - left < 0 ? 0 : right-left + 1;
     }
     
     int findUnsortedSubarray(vector<int>& nums) {
