@@ -31,9 +31,19 @@ to the beginning of the array. Else, we keep calculating the sum till the extent
 as we are modifying the original vector.
 
 Time complexity: O(n) only in the worst case (999, 9999)
-Space complexity: O(1)
+Space complexity: O(n) since you are basically pushing every entry to the right to insert 1.
 
 This seems to be the most populat appraoch to the solution
+
+
+2. Using no additional space.
+
+Using a pointer that starts at the end of the array, we can traverse through the array and keep adding. If the number
+only has 9s, it will return a carry of 1 at the end, we can then append a 0 to the end followed by converting the first
+digit to a 1.   
+
+Time complexity: O(n)
+Space complexity: O(1)
 */
 
 // My approach(1)
@@ -58,5 +68,24 @@ public:
             digits.insert(digits.begin(), 1);
         
         return digits;      
+    }
+};
+
+// My Approaches(2)
+class Solution {
+public:
+    vector<int> plusOne(vector<int>& digits) {
+        int end = digits.size() - 1, carry = 1, sum = 0;
+        while(end >= 0){
+            sum = digits[end] + carry;
+            digits[end--] = sum % 10;
+            carry = sum / 10;
+        }
+        
+        if(carry == 1){
+            digits.push_back(0);
+            digits[0] = 1;
+        }
+        return digits;
     }
 };
