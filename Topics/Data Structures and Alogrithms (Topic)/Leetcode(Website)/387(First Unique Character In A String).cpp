@@ -37,6 +37,24 @@ iterate through the string twice could be a more helpful solution.
 
 */
 
+/*
+-------------------------Other approaches
+1. Using two pointer approach
+
+We can use the two pointer appraoch here to solve this problem effectively. In addition to the poitners, we make use of
+an array of constant size equal to the length of the no of characters possible. We will us ehte fast pointer to traverse
+the string while the slow pointer will point to the current character which has not been repreated. We first increment 
+count associated with the characters at both th efast and slow position. AS long as fast is less than the size of the
+string, we get the count of the fast character and store it in the array. Then, as long as the character in the slow
+position is ==1, we are good. Else we move slow till we find the next character which has only occurred once. At this
+point, is slow exceeds the size of the string, we return -1. At the end, we return slow since that will point to the
+character which had the first occurrence of the non repeatign character.
+
+Time complexity: O(n)
+Space complexity: O(c) -> O(1)
+*/
+
+
 
 // My approaches(1)
 class Solution {
@@ -63,5 +81,33 @@ public:
         unordered_map<char, int> map;
         createMap(map, s);
         return getFirstUnique(map, s);
+    }
+};
+
+
+// Other Approaches(1)
+class Solution {
+public:
+    int getUniqIndex(string s){
+        int slow = 0, fast = 1;
+        vector<int> arrayCount(26,0);
+        arrayCount[s[slow] - 'a']++;
+        while(fast < s.size()){
+            arrayCount[s[fast] - 'a']++;
+            while(slow < s.size() && arrayCount[s[slow] - 'a'] > 1)
+                slow++;
+            
+            if(slow == s.size())
+                return -1;
+            fast++;
+        }
+        return slow;
+    }
+    
+    int firstUniqChar(string s) {
+        if(s.size() == 0)
+            return -1;
+        else
+            return getUniqIndex(s);
     }
 };
