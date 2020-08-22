@@ -31,6 +31,32 @@ current index and the value at the index of the element is the new max.
 
 Time complexity: O(n^2)
 Space complexity: O(1)
+
+
+2. Two pointer approach
+
+The bottleneck with the next approach is that you are creating two arrays for the sole purpose of generating the profits.
+We can get around this by using two pointers instead. We use two pointers to point to the minIndex and maxIndex. As we
+progress through the array, if we come across a global minimum, we adjust the min and maxs index to index as there is a
+possiblilty that with this global min, we can maximize the profit. Else, if the current value is greater than the maxindex
+value, we update it to maximize the profit. If the value lies between the value at maxindex and minIndex, there is no use updating it,
+as it only decreases our profit.
+
+Time complexity: O(n)
+Space complexity: O(1)
+
+
+3. DP approach
+
+The key to this problem is to understand in order to maximize the profit, we want to minimize the left and maximize the 
+right that we can obtain for right > left.
+
+Just as pb 42, we can use the dp appraoch to generate the max array that we have seen from an index to the end of the 
+array at that particular index. We can also generate the min array up to and including the index. The difference between
+theese two at a particular index gives us the profit. From here on, its easy to find the maxProfit.
+
+Time complexity: O(n)
+Space complexity: O(n)
 */
 
 /*
@@ -96,6 +122,67 @@ public:
         else
             return getMaxProfit(prices);
         
+    }
+};
+
+
+// My Approaches(2)
+class Solution {
+public:
+    int getMaxProfit(vector<int>  prices){
+        int minIndex  = 0, maxIndex = 0, maxProfit = 0;
+        for(int i = 1 ; i < prices.size(); i++){
+            if(prices[i] < prices[minIndex]){
+                minIndex = i;
+                maxIndex = i;
+            }
+            else if(prices[i] > prices[maxIndex])
+                maxIndex = i;
+            
+            maxProfit = max(maxProfit, prices[maxIndex] - prices[minIndex]);
+        }
+        return maxProfit;
+    }
+    
+    int maxProfit(vector<int>& prices) {
+        if(prices.size() == 0 || prices.size() == 1)
+            return 0;
+        else
+            return getMaxProfit(prices);
+    }
+};
+
+
+// My Approaches(3)
+class Solution {
+public:
+    int getMaxProfit(vector<int>  prices){
+        vector<int> leftMin (prices.size(), -1);
+        vector<int> rightMax (prices.size(), -1);
+        int maxProfit = 0;
+        leftMin[0] = prices[0];
+        rightMax[prices.size() - 1] = prices[prices.size() - 1];
+        
+        // generating leftMin
+        for(int i = 1; i < prices.size(); i++)
+            leftMin[i] = min(prices[i], leftMin[i-1]);
+        
+        // generating leftMin
+        for(int i = prices.size() - 2; i >= 0; i--)
+            rightMax[i] = max(prices[i], rightMax[i+1]);
+        
+        // getting max profit
+        for(int i = 0 ; i < prices.size(); i++)
+            maxProfit = max(maxProfit,rightMax[i] - leftMin[i]);
+        
+        return maxProfit;
+    }
+    
+    int maxProfit(vector<int>& prices) {
+        if(prices.size() == 0 || prices.size() == 1)
+            return 0;
+        else
+            return getMaxProfit(prices);
     }
 };
 
