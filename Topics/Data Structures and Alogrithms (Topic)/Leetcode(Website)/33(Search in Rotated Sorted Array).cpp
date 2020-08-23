@@ -50,6 +50,15 @@ Time complexity: O(log n)
 Space complexity: O(h) -> O(log n) for height of the recursive calls.
 
 We can get righ of the recurisve call to make it a O(1) space complexity solution
+
+
+2. Finding pivot without binary search followed by binary search for element
+
+We can find the pivot index through linear search. Once we get the pivot, we now have two subarrays within which we can 
+check for the element.
+
+Time complexity: O(n)
+Space complexity: O(1)
 */
 
 /*
@@ -135,6 +144,61 @@ public:
             else
                 return findElement(nums, pivot+1, nums.size() - 1, target);
         }
+    }
+};
+
+
+// My Approaches(2)
+class Solution {
+public:
+    int getPivot(vector<int> nums){
+        int beg = 0, end = 1;
+        bool found = false;
+        while(end < nums.size() && !found){
+            if(nums[end] > nums[beg])
+                end++;
+            else
+                found = true;
+        }
+        return end;
+    }
+    
+    int binarySearch(int beg, int end, vector<int> nums, int target){
+        while(beg <= end){
+            int mid = (beg + end)/2;
+            if(nums[mid] == target)
+                return mid;
+            else if(target < nums[mid])
+                end = mid-1;
+            else
+                beg = mid+1;
+        }
+        return -1;
+    }
+    
+    int getIndex(vector<int> nums, int target){
+        if(nums[nums.size() - 1] > nums[0])
+            return binarySearch(0, nums.size() - 1, nums, target);
+        else{
+            int pivotIndex = getPivot(nums);
+            if(target >= nums[0] && target <= nums[pivotIndex-1])
+                return binarySearch(0, pivotIndex - 1, nums, target);
+            else if(target >= nums[pivotIndex] && target <= nums[nums.size() -1])
+                return binarySearch(pivotIndex, nums.size() - 1, nums, target);
+            else
+                return -1;
+        }
+    }
+    
+    int search(vector<int>& nums, int target) {
+        if(nums.size() == 1){
+            if(target == nums[0])
+                return 0;
+            else
+                return -1;
+        }
+        else
+            return getIndex(nums, target);
     }
 };
 
