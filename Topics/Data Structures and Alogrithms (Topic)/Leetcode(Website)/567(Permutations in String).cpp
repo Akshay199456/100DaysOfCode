@@ -64,6 +64,18 @@ maps/arrays we can get frequency count of characters and use that information
 
 Time complexity: O(s1 + 26*s1*(s2-s1))
 Space complexity: O(1)
+
+
+4. Using sliding window
+
+In the previous approach, the bottleneck exists in that we create the hashmap/array again and again. This is unnessary work.
+We can rather generate it once and then keep modifying it as we go along using the slidign window approach. As long as 
+begin < s2.size() - s1.size(), we can check if our maps are equal. If they are, return true. IOf they are not, we then
+push begin forward after making the necssary changes to the map as well as pushing the end forward. We then continue
+this till the end or if find a valid match.
+
+Time comeplexity: O(s1) + O(s2-s1)
+Space complexity: O(1)
 */
 
 // Other Approaches(1)
@@ -159,6 +171,77 @@ public:
             if(compareMaps(s1Map, s2Map))
                 return true;
         }
+        return false;
+    }
+    
+    bool checkInclusion(string s1, string s2) {
+        if(s2.size() < s1.size())
+            return false;
+        return findInclusion(s1, s2);
+    }
+};
+
+
+// Other Approaches(4)
+class Solution {
+public:
+    void generateMap(string s, int beg, int end, unordered_map<char, int> & map){
+        for(int i = beg; i <= end; i++){
+            if(map.find(s[i]) == map.end())
+                map[s[i]] = 1;
+            else
+                map[s[i]]++;
+        }
+    }
+    
+    bool compareMaps(unordered_map<char, int> s1Map, unordered_map<char,int> s2Map){
+        if(s1Map.size() != s2Map.size())
+            return false;
+        for(auto it1 = s1Map.begin(); it1!= s1Map.end(); it1++){
+            if(s2Map.find(it1->first) == s2Map.end())
+                return false;
+            else if(it1->second != s2Map[it1->first])
+                return false;
+        }
+        return true;
+    }
+    
+    void printMap(unordered_map<char,int> map){
+        for(auto it=map.begin(); it!=map.end(); it++){
+            cout<<"Element: "<<it->first<<" Count: "<<it->second<<endl;
+        }
+    }
+    
+    bool findInclusion(string s1, string s2){
+        unordered_map<char, int> s1Map;
+        unordered_map<char,int> s2Map;
+        // generate map for s1
+        generateMap(s1, 0, s1.size()-1, s1Map);
+        
+        // generate initial map for s2
+        generateMap(s2, 0, s1.size() - 1, s2Map);
+        int beg = 0, end = s1.size() - 1;
+        while(beg < s2.size() - s1.size()){
+            if(compareMaps(s1Map, s2Map))
+                return true;
+            else{
+                // operation at beg
+                if(s2Map[s2[beg]] == 1)
+                    s2Map.erase(s2[beg]);
+                else
+                    s2Map[s2[beg]]--; 
+                beg++;
+                
+                // operation at end
+                end++;
+                if(s2Map.find(s2[end]) == s2Map.end())
+                    s2Map[s2[end]] = 1;
+                else
+                    s2Map[s2[end]]++;
+            }
+        }
+        if(compareMaps(s1Map, s2Map))
+            return true;
         return false;
     }
     
