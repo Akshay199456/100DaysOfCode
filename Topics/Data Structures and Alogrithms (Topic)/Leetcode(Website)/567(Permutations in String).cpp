@@ -40,6 +40,19 @@ the current index with the left index till we reach the end where we insert it i
 
 Time complexity: O(s2* s1!)
 Space complexity: O(s1!)
+
+
+2. Sorting and comparing strings.
+
+If we look at the bottleneck in the pervious approach, we see that it takes a lot of time to generate the permutations.
+We can improve upon this by instead generating the different substrings of length s1 as generating a  substring is a 
+quadratic itime operation at worst. As a result, once we generate the substrings of length s1, we want to compare the sorted
+versions of both s1 and s2. This is because, if the permutation exiosts, then the frequqncy of the characters and the 
+sorted order will be the same. In other words, sorted(x) = sorted(y). Hence, we can test this to test whether it exists or
+not
+
+Time complexity: O(s1log(s1) + (s2-s1)(s1 + s1logs1))
+Space complexity: O(s1)
 */
 
 // Other Approaches(1)
@@ -69,6 +82,27 @@ public:
         vector<string> allPermutations;
         generatePermutations(allPermutations, s1, 0, s1.size() - 1);
         return checkPermutationExists(allPermutations, s2);
+    }
+    
+    bool checkInclusion(string s1, string s2) {
+        if(s2.size() < s1.size())
+            return false;
+        return findInclusion(s1, s2);
+    }
+};
+
+// Other Approaches(2)
+class Solution {
+public:
+    bool findInclusion(string s1, string s2){
+        sort(s1.begin(), s1.end());
+        for(int i = 0; i<= s2.size() - s1.size(); i++){
+            string element = s2.substr(i, s1.size());
+            sort(element.begin(), element.end());
+            if(s1.compare(element) == 0)
+                return true;
+        }
+        return false;
     }
     
     bool checkInclusion(string s1, string s2) {
