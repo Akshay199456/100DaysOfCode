@@ -19,7 +19,7 @@ If you have figured out the O(n) solution, try coding another solution of which 
 The brute force approach to this problem would be to generate all subarrays and for each subarray, check the length and
 see if the sum is greater than or equal to s.
 
-Time complexity: O(n^2)
+Time complexity: O(n^3)
 Space complexity: O(1)
 
 
