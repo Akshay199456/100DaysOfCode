@@ -60,6 +60,31 @@ with the right size before, we can avoid using the buffer.
 Time complexity: O(mn)
 Space complexity: O(mn)
 
+
+2. 
+Using converion formulas from 2d to 1d back to 2d
+
+If  no of rows = M = arr.length,
+    no of columns = N = arr[0].length
+
+a. to convert 2D to 1D:
+
+newArray[i*N + j] = array[i][j];
+
+rowIndex * noOfCols + colIndex
+
+
+b. to convert 1D to 2D:
+newArray[index/noOfCols][index%noOfCols] = array[index]
+
+rowIndex = index / noOfCols;
+colIndex = index % noOfCols;
+
+
+As a result, we can combine these two together to translate from a 2D of one dimension to a 2D of another dimension.
+
+Time complexity: O(mn)
+Space complexity: O(mn)
 */
 
 // My approaches(1)
@@ -89,5 +114,40 @@ public:
         if(r * c != nums.size()* nums[0].size())
             return nums;
         return manipulateMatrix(nums, c);
+    }
+};
+
+
+// Other Approaches(1)
+class Solution {
+public:
+    void createArray(vector<vector<int>> & result, int r, int c){
+        for(int i = 0; i < r; i++){
+            vector<int> list;
+            
+            for(int j = 0; j < c; j++)
+                list.push_back(0);
+            
+            result.push_back(list);
+        }
+    }
+    
+    vector<vector<int>> manipulateMatrix(vector<vector<int>> nums, int r, int c){
+        int count = 0;
+        vector<vector<int>> result;
+        
+        createArray(result,r,c);
+        
+        for(int i = 0; i < nums.size(); i++){
+            for(int j = 0; j < nums[i].size(); j++)
+                result[(nums[0].size() * i + j)/c][(nums[0].size() * i + j)%c] = nums[i][j];
+        }
+        return result;
+    }
+    
+    vector<vector<int>> matrixReshape(vector<vector<int>>& nums, int r, int c) {
+        if(r * c != nums.size()* nums[0].size())
+            return nums;
+        return manipulateMatrix(nums, r, c);
     }
 };
