@@ -28,6 +28,17 @@ right and repeat the divide approach till we find a solution.
 Time complexity: O(nlogn)
 Space complexity: O(log n)
 
+
+2. Using max heap/min heap through priority_queue STL
+
+We can use max/min heap to insert elements into a heap structure with its constraints and remove the elements till we get
+the max item we are looking for.
+
+For min heap, the definintion is a little different: priority_queue<int, vector<int>, greater<int>> pq;
+
+Time complexity: O(nlogn)
+Space complexity: O(1)
+
 */
 
 /*
@@ -64,6 +75,30 @@ public:
             else
                 return getKthLargest(nums, partitionIndex+1, end, k);
         }
+    }
+    
+    int findKthLargest(vector<int>& nums, int k) {
+        return getKthLargest(nums, 0, nums.size()-1,k);
+    }
+};
+
+
+// My Approaches(2)
+class Solution {
+public:    
+    void constructPriorityQueue(vector<int> nums, priority_queue<int> & pq){
+        for(int i =0; i < nums.size(); i++)
+            pq.push(nums[i]);
+    }
+    
+    int getKthLargest(vector<int> nums, int beg, int end, int k){
+        priority_queue<int> pq;
+        constructPriorityQueue(nums, pq);
+        
+        while(--k > 0){
+            pq.pop();
+        }
+        return pq.top();
     }
     
     int findKthLargest(vector<int>& nums, int k) {
