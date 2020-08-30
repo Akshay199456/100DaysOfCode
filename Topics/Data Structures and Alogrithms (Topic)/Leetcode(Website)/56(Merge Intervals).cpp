@@ -31,6 +31,8 @@ the classes in the order of their start time and fuse them together if they exte
 is composed within the other. we apply the same strategy here. As a result, it's important to sort the array to have
 that ability to fuse intervals together.
 
+We pass in our own comparator to just sort the arrays based on the begin index.
+
 Time complexity: O(nlogn)
 Space complexity: O(1)
 */
@@ -42,7 +44,12 @@ Space complexity: O(1)
 
 // My Approaches(1)
 class Solution {
+
 public:
+    static bool comparator(vector<int> interval1, vector<int> interval2){
+       return interval1[0] < interval2[0];
+    }
+    
     void mergeIntervals(vector<vector<int>> intervals, vector<vector<int>> & result){
         int beg = intervals[0][0], end = intervals[0][1];
         for(int i = 1; i< intervals.size(); i++){
@@ -67,7 +74,7 @@ public:
         if(intervals.size() == 0 || intervals.size() == 1)
             return intervals;
         
-        sort(intervals.begin(), intervals.end());
+        sort(intervals.begin(), intervals.end(), comparator);
         mergeIntervals(intervals, result);
         return result;
     }
