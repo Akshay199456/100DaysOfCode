@@ -25,7 +25,8 @@ Constraints:
 -------------------------My Approaches:
 1. Quick sort
 
-
+The first approach I apply is the quick sort approach. This is a divide and conquer approach where we sort the pivot element
+into its position and then do the same for the left and right halves.
 
 Time complexity: O(n^2) worst case, O(nlogn) avg case
 Space complexity: O(logn)
