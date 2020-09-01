@@ -30,6 +30,12 @@ into its position and then do the same for the left and right halves.
 
 Time complexity: O(n^2) worst case, O(nlogn) avg case
 Space complexity: O(logn)
+
+
+2. Merge sort
+
+Time complexity: O(nlogn)
+Space complexity: O(logn)
 */
 
 /*
@@ -63,6 +69,60 @@ public:
             divideArray(nums, beg, partitionIndex-1);
             divideArray(nums, partitionIndex+1, end);
         }
+    }
+    
+    vector<int> sortArray(vector<int>& nums) {
+        if(!(nums.size() == 0 || nums.size() == 1))
+            divideArray(nums, 0, nums.size() - 1);
+        return nums;
+    }
+};
+
+
+// My Approaches(2)
+class Solution {
+public:
+    void conquerArray(vector<int> & nums, int beg, int mid, int end){
+        vector<int> temp;
+        int mid1 = mid, mid2 = mid+1, tempBeg = beg;
+        while(beg <= mid1 && mid2 <= end){
+            if(nums[beg] < nums[mid2])
+                temp.push_back(nums[beg++]);
+            else
+                temp.push_back(nums[mid2++]);
+        }
+        
+        while(beg <= mid1)
+            temp.push_back(nums[beg++]);
+        
+        while(mid2 <= end)
+            temp.push_back(nums[mid2++]);
+        
+        for(int i = 0; i < temp.size();i++)
+            nums[tempBeg+i] = temp[i];
+    }
+    
+    void divideArray(vector<int> & nums, int beg, int end){
+        if(beg >= end){
+            
+        }
+        else{
+            int mid = (beg + end)/2;
+            divideArray(nums, beg, mid);
+            divideArray(nums, mid+1, end);
+            // cout<<"before conquer: "<<endl;
+            // printArray(nums, beg, end);
+            conquerArray(nums, beg, mid, end);
+            // cout<<"after conquer: "<<endl;
+            // printArray(nums, beg, end);
+        }
+    }
+    
+    void printArray(vector<int> nums, int beg, int end){
+        cout<<"Beg: "<<beg<<" End: "<<end<<"->";
+        for(int i= 0; i < nums.size(); i++)
+            cout<<nums[i]<<" ";
+        cout<<endl;
     }
     
     vector<int> sortArray(vector<int>& nums) {
