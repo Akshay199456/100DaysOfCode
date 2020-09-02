@@ -42,6 +42,13 @@ Space complexity: O(logn + logm)
 
 /*
 -------------------------Other approaches
+1. Binary search treating 2D matrix as 1D array
+
+We can treat the 2D array as a sorted 1D array and apply binary search on the formular for converting 2D arrays into 1D
+arrays.
+
+Time complexity: O(log nm) = O(logn) + O(logm)
+Space complexity: O(1)
 
 */
 
