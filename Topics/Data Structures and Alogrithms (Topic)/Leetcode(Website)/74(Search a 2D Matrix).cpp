@@ -36,8 +36,8 @@ has elements that are greater than the row before it, we can use the first binar
 our element might lie. If it is in the range, we can go forward iwith the second binary search to check if the element exists
 else we go through the half where we think it might lie.
 
-Time complexity: O(logn * logm)
-Space complexity: O(logn * logm)
+Time complexity: O(logn + logm)
+Space complexity: O(logn + logm)
 */
 
 /*
