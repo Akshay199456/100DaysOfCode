@@ -20,6 +20,18 @@ NOTE: input types have been changed on April 15, 2019. Please reset to default c
 /*
 -------------------------My Approaches:
 
+1. Using the sorted intervals to insert the new interval
+
+Since we know that the intervals are already sorted, we can use that information to insert our interval into the sorted
+list. We first find the index where out new interval will be going into the newArray by finding its positions from the 
+oldArray. We then use that information to scan with a two pointer approach the extent to which our merge will take place
+for intervals on the left and the right of the newInterval from the orgiinal array. Once we have this information, we can
+transfer our intervals into the new array as we have covered all the intervals, those that will be merged as well as those
+that arent't merged.
+
+Time complexity: O(n)
+Space complexity; O(n)
+
 */
 
 /*
