@@ -32,7 +32,7 @@ are added to the tree.
 
 
 Time complexity: O(n)
-Space complexity: O(h) -> O(n)
+Space complexity: O(h)
 
 
 2. Iterative approach[Worse overall when efficiently coded]
