@@ -54,6 +54,17 @@ Space complexity: O(n)
 
 /*
 -------------------------Other approaches
+1. Recursive approach without using memory for storing paths
+
+We can accomplish the same process as we implemented in our approaches but without using arrays to store the path. In this
+approach, we first find both the nodes that we are interested in and then backtrack to find the LCA of them. So, if we hit
+a null node, we return 0. For each ode, we check th eleft, right and the current node to keep track of the LCA. 
+We return 1 if we are at any one of the nodes since we have found it. If our left + right + curr == 2, we know that we have 
+encountered both the nodes through this node so this must be the answer. At the end, we return status of whether we have
+found any of the nodes to the previous level
+
+Time complexity: O(n)
+Space complexity: O(n)
 
 */
 
@@ -180,6 +191,46 @@ public:
             return findCommonAncestor(pPath, qPath);
             // printPath(pPath);
             // printPath(qPath);
+        }
+    }
+};
+
+
+// Other Approaches(1)
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+    TreeNode * ans;
+public:
+    int getPath(TreeNode * root, TreeNode * p, TreeNode * q){
+        if(!root)
+            return 0;
+        else{
+            int left = getPath(root->left, p, q);
+            int right = getPath(root->right, p, q);
+            int curr = (root == p) || (root == q) ? 1 : 0;
+            
+            if(curr + left + right == 2)
+                ans = root;
+            
+            return (curr+left+right > 0)  ? 1 : 0; 
+        }
+    }
+    
+    
+    TreeNode* lowestCommonAncestor(TreeNode* root, TreeNode* p, TreeNode* q) {
+        if(!root)
+            return root;
+        else{
+            getPath(root, p, q);
+            return ans;
         }
     }
 };
