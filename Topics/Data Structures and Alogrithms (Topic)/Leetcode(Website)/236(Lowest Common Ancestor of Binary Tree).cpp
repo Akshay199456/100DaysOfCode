@@ -66,6 +66,17 @@ found any of the nodes to the previous level
 Time complexity: O(n)
 Space complexity: O(n)
 
+
+2. Using parent pointers[Not coded]
+
+If we have access tot he parent pointers, we can use that info to backtrack the nodes to find the first common point 
+between the two nodes. As we are going through the tree, we store the parent pointers into a parent hashmap. To find the
+common point between the two paths of pointers, we use a set to store the parent pointers of p and then go through it with
+the parents of q to find the first common point.
+
+Time complexity: O(n)
+Space complexity: O(n)
+
 */
 
 // My Approaches(1)
