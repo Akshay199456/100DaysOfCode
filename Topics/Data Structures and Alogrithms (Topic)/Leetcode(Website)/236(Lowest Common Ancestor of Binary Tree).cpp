@@ -77,6 +77,19 @@ the parents of q to find the first common point.
 Time complexity: O(n)
 Space complexity: O(n)
 
+
+3. Keeping track of LCA as we are going along
+
+We can also keep track of the LCA as we are going along. This approach is also built on the approach of finding the nodes
+first followed by then tracking tha ancestors to find LCA. Once we encnounter the first node, that becomes our LCA. If the
+second node is a child somewhere from the first node, then once we find the seocnd node, we return that as the LCA. However,
+if our second node is not a child of the first node, then our LCA will be a parent of both the first node and the second
+node at some parent level. We use this logic to change the LCA once we find the first node and are looking for the second
+node. Once we find botht he nodes, we return that lca at that point.
+
+Time complexity: O(n)
+Space complexity: O(n)
+
 */
 
 // My Approaches(1)
@@ -241,6 +254,81 @@ public:
             return root;
         else{
             getPath(root, p, q);
+            return ans;
+        }
+    }
+};
+
+
+// Other Approaches(3)
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+    TreeNode * ans;
+public:
+    void traverseTree(TreeNode * root, TreeNode * p, TreeNode * q, stack<pair<TreeNode *, int>> elementStack){
+        bool firstFound = false, allFound = false;
+        TreeNode * nodeFirstVisited = NULL;
+        while(!elementStack.empty() && !allFound){
+            pair<TreeNode *, int> top = elementStack.top();
+            /*
+            cout<<"Top element: "<<top.first->val<<" Status: "<<top.second<<endl;
+            if(ans)
+                cout<<"Ans: "<<ans->val<<endl;
+            */
+            if(top.first == p || top.first == q){
+                if(!firstFound){
+                    firstFound = true;
+                    ans = top.first;
+                    
+                    if(top.first == p)
+                        nodeFirstVisited = p;
+                    else
+                        nodeFirstVisited = q;
+                }
+                else if(firstFound){
+                    if((top.first == p && nodeFirstVisited == q) || (top.first == q && nodeFirstVisited == p))
+                        allFound = true;
+                }
+            }
+            
+            
+            if(!allFound && top.second == 0){
+                elementStack.top() = make_pair(top.first, 1);
+                if((top.first)->left)
+                    elementStack.push(make_pair((top.first)->left, 0));
+            }
+            
+            else if(!allFound && top.second == 1){
+                elementStack.top() = make_pair(top.first, 2);
+                if((top.first)->right)
+                    elementStack.push(make_pair((top.first)->right,0));
+            }
+            
+            else if(!allFound && top.second == 2){
+                elementStack.pop();
+                if(top.first == ans){
+                    ans = (elementStack.top()).first;
+                }
+            }
+        }
+    }
+    
+    
+    TreeNode* lowestCommonAncestor(TreeNode* root, TreeNode* p, TreeNode* q) {
+        if(!root)
+            return root;
+        else{
+            stack<pair<TreeNode *, int>> elementStack;
+            elementStack.push(make_pair(root,0));
+            traverseTree(root, p, q, elementStack);
             return ans;
         }
     }
