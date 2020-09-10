@@ -67,6 +67,18 @@ Space complexity: O(n)
 /*
 -------------------------Other approaches
 
+1. Using only one stack
+
+The plan here is to use just one stack as we go through post order traversal. As long as we have a left node, we want to 
+keep exploring it as postOrder is left -> right -> node. We push the node into the stack and make our curr pointer move
+to the left child. When curr == NULL, we know that we have explored the left node of the current node so we want to explore
+the right node. As long as a right node exists and we haven't yet explored it, we can explore it. At the end of this, we
+would have explored the right nodes. If we have explored both the left and right paths, we want to push the node into the
+result and continue the process until the stack is empty.
+
+Time complexity: O(n)
+Space complexity: O(n)
+
 */
 
 // My Approaches(1)
@@ -118,6 +130,56 @@ public:
         if(root){
             insertPostOrder(root, result);
         }
+        return result;
+    }
+};
+
+
+// Other Approaches(1)
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
+class Solution {
+public:
+    void insertPostOrder(TreeNode * root, vector<int> & result){
+        TreeNode * curr = root, * lastInserted = NULL;
+        stack<TreeNode *> elementStack;
+        bool start = true; // used to get into the the loop for the first time
+        
+        while(start || !elementStack.empty()){
+            start = false; // once we get into it the first time, we want the loop to be dictated by the size of the stack.
+            if(curr){
+                // As long as a left node exists, we explore it as it is post order.
+                elementStack.push(curr);
+                curr = curr->left;
+            }
+            else{
+                // only if a right node exists and we haven't visited it before
+                if(!elementStack.empty() && elementStack.top()->right && elementStack.top()->right != lastInserted)
+                    curr = elementStack.top()->right;
+                else{
+                    // otherwise, we push the element into the result as we have explored both its left and right
+                    // and store it as the lastInserted node and pop it from the stack.
+                    result.push_back(elementStack.top()->val);
+                    lastInserted = elementStack.top();
+                    elementStack.pop();
+                }
+            }
+        }
+    }
+    
+    vector<int> postorderTraversal(TreeNode* root) {
+        vector<int> result;
+        if(root)
+            insertPostOrder(root, result);
         return result;
     }
 };
