@@ -51,7 +51,7 @@ Space complexity: O(n)
 
 /*
 -------------------------Other approaches
-1. Using two pointer to find the middle
+1. Using two pointer to find the middle[Not coded]
 
 At the end, we require the middle node in order to insert it into the tree. We can use the two pointer approach where one
 node moves at twice the speed of the other. This helps us identify the middle node. Since we have to do this for each of 
@@ -61,6 +61,15 @@ levels to build, this approach takes O(nlogn) time.
 Time complexity: O(nlogn)
 Space complexity: O(logn)
 
+
+2. Using a hashmap[Not coded]
+
+We can also use a hashmap istead of the array that we used in My Approaches(1). In the hashmap, we would stire the node as
+well as the index it exists at. We can then use that information to find and take the middle node wehenever we calculate
+the mid value. This is a very similar approach to the array approach but we use a hashmap here.
+
+Time complexity: O(n)
+Space complexity: O(n)
 */
 
 // My Approaches(1)
