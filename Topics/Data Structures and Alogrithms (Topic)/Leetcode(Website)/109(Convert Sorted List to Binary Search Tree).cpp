@@ -70,6 +70,29 @@ the mid value. This is a very similar approach to the array approach but we use 
 
 Time complexity: O(n)
 Space complexity: O(n)
+
+
+3. Using inorder property
+
+In a normal bst, using inorder returns the nodes in ascending order. Since our linked list is also in ascending order,
+we know that if we add the nodes in an inorder form to our bst using the linked list, we will be able to build it in an
+effective manner and it will maintain its height property. In our linked list, the first node of our linked list is the 
+first node in our bst that will be printed, the second node of our linked list is the second node in our bst that will be 
+printed and so on.
+
+In this problem, we are actually building the tree from the down up instead of the top down. In other words, we are creating
+the leaf nodes and than assigning the leaf nodes to its parent nodes and keep continuing the cycle upwards. The way we do
+this is by calling the left subtree till we hit null. At this point, we then create the node to be inserted into the bst 
+and then repeat the process for the right subtree. At the end of this stage, we have the root node, its left node and its
+right node. Once we align the structure by root->left = leafnode and root->right = rightnode, we return the root node. This
+is then used by the parent to complete its substructure. As a result, slowly by slowly, we build the tree from the bottom
+up instead of the top-down which we usually do with recursion.
+
+Time complexity: O(n)
+Space complexity: O(logn)
+
+Time complexity: O(n)
+Space complexity: O(log n)
 */
 
 // My Approaches(1)
@@ -136,5 +159,66 @@ public:
             createTree(NULL, sortedArray,0, sortedArray.size()-1, 0);
         }
         return begNode;
+    }
+};
+
+
+// Other Approaches(3)
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode() : val(0), next(nullptr) {}
+ *     ListNode(int x) : val(x), next(nullptr) {}
+ *     ListNode(int x, ListNode *next) : val(x), next(next) {}
+ * };
+ */
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
+class Solution {
+public:
+    int getLength(ListNode * head){
+        int count = 0;
+        while(head){
+            head = head->next;
+            ++count;
+        }
+        return count;
+    }
+    
+    TreeNode * createTree(ListNode * & head , int beg, int end){
+        if(beg <= end){
+            int mid = (beg+end)/2;
+            TreeNode * leftNode = createTree(head, beg, mid-1);
+            
+            TreeNode * newNode = new TreeNode(head->val);
+            head = head->next;
+            
+            TreeNode * rightNode = createTree(head, mid+1, end);
+            
+            newNode->left = leftNode;
+            newNode->right = rightNode;
+            return newNode;
+        }
+        else
+            return NULL;
+    }
+    
+    TreeNode* sortedListToBST(ListNode* head) {
+        if(head){
+            int length = getLength(head);
+            return createTree(head, 0, length-1);
+        }
+        return NULL;
     }
 };
