@@ -51,6 +51,15 @@ Space complexity: O(n)
 
 /*
 -------------------------Other approaches
+1. Using two pointer to find the middle
+
+At the end, we require the middle node in order to insert it into the tree. We can use the two pointer approach where one
+node moves at twice the speed of the other. This helps us identify the middle node. Since we have to do this for each of 
+the nodes that is going to be inserted and each node takes O(n) time in order to find the middle and there are logn such
+levels to build, this approach takes O(nlogn) time.
+
+Time complexity: O(nlogn)
+Space complexity: O(logn)
 
 */
 
