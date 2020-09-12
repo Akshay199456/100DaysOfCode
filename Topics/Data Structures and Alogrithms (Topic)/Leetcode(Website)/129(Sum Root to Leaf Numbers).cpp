@@ -39,7 +39,14 @@ Therefore, sum = 495 + 491 + 40 = 1026.
 
 /*
 -------------------------My Approaches:
+1. Recursive path holding algorithm
 
+In this approach, we hold the path as we go along the tree. We add the current node to the path. Wehen we hit a leaf node,
+ we convert the path to an int, get the value and add it to the sum. Else, we traverse the left and right subtrees
+ continuosly
+
+Time complexity: O(n * noOfLeafNodes)
+Space complexity: O(n)
 */
 
 /*
@@ -80,5 +87,40 @@ public:
             treeTraversal(root, "", totalSum);
         return totalSum;
         
+    }
+};
+
+
+// Other Approaches(1)
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
+class Solution {
+public:
+    int treeTraversal(TreeNode * root, int currValue){
+        if(!root->left && !root->right)
+            return 10*currValue + root->val;
+        else{
+            int leftSum = 0, rightSum = 0;
+            if(root->left)
+                leftSum = treeTraversal(root->left, 10*currValue + root->val);
+            if(root->right)
+                rightSum = treeTraversal(root->right, 10*currValue + root->val);
+            return leftSum + rightSum;
+        }
+    }
+    
+    int sumNumbers(TreeNode* root) {
+        if(root)
+            return treeTraversal(root, 0);
+        return 0;
     }
 };
