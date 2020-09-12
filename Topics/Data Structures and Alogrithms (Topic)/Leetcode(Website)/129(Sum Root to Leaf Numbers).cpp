@@ -51,7 +51,42 @@ Space complexity: O(n)
 
 /*
 -------------------------Other approaches
+1. top-down recusrive approach
 
+In this approach, we caluclate the value associated with the node as we ago along in top-down fashion. The base condition
+here is that if it's a leaf node, we want to return 10 * previous value + current node value to the previous level.
+The previous level uses this information both from its left and right side and returns it to its previous level.
+We want to make sure here though that we are passing 10*previous value + currValue into the next level where it will get
+used to store its value. 
+
+As a result, here we are calculating the sum from the left to right instead of the right to left
+
+eg: 123
+        1. 10 * 0 + 1  = 1->first level
+        2. 10 * 1 + 2  = 12 ->second level
+        3. 10 * 12 + 3  = 123 ->third level(or leaf)
+
+as opposed to right to left as:
+eg: 123
+        1. 10^0 * 3 + 3 = 3 -> first level(leaf)
+        2. 10^1 * 2 + 3 = 23 -> second level
+        3. 10^2 * 1 + 23 = 123 -> third level
+
+
+We do want to remember this as this technique can be used to calcualte the sum both from left to right and from right
+to left depending on the problem at hand.
+
+Time complexity: O(n)
+Space complexity: O(n)
+
+
+2. Modifying nodes as we are going along[Not coded][Check helping iamges for more info]
+
+We can do the same approach as in Other Approaches(1) but we modify the nodes of the tree as we go along. This way when we
+hit the leaf node, we can just add the sum from it. Check 'Helping Images' for more info.
+
+Time complexity: O(n)
+Space complexity: O(n)
 */
 
 // My Approahces(1)
