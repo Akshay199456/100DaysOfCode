@@ -62,6 +62,15 @@ without having to create the binary search tree again.
 
 Time complexity: O(k * log n)
 Space complexity: O(n)
+
+
+3. Inorder but recursive
+
+This approach is similar to Other Approaches(1) but instead does it recursively. We keep a counter variable as we are moving
+along in the inorder traversal and then return the element.
+
+Time ocmpleixty: O(n)
+Space complexity: O(logn)
 */
 
 /*
@@ -185,5 +194,41 @@ public:
             root = root->right;
         }
         return -1;
+    }
+};
+
+
+// My Approaches(3)
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
+class Solution {
+public:
+    void inOrderTraversal(TreeNode * root, int & count, int k, TreeNode * & foundNode){
+        if(!root || foundNode){
+            
+        }
+        else{
+            inOrderTraversal(root->left, count, k, foundNode);
+            count+=1;
+            if(count == k)
+                foundNode = root;
+            inOrderTraversal(root->right, count, k, foundNode);
+        }
+    }
+    
+    int kthSmallest(TreeNode* root, int k) {
+        TreeNode * foundNode = NULL;
+        int count = 0;
+        inOrderTraversal(root, count, k, foundNode);
+        return foundNode->val;
     }
 };
