@@ -50,7 +50,18 @@ Space complexity: O(h)
 
 /*
 -------------------------Other approaches
+1. Navigating towards one side based on constrainsts of the problem.
 
+We can also use the constrainsts of the problem to navigate around the tree. Since we know that each node is the minimum
+of the nodes after it, we want to keep track of the secondmin as we go along. Since one of the child nodes will the same
+as the root, we want to keep traversing it since we know at that level, the value that the root possesses is the least value.
+So, there is a possibilty to get a higher value from that substructure as well. However, we also want to keep track of
+the node and nopt its substrcutre of the node that is not equal to the minimum node since that node will have at min a
+value equal to it or a value greater than it. Hence, you are not going to get a smaller value that that from that subtree.
+
+
+Time complexity: O(logn) -> O(n)
+Space complexity: O(h) -> O(n)
 */
 
 
@@ -83,6 +94,48 @@ public:
             
             traverseTree(root->left, min, secondMin, isFound);
             traverseTree(root->right, min, secondMin, isFound);
+        }
+    }
+    
+    int findSecondMinimumValue(TreeNode* root) {
+        int min = root->val;
+        int secondMin = INT_MAX;
+        bool isFound = false;
+        traverseTree(root, min, secondMin, isFound);
+        
+        if(isFound)
+            return secondMin;
+        else
+            return -1;
+    }
+};
+
+
+// Other Approaches(1)
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
+class Solution {
+public:
+    void traverseTree(TreeNode * root, int min, int & secondMin, bool & isFound){
+        if(!root){}
+        else{
+            if(root->val != min && root->val <= secondMin){
+                secondMin = root->val;
+                isFound = true;
+            }
+            else if(root->val == min){
+                traverseTree(root->left, min, secondMin, isFound);
+                traverseTree(root->right, min, secondMin, isFound);
+            }
         }
     }
     
