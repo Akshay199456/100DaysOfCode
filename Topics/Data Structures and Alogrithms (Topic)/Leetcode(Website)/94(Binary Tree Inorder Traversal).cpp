@@ -26,6 +26,12 @@ so we follow that to add elements to the vector.
 
 Time complexity: O(n)
 Space complexity: O(log n)
+
+
+2. Alternative approach to Other Approaches(1)
+
+Time complexity: O(n)
+Space complexity: O(log n)
 */
 
 /*
@@ -113,6 +119,47 @@ public:
     vector<int> inorderTraversal(TreeNode* root) {
         vector<int> result;
         getInorder(root, result);
+        return result;
+    }
+};
+
+
+// My Approaches(2)
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
+class Solution {
+public:
+    void inOrder(TreeNode * root, vector<int> & result){
+        TreeNode * curr = root;
+        stack<TreeNode *> elementStack;
+        while(curr || !elementStack.empty()){
+            if(curr){
+                elementStack.push(curr);
+                curr = curr->left;
+            }
+            else{
+                TreeNode * topElement = elementStack.top();
+                result.push_back(topElement->val);
+                elementStack.pop();
+                if(topElement->right);
+                    curr = topElement->right;
+            }
+        }
+    }
+    
+    vector<int> inorderTraversal(TreeNode* root) {
+        vector<int> result;
+        if(root)
+            inOrder(root,result);
         return result;
     }
 };
