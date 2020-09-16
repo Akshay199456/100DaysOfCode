@@ -31,12 +31,26 @@ You may assume that next() call will always be valid, that is, there will be at 
 
 /*
 -------------------------My Approaches:
+1. Recursive structure and inorder array
 
+We can use an inorder array to store our elements. When we want a next element, we return the current element in the array
+and push the index forward. To check if there is a next element, we simply check if the index has crossed the size of the
+array.
+
+Overall Time complexity: O(n)
+Overall Space complexity: O(n)
 */
 
 /*
 -------------------------Other approaches
+1. Iterative approach
 
+We can use the iterative inorder traversal well here. The problem we had in the prvious approach is that we couldn't stop
+the recursion tree when we wanted. That is why we created an array to store the elements we want. However, if we were to 
+use our own stack, we can then start and stop the traversal when needed to get the next element.
+
+Overall Time complexity: O(n)
+Overall Space complexity: O(h)
 */
 
 
@@ -78,6 +92,55 @@ public:
     /** @return whether we have a next smallest number */
     bool hasNext() {
         return currIndex < inOrderArray.size();
+    }
+};
+
+/**
+ * Your BSTIterator object will be instantiated and called as such:
+ * BSTIterator* obj = new BSTIterator(root);
+ * int param_1 = obj->next();
+ * bool param_2 = obj->hasNext();
+ */
+
+
+// Other Approaches(1)
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
+class BSTIterator {
+public:
+    stack<TreeNode *> elements;
+    
+    void constructStack(TreeNode * root){
+        while(root){
+            elements.push(root);
+            root = root->left;
+        }
+    }
+    
+    BSTIterator(TreeNode* root) {
+        constructStack(root);
+    }
+    
+    /** @return the next smallest number */
+    int next() {
+        TreeNode * nextElement = elements.top();
+        elements.pop();
+        constructStack(nextElement->right);
+        return nextElement->val;
+    }
+    
+    /** @return whether we have a next smallest number */
+    bool hasNext() {
+        return !elements.empty();
     }
 };
 
