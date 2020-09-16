@@ -33,6 +33,8 @@ You may assume that next() call will always be valid, that is, there will be at 
 -------------------------My Approaches:
 1. Recursive structure and inorder array
 
+This approachh is also claled flattneing a BST since we are condensing the bst intoa n array.
+
 We can use an inorder array to store our elements. When we want a next element, we return the current element in the array
 and push the index forward. To check if there is a next element, we simply check if the index has crossed the size of the
 array.
