@@ -57,7 +57,12 @@ Space complexity: O(h) -> O(n)
 
 /*
 -------------------------Other approaches
+1. Recursive approach completely
 
+We can do the same as My Approaches(1) but completely recursive instead as well.
+
+Time complexity: O(h) -> O(n)
+Space complexity: O(h) -> (n)
 */
 
 // My Approaches(1)
@@ -183,6 +188,59 @@ public:
                 removeNode(root, parent, toDeleteNode);
             }
         }
+        return root;
+    }
+};
+
+
+// Other Approaches(1)
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
+class Solution {
+public:
+    int getSuccessor(TreeNode * root){
+        while(root->left)
+            root = root->left;
+        return root->val;
+    }
+    
+    TreeNode* deleteNode(TreeNode* root, int key) {
+        if(!root)
+            return NULL;
+        else if(root->val == key){
+            // delete node
+            
+            // if no child
+            if(!root->left && !root->right)
+                return NULL;
+            
+            // if one child
+            else if(!root->left && root->right)
+                return root->right;
+            else if(!root->right && root->left)
+                return root->left;
+            
+            // if two child
+            else{
+                int successor = getSuccessor(root->right);
+                root->val = successor;
+                root->right = deleteNode(root->right, successor);
+            }
+        }
+        else if(key < root->val)
+            root->left = deleteNode(root->left, key);
+        else
+            root->right = deleteNode(root->right, key);
+        
         return root;
     }
 };
