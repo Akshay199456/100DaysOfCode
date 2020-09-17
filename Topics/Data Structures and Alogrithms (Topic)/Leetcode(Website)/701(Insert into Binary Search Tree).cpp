@@ -42,7 +42,14 @@ It's guaranteed that val does not exist in the original BST.
 
 /*
 -------------------------My Approaches:
+1. Recursive approach
 
+This approach is pretty straight forward. As we traverse through the tree, we keep track of the dirn we are going. When
+we hit a null, we know that the node before it is where the value should be inserted. So, we use the direction to insert
+the node in its place.
+
+Time complexity: O(h) -> O(n)
+Space complexity: O(h) -> O(n)
 */
 
 /*
