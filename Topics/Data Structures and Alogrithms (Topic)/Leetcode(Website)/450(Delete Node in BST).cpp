@@ -51,8 +51,8 @@ If it has two children, we replace the node with its inorder successor or inorde
 If it has one child, we replace the node we are deleting with it child
 If it has no child, then we don't need to do anything and just reset the pointer on the parent of the node we are deleting.
 
-Time complexity: O(log n)
-Space complexity: O(log n)
+Time complexity: O(h) -> O(n)
+Space complexity: O(h) -> O(n)
 */
 
 /*
