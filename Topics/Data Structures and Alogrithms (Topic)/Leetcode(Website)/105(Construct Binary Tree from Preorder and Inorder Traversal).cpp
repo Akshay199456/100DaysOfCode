@@ -58,6 +58,37 @@ element as it is the element in the next index after the root element
 We continue to do this in a recursive fashion till all the elements are filled out.
 
 
+Added notes[9/17/20]:
+
+For preorder, the elements are arranged in the following order: [Root, Left, Right]. This means that using the preorder, we
+will first have the root element, followed by the left subtree, finally finishing with the right subtree. This applies to
+every element inclduing the root. So, if we were to take it with respect to the root, it means that after the root element
+will be all the leements in its left subtree, followed by all the elements in its right subtree.
+
+For inorder, the elements are arranged in the following order: [Left, Root, Right]. The above explanation also applies 
+here so that means that for each node we will have all of its left subtree to its left and all of its right subtree to its
+right. This applies to every element including the root. So for the root, we will have the left subtree on the left
+of the root and the right subtreee on the right of the root.
+
+We can determine the initial root from the preorder array since that has the root as its first element. Now, once we have
+that as the root, how do we determine, what elements will be on its left and what elements will be on its right? The one
+thing that the inorder arrray is good at, is that it provides a number of the total no of elements on the left and on the
+right given our current eleement. So, we use this with respect to the root by finding the position of the root element in 
+the inorder array. LEt this be inorderIndex. Once we have that, we can then know that the left will only be from
+inorderStart -> inorderIndex-1 while the right will be from inorderIndex+1 -> inorderEnd. Ok, now we know the no of elements
+to insert on each side.
+
+But, how do we know which element to insert. Well, for the left, it's oretty simple. Looking at the preorder array, we see
+that the elements are arranged in root->left->right. This means that for an element, the next element will be its left.
+So, we use that knowledge to pass preorderIndex+1 as the next element to insert on the left. On the right thoguh, by 
+observing the preorder array, we see that elements are in root->left->right. So, to know which is the right element, we need
+to know the no of left elements so that we can skip through them to add the next right element for the current node. 
+Luckily enough, we have that info from the inorder array. The no of left elements is inorderIndex -inordserStart. As a result
+the next element that we will be isnerting on the right will have the index preorderIndex+1 +(inorderIndex-inorderStart) as
+that will be the start position of the right elment by skipping through the left elmeents.
+
+
+
 Time complexity: O(n)
 Space complexity: O(log n)
 
@@ -220,44 +251,36 @@ public:
  */
 class Solution {
 public:
-    /*
-    void buildInorderMap(vector<int> inorder, unordered_map<int,int> & inorderMap){
+    unordered_map<int,int> inorderMap;
+    void createMap(vector<int> inorder){
         for(int i = 0; i < inorder.size(); i++)
             inorderMap[inorder[i]] = i;
     }
-    */
     
-    TreeNode * buildTreeFormat(int preorderStart, int inorderStart, int inorderEnd, vector<int> preorder, vector<int> inorder, unordered_map<int,int> inorderMap, TreeNode * & root){
+    TreeNode * insertElements(int preorderIndex, int inorderStart, int inorderEnd, vector<int> preorder, TreeNode * & root){
         TreeNode * temp = NULL;
-        if(preorderStart > preorder.size() || inorderStart > inorderEnd){
+        if((preorderIndex > preorder.size()) || (inorderStart > inorderEnd)){
             
         }
-        
         else{
-            temp = new TreeNode(preorder[preorderStart]);
+            temp = new TreeNode(preorder[preorderIndex]);
             if(!root)
                 root = temp;
             
             int inorderIndex = inorderMap[temp->val]; 
-            temp->left = buildTreeFormat(preorderStart + 1, inorderStart, inorderIndex - 1, preorder, inorder, inorderMap, root);
-            temp->right = buildTreeFormat(preorderStart + (inorderIndex - inorderStart) + 1, inorderIndex + 1, inorderEnd, preorder, inorder, inorderMap, root);
+            temp->left = insertElements(preorderIndex+1, inorderStart, inorderIndex-1, preorder,root);
+            temp->right = insertElements(preorderIndex+1+(inorderIndex-inorderStart), inorderIndex+1, inorderEnd, preorder, root);
         }
         return temp;
-    }
+    } 
     
     TreeNode* buildTree(vector<int>& preorder, vector<int>& inorder) {
         TreeNode * root = NULL;
         if(preorder.size()){
-            unordered_map<int,int> inorderMap;
-            // buildInorderMap(inorder, inorderMap);
-            
-            for(int i = 0; i < inorder.size(); i++)
-                inorderMap[inorder[i]] = i;
-            
-            buildTreeFormat(0,0,inorder.size() - 1, preorder, inorder, inorderMap, root);
+            createMap(inorder);
+            insertElements(0,0,inorder.size()-1, preorder, root);
         }
-        return root;
-        
+        return root;;
     }
 };
 
