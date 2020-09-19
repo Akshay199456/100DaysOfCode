@@ -51,6 +51,16 @@ Deserialize:
 Time complexity: O(n)
 Space complexity: O(log n) -> O(n)
 
+
+
+Added notes:
+
+A similar approach can be applied to serializing and deserializing a binary tree. In that case, we would pass in another
+symbol as a filler for empty elements. This is becuase, in a binary tree the elememtns can be arranged in any order so
+the only complete way to get the info would be to explicitly store the empty node. When we are deserializing, if we hit the
+symbol that represents null, we insert null instead and continue on just like this apporach. Check Additional Notes(1) in
+Helping imagess for more info.
+
 */
 
 
