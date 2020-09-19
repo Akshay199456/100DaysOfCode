@@ -32,6 +32,24 @@ Space complexity: O(n)
 
 /*
 -------------------------Other approaches
+1. Using min and max to insert elements as we go along
+
+
+We can use the min and max concept that we learn in PB 98(Validate Binary Search Tree) to insert leements as we go along
+instead of inserting elements from the root. This provides us the time complexiy improvement on the previous solution.
+As long as the elemnt lies between the min and max, we create a node, called the recursive structure for its left and right
+side and return the node to its prvious layer.IF it doesn not, we return null. This will continue till our element is 
+not within th ebounds or the quyeue is empty.
+
+Serialize: 
+
+Time complexity: O(n)
+Space complexity: O(1)
+
+Deserialize:
+
+Time complexity: O(n)
+Space complexity: O(log n) -> O(n)
 
 */
 
@@ -118,6 +136,103 @@ public:
             getTokens(data, tokens);
             // printTokens(tokens);
             insertTokens(tokens, root);
+        }
+        return root;
+    }
+};
+
+// Your Codec object will be instantiated and called as such:
+// Codec codec;
+// codec.deserialize(codec.serialize(root));
+
+
+
+
+// Other Approaches(1)
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Codec {
+public:
+    
+    // Encodes a tree to a single string.
+    string serialize(TreeNode* root) {
+        string serializedTree = "";
+        if(root){
+            stack<TreeNode *> elements;
+            elements.push(root);
+
+            while(!elements.empty()){
+                TreeNode * topElement = elements.top();
+                elements.pop();
+                serializedTree.append(to_string(topElement->val) + "#");
+
+                if(topElement->right)
+                    elements.push(topElement->right);
+                if(topElement->left)
+                    elements.push(topElement->left);
+
+            }
+        }
+        return serializedTree;
+    }
+
+    void getTokens(string data, queue<int> & tokens){
+        string token = "";
+        for(int i = 0; i <data.size(); i++){
+            if(data[i] != '#'){
+                string characterString(1, data[i]);
+                token.append(characterString);
+            }
+            else{
+                tokens.push(stoi(token));
+                token = "";
+            }
+        }
+    }
+    
+    
+    void printQueue(queue<int> tokens){
+        while(!tokens.empty()){
+            cout<<tokens.front()<<" ";
+            tokens.pop();
+        }
+        cout<<endl;
+    }
+    
+    TreeNode * insertElement(queue<int> & tokens, int min, int max, TreeNode * & root){
+        if(tokens.empty())
+            return NULL;
+        else{
+            int top = tokens.front();
+            if(top < min || top > max)
+                return NULL;
+            else{
+                TreeNode * temp = new TreeNode(top);
+                if(!root)
+                    root = temp;
+                tokens.pop();
+                temp->left = insertElement(tokens, min, top, root);
+                temp->right = insertElement(tokens, top, max, root);
+                return temp;
+            }
+        }
+    }
+    
+    // Decodes your encoded data to tree.
+    TreeNode* deserialize(string data) {
+        TreeNode * root = NULL;
+        if(data.size()){
+            queue<int> tokens;
+            getTokens(data, tokens);
+            // printQueue(tokens);
+            insertElement(tokens, INT_MIN, INT_MAX, root);
         }
         return root;
     }
