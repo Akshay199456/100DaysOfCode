@@ -31,6 +31,12 @@ this till the queue is empty.
 
 Time complexity: O(n)
 Space complexity: O(h) -> O(n)
+
+
+2. Another variation of Other approches(1)
+
+Time complexity: O(n)
+Space complexity: O(max nodes per level)
 */
 
 /*
@@ -109,6 +115,63 @@ public:
         }
         return result;
         
+    }
+};
+
+
+// My Approaches(2)
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
+class Solution {
+public:
+    void levelOrderTraversal(queue<TreeNode * > elements, vector<vector<int>> & result){
+        int nodesCurrentLevel = 0, nodesNextLevel = 1, currentLevel = 0;
+        while(!elements.empty()){
+            nodesCurrentLevel = nodesNextLevel;
+            nodesNextLevel = 0;
+            while(nodesCurrentLevel-- > 0){
+                TreeNode * top = elements.front();
+                elements.pop();
+                if(result.size() == currentLevel){
+                    vector<int> list;
+                    list.push_back(top->val);
+                    result.push_back(list);
+                }
+                else
+                    result[currentLevel].push_back(top->val);
+                
+                if(top->left){
+                    ++nodesNextLevel;
+                    elements.push(top->left);
+                }
+                
+                if(top->right){
+                    ++nodesNextLevel;
+                    elements.push(top->right);
+                }
+            }
+            ++currentLevel;
+        }
+    }
+    
+    
+    vector<vector<int>> levelOrder(TreeNode* root) {
+        vector<vector<int>> result;
+        if(root){
+            queue<TreeNode *> elements;
+            elements.push(root);
+            levelOrderTraversal(elements, result);
+        }
+        return result;
     }
 };
 
