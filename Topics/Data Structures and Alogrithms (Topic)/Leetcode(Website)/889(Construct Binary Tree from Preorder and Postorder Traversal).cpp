@@ -47,7 +47,18 @@ Space complexity: O(n)
 
 /*
 -------------------------Other approaches
+1. Same as My approaches(1) but does it recursively through setting current preorder and postorder index
 
+This approach is very similar to My Approaches(1). However, it uses the preorder and postorder index to insert the elmenets
+into the tree. As long as post[postorderIndex] is not eqaul to pre[preorderIndex], then that means there is a left and/or
+right waiting to be filled for that particular subtree so we keep calling the function recursively to fill those elements
+in and adjust the preorder and postorder index. If we get through both the left and the right subtrees, then that means that
+we have come to the point where there are no more elements left to be inserted into the left and right subtrees since 
+postorder is left->right->root. So, then we increase the postorderindex as we have completed the left and the right
+subtrees for that particular element and return the node containing the elemeent to the previous level.
+
+Time complexity: O(n)
+Space complexity: O(n)
 */
 
 // My Approaches(1)
@@ -99,7 +110,38 @@ public:
                 while(!isEnd && !elementWithStatus.empty()){
                     topPair = elementWithStatus.top();
                     if(topPair.second == 1){
-                        elementWithStatus.pop();
+                 /**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
+class Solution {
+public:
+    TreeNode * constructTree(vector<int> pre, vector<int> post, int & preorderIndex, int & postorderIndex){
+        TreeNode * root = new TreeNode(pre[preorderIndex++]);
+        if(root->val != post[postorderIndex])
+            root->left = constructTree(pre, post, preorderIndex, postorderIndex);
+        if(root->val != post[postorderIndex])
+            root->right = constructTree(pre, post, preorderIndex, postorderIndex);
+        postorderIndex++;
+        
+        return root;
+    }
+    
+    TreeNode* constructFromPrePost(vector<int>& pre, vector<int>& post) {
+        TreeNode * root = NULL;
+        int preorderIndex = 0, postorderIndex = 0;
+        if(pre.size())
+            return constructTree(pre,post, preorderIndex, postorderIndex);
+        return root;
+    }
+};       elementWithStatus.pop();
                         elementWithStatus.push(make_pair(topPair.first,2));
                         int newTopIndex = postMap[topPair.first->val];
                         if(newTopIndex - 1 >= postBeg && newTopIndex - 1 <= postEnd){
@@ -118,7 +160,38 @@ public:
             }
             else
                 elementWithStatus.push(make_pair(temp,1));
-        }
+        }/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
+class Solution {
+public:
+    TreeNode * constructTree(vector<int> pre, vector<int> post, int & preorderIndex, int & postorderIndex){
+        TreeNode * root = new TreeNode(pre[preorderIndex++]);
+        if(root->val != post[postorderIndex])
+            root->left = constructTree(pre, post, preorderIndex, postorderIndex);
+        if(root->val != post[postorderIndex])
+            root->right = constructTree(pre, post, preorderIndex, postorderIndex);
+        postorderIndex++;
+        
+        return root;
+    }
+    
+    TreeNode* constructFromPrePost(vector<int>& pre, vector<int>& post) {
+        TreeNode * root = NULL;
+        int preorderIndex = 0, postorderIndex = 0;
+        if(pre.size())
+            return constructTree(pre,post, preorderIndex, postorderIndex);
+        return root;
+    }
+};
     }
     
     TreeNode* constructFromPrePost(vector<int>& pre, vector<int>& post) {
@@ -127,6 +200,41 @@ public:
             constructPostMap(post);
             constructTree(pre, post, root);
         }
+        return root;
+    }
+};
+
+
+// Other Approaches(1)
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
+class Solution {
+public:
+    TreeNode * constructTree(vector<int> pre, vector<int> post, int & preorderIndex, int & postorderIndex){
+        TreeNode * root = new TreeNode(pre[preorderIndex++]);
+        if(root->val != post[postorderIndex])
+            root->left = constructTree(pre, post, preorderIndex, postorderIndex);
+        if(root->val != post[postorderIndex])
+            root->right = constructTree(pre, post, preorderIndex, postorderIndex);
+        postorderIndex++;
+        
+        return root;
+    }
+    
+    TreeNode* constructFromPrePost(vector<int>& pre, vector<int>& post) {
+        TreeNode * root = NULL;
+        int preorderIndex = 0, postorderIndex = 0;
+        if(pre.size())
+            return constructTree(pre,post, preorderIndex, postorderIndex);
         return root;
     }
 };
