@@ -24,6 +24,21 @@ It is guaranteed an answer exists. If there exists multiple answers, you can ret
 -------------------------My Approaches:
 1. Using property of preorder and postorder to add elements
 
+We know that:
+preorder: (Root, left, right)
+postOrder: (left, Right, Root)
+
+We also that the beginning node is going to be preorder[0]. Since preorder moves from root->left->right, we can insert nodes
+as we go along till the post order is out of children. As the postorder traversal is left->right->root, we can check if
+a node has any remaining children left by keeping track of the indexes upto which elements have already been inserted into
+the tree. If it has children remaing, we move on tot he next preorder node and insert it. If it doesn't, we know that for
+that particular node, all left and right children node have been inserted so, we have to go to its parent and do the same
+check. We keep using the info from preorder and postorder to build this tree going along. To keep track of where we are with
+each node as we are going along, we also push in a status variable along with each node in the stack and use that information
+to make changes.
+
+1 -> left is being visited
+2 -> right is being visited
 
 
 Time complexity: O(n)
