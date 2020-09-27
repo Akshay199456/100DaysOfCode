@@ -30,6 +30,12 @@ Explanation: There are three ways to climb to the top.
 
 We used the top-down dynamic programming approach for this problem with memoization to store the results.
 
+At the end, if we look at the tree based structure of the dependencies in this problem, we want to know the number of leaf
+nodes where the leaf nodes are either 1 or 0. The total number of steps at a particular level will therefore depend
+on the total no of leaf nodes available through that level. Since the current level is based on the level-1 and level-2,
+the total no of leaf nodes at that level will be the sum of leaf nodes that are available at level-1 and level-2. This 
+continues till the base conditions are met.
+
 Time complexity: O(n)
 Space complexity: O(n)
 
@@ -75,9 +81,23 @@ A representation of the tree is given in the 'Helping Images' folder.
 
 Time complexity: O(2^n) since we have 2^n nodes in the tree.
 Space complexity: O(n) [depth of the tree]
-
-
-
+class Solution {
+public:
+    int climbStairs(int n) {
+        if(n <= 1)
+            return 1;
+        else{
+            int nTwoStepBehind = 1;
+            int nOneStepBehind = 1;
+            for(int i=2; i <=n; i++){
+                int temp = nTwoStepBehind + nOneStepBehind;
+                nTwoStepBehind = nOneStepBehind;
+                nOneStepBehind = temp;
+            }
+            return nOneStepBehind;
+        }
+    }
+};
 
 2. Recursive approach with memoization[Better]
 
