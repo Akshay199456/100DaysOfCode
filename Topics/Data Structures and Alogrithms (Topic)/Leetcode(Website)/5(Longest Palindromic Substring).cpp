@@ -90,6 +90,14 @@ to this solution
 Time complexity: O(n^2)
 Space complexity: O(n^2)
 
+
+3. Same as Other Approaches(2) but more concise
+
+This approach is same as Other Apporoaches(2) but is more concise as compared to it.
+
+Time complexity: O(n^2)
+Space complexity: O(n^2)
+
 */
 
 // My Approaches(1)
@@ -235,5 +243,59 @@ public:
             return "";
         else
             return findLongestPalindrome(s);
+    }
+};
+
+
+// Other Approaches(3)
+class Solution {
+public:
+    vector<vector<bool>> dpTable;
+    
+    void constructDpTable(int length){
+        for(int i = 0; i < length; i++){
+            vector<bool> list;
+            for(int j = 0; j < length; j++)
+                list.push_back(false);
+            dpTable.push_back(list);
+        }
+    }
+    
+    string getLongestPalindrome(string s){
+        constructDpTable(s.size());
+        int startIndex = INT_MIN, endIndex = INT_MIN;
+        
+        // entries for i,i will be true since string of length 1 will be a palindrome
+        for(int i = 0; i < s.size(); i++)
+            dpTable[i][i] = true;
+        
+        // entries for string lengths greater than 1
+        for(int k = 1; k < s.size(); k++){
+            for(int i = 0; i < s.size() - k; i++){
+                int j = k+i;
+                bool stepResult = false;
+                if(k == 1)
+                    stepResult = (s[i] == s[j]);
+                else
+                    stepResult = (s[i] == s[j] && dpTable[i+1][j-1]);
+                
+                if(stepResult){
+                    startIndex = i;
+                    endIndex = j;
+                }
+                dpTable[i][j] = stepResult;
+            }
+        }
+        
+        if(startIndex == INT_MIN)
+            return s.substr(0,1);
+        return s.substr(startIndex, endIndex-startIndex+1);
+    }
+    
+    string longestPalindrome(string s) {
+        if(s.size() <= 1)
+            return s;
+        return getLongestPalindrome(s);
+        
     }
 };
