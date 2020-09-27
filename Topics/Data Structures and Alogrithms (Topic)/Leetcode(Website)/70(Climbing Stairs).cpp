@@ -32,6 +32,16 @@ We used the top-down dynamic programming approach for this problem with memoizat
 
 Time complexity: O(n)
 Space complexity: O(n)
+
+
+2. Bottom-up dynamic programming
+
+Since we know that the base conditions for this problem in n[0] = n[1] = 1{There is only one way to get to 0 and that is to
+start from 0 itself, there is only one way to get to 1 and that is to go from 0 to 1 in +1 step}, we can base the rest of
+the result based on this base cases.
+
+Time complexity: O(n)
+Space complexity: O(n)
 */
 
 /*
@@ -141,6 +151,32 @@ public:
             dpList[n] = getResult(n-1) + getResult(n-2);
             return dpList[n];
         }
+    }
+    
+    int climbStairs(int n) {
+        initializeDp(n);
+        return getResult(n);
+    }
+};
+
+
+// My Approaches(2)
+class Solution {
+public:
+    vector<int> dpList;
+    
+    void initializeDp(int n){
+        for(int i = 0; i <=n; i++)
+            dpList.push_back(-1);
+        dpList[0] = dpList[1] = 1;
+    }
+    
+    int getResult(int n){
+        if(n <= 1)
+            return dpList[1];
+        for(int i = 2; i <= n; i++)
+            dpList[i] = dpList[i-1] + dpList[i-2];
+        return dpList[n];
     }
     
     int climbStairs(int n) {
