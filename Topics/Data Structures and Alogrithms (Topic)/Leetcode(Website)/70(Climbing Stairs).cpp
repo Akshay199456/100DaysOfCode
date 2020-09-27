@@ -42,6 +42,17 @@ the result based on this base cases.
 
 Time complexity: O(n)
 Space complexity: O(n)
+
+
+3. Fibonacci improvement of bottom-up dynamic programming
+
+If we noticed that bottom-up dynamic programming approach, we noticed that the nsteps to get the current step is dependent
+on the nsteps to get to the current step-1 and nsteps to get to the current step-2 and no other values. As a result, in that
+case, we don't need to store the results from all the steps before current step-2. As a result, we can use two variables
+to calcualte the value as we are going along.
+
+Time complexity: O(n)
+Space complexity: O(1)
 */
 
 /*
@@ -182,6 +193,26 @@ public:
     int climbStairs(int n) {
         initializeDp(n);
         return getResult(n);
+    }
+};
+
+
+// My Approaches(3)
+class Solution {
+public:
+    int climbStairs(int n) {
+        if(n <= 1)
+            return 1;
+        else{
+            int nTwoStepBehind = 1;
+            int nOneStepBehind = 1;
+            for(int i=2; i <=n; i++){
+                int temp = nTwoStepBehind + nOneStepBehind;
+                nTwoStepBehind = nOneStepBehind;
+                nOneStepBehind = temp;
+            }
+            return nOneStepBehind;
+        }
     }
 };
 
