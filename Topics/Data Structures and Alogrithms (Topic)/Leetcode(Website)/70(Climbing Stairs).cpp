@@ -25,6 +25,16 @@ Explanation: There are three ways to climb to the top.
 */
 
 /*
+-------------------------My Approaches:
+1. Same as Other Approaches(2)
+
+We used the top-down dynamic programming approach for this problem with memoization to store the results.
+
+Time complexity: O(n)
+Space complexity: O(n)
+*/
+
+/*
 -------------------------Other approaches
 
 1. Recursive Brute Force approach
@@ -110,6 +120,34 @@ problem.
 Time complexity: O(log n) pow takes log n time
 Space complexity: O(1)
 */
+
+
+// My approaches(1)
+class Solution {
+public:
+    vector<int> dpList;
+    
+    void initializeDp(int n){
+        for(int i = 0; i <=n; i++)
+            dpList.push_back(-1);
+    }
+    
+    int getResult(int n){
+        if(n <= 1)
+            return 1;
+        else if(dpList[n] != -1)
+            return dpList[n];
+        else{
+            dpList[n] = getResult(n-1) + getResult(n-2);
+            return dpList[n];
+        }
+    }
+    
+    int climbStairs(int n) {
+        initializeDp(n);
+        return getResult(n);
+    }
+};
 
 
 // Other Approaches(1)
