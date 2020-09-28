@@ -57,6 +57,18 @@ theese two at a particular index gives us the profit. From here on, its easy to 
 
 Time complexity: O(n)
 Space complexity: O(n)
+
+
+4. Similar to My Approaches(2)
+
+Our approach here was to take each sub-problem as its own and finding the best possible solution for that particular
+sub-problem. We then added the next option available and extended the previous subproblem and repeated the same procedure
+here to find the best possible solution for this subproblem. We did this till all the elements were considered. To summarize,
+we did start from 1 element, found the best possible solution for it, then expanded it to the next element(sub-problem),
+found the best possible solution for it and kep this process going till we covered all the elements.
+
+Time complexity: O(n)
+Space complxity: O(1)
 */
 
 /*
@@ -186,6 +198,27 @@ public:
     }
 };
 
+
+// My Approaches(4)
+class Solution {
+public:
+    void setMaxProfit(vector<int> prices, int & maxProfit){
+        int start = prices[0];
+        for(int i = 1; i < prices.size(); i++){
+            int profit = prices[i] - start;
+            if(profit <= 0 && prices[i] < start)
+                start = prices[i];
+            maxProfit = max(maxProfit, profit);
+        }
+    }
+    
+    int maxProfit(vector<int>& prices) {
+        int maxProfit = 0;
+        if(prices.size() >1)
+            setMaxProfit(prices, maxProfit);
+        return maxProfit;
+    }
+};
 
 // Other Approaches(1)
 class Solution {
