@@ -35,6 +35,10 @@ Space complexity: O(m+n)
 -------------------------Other approaches
 1. Using DP approach
 
+Since this is an optimizatiuon based problem, dp could be an interesting choice here. To confirm that's its a dp based
+problem, we want to make sure that thhere are recursive subproblems to the problem. We have covered this is good detail
+in 'Helping Images'.
+
 Time complexity: O(mn)
 Space complexity: O(mn)
 */
