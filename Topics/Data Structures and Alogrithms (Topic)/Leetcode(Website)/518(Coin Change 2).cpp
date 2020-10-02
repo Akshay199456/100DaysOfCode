@@ -43,7 +43,7 @@ the answer is guaranteed to fit into signed 32-bit integer
 /*
 -------------------------Other approaches
 
-1. DP Approach
+1. DP Approach - Bottom up
 
 This problem can be solved using DP approach as it has a recusrive substructure and we can extend the solution from each
 sub problem to the next sub problem to give us the whole solution.
@@ -68,6 +68,21 @@ Time complexity: O(n*k)
 Space complexity: O(n*k)
 
 where n-> total amunt given to us and k-> no of coins
+
+
+
+2. Improvement of bottom up approach
+
+If we notice in the Other Approaches(1), we can see theat there exists a bottle neck. We only use at most the previous row
+or the same row itslef. This means that we are not using any of the other rows given to us. As a result, we don't need to
+keep track of the values using a matrix and can use a list instead to keep track of the entries. For the previous row,
+our list will already be holding its value from it when we move to the next row. For the same row, we will just be
+accessing a value earlier in the list. That's where the improvment comes in for this approach.
+
+We just use a single list to hold the values as we are going along.
+
+Time complexity: O(n*k)
+Space complexity: O(n)
 */
 
 // Other Approaches(1)
@@ -99,5 +114,36 @@ public:
             dpTable.push_back(list);
         }
         return dpTable[nRows-1][nCols-1];
+    }
+};
+
+
+// Other Approaches(2)
+class Solution {
+public:
+    vector<int> dpList;
+    
+    int change(int amount, vector<int>& coins) {
+        int nRows = coins.size() + 1, nCols = amount + 1;
+        
+        for(int i = 0; i < nRows; i++){
+            for(int j = 0; j < nCols; j++){
+                if(i == 0){
+                    if(j == 0)
+                        dpList.push_back(1);
+                    else
+                        dpList.push_back(0);
+                }
+                
+                else{
+                    // we can choose to use the new coin or choose not to
+                    int temp = 0;
+                    if(coins[i-1] <= j)
+                        temp = dpList[j - coins[i-1]];
+                    dpList[j] += temp;
+                }
+            }
+        }
+        return dpList[nCols-1];
     }
 };
