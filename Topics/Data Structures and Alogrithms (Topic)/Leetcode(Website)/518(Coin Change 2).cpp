@@ -46,7 +46,9 @@ the answer is guaranteed to fit into signed 32-bit integer
 1. DP Approach - Bottom up
 
 This problem can be solved using DP approach as it has a recusrive substructure and we can extend the solution from each
-sub problem to the next sub problem to give us the whole solution.
+sub problem to the next sub problem to give us the whole solution. This problem is a classic knapsack problem where you
+have a given amount to achieve and a list of options and we have to find the no of ways. Given that we have unlimited choices
+for each coin.
 
 To understand how to construct thee table/list, let us think about the basic base case. How can we construct each of the
 amounts from 0 - n given an empty coin collection. Well, there is onlyt 1 way to cinstruct 0 given no coins and 0 ways
