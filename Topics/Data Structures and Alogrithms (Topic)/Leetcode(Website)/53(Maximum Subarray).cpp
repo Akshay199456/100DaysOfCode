@@ -20,7 +20,13 @@ If you have figured out the O(n) solution, try coding another solution using the
 folder which will provide a great explanation to the solution. 
 
 The key here is to optimize the whole problem by optimizing the sub problem thereby being a dynamic
-programming problem.
+programming problem. We know it its a dynamic programming problem since there is a recursive substrcuture to the problem 
+and we are given to optimize the problem under a givnen set of conditions. [Check out Other Approaches(1) -5,6,7 more info].
+
+We know there is a recursive substructure since we can document all the possible subarrays that are possible till a 
+parituclar index. If we anayluze the subarrays, we have subarrays that start with the current element and those that don't.
+Thos that don't are from the previous subproblems while for the one that do, we can either choose to start from this 
+particualre index or choose to extend from the best possible choice that we had up until that index.
 
 Time complexity: O(n)
 Space complexity: O(1)
