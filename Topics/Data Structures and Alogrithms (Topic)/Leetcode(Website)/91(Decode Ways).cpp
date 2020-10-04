@@ -45,7 +45,7 @@ s contains only digits and may contain leading zero(s).
 
 /*
 -------------------------My Approaches:
-1. [Time limit exceeded]
+1. Recursive approach
 
 The first approach is a basic recursive approach to the problem. At each stage, we have one of two choices. We can either
 choose one character or two characters to form the next combination. This is because we know that at each stage, at most,
@@ -54,6 +54,11 @@ reach the end of string, the time complexity is as given.
 
 Time complexity: O(2^n)
 Space complexity: O(n)
+
+
+2. Top-down approach
+
+If we observe the 
 */
 
 /*
@@ -65,54 +70,77 @@ Space complexity: O(n)
 // My Approaches(1)
 class Solution {
 public:
-    bool checkElementValid(string element){
-        int val = stoi(element);
-        // cout<<"Val: "<<val<<endl;
-        if(val >=1 && val <= 26)
-            return true;
-        return false;
-    }
-    
-    int getNum(string s, int index, int steps){
-        // cout<<"Round --------------------------------------------"<<endl;
-        // cout<<"Index: "<<index<<" Steps: "<<steps<< " String size: "<<s.size()<<endl;
-        if(index >= s.size()){
-            // cout<<"we have crossed the boundary"<<endl;
-            return 0;
-        }
+    int getNum(string s, int index){
+        if(index == s.size())
+            return 1;
         else{
-            string element = "";
-            char ch = s[index];
-            // cout<<"char: "<<s[index]<<endl;
-            string s2(1, ch);
-            // cout<<"s2 string: "<<s2<<endl;
-            if(steps == 1)
-                element += s2;
-            else{
-                string s1(1, s[index-1]);
-                // cout<<"s1 string: "<<s1<<endl;
-                element += s1 + s2;
-            }
+            int val = 0;
             
-            // cout<<"Element: "<<element<<endl;
-            if(!checkElementValid(element) || element[0] == '0'){
-                // cout<<"element not valid"<<endl;
-                return 0;
-            }
-            else if(index == s.size() - 1){
-                // cout<<"Index: "<<index<<" String size: "<<s.size()<<endl;
-                // cout<<"at end of string"<<endl;
-                return 1;
-            }
-            else
-                return getNum(s, index+1,1) + getNum(s, index+2, 2);
+            bool oneDigit = s[index] == '0' ? false : true;
+            if(oneDigit)
+                val += getNum(s, index+1);
+            
+            bool twoDigit = false;
+            if((index + 1 <= s.size()) && (stoi(s.substr(index,2)) >= 10 && stoi(s.substr(index,2)) <= 26))
+                twoDigit = true;
+            if(twoDigit)
+                val += getNum(s, index+2);
+            
+            return val;
         }
     }
     
     int numDecodings(string s) {
         if(s[0] == '0')
             return 0;
-        else
-            return getNum(s, 0, 1) + getNum(s, 1, 2);
+        return getNum(s, 0);
     }
 };
+
+
+// My Approaches(2)
+class Solution {
+public:
+    vector<int> dpList;
+    
+    void initializeDpList(int size){
+        for(int i = 0; i < size; i++)
+            dpList.push_back(-1);
+    }
+    
+    int getNum(string s, int index){
+        if(index == s.size()){
+            dpList[index] = 1;
+            return dpList[index];
+        }
+        else if(dpList[index] != -1)
+            return dpList[index];
+        else{
+            int val = 0;
+            
+            bool oneDigit = s[index] == '0' ? false : true;
+            if(oneDigit)
+                val += getNum(s, index+1);
+            
+            bool twoDigit = false;
+            if((index + 1 <= s.size()) && (stoi(s.substr(index,2)) >= 10 && stoi(s.substr(index,2)) <= 26))
+                twoDigit = true;
+            if(twoDigit)
+                val += getNum(s, index+2);
+            
+            dpList[index] = val;
+            return dpList[index];
+        }
+    }
+    
+    int numDecodings(string s) {
+        if(s[0] == '0')
+            return 0;
+        
+        initializeDpList(s.size() + 1);
+        getNum(s,0);
+        return dpList[0];
+    }
+};
+
+
