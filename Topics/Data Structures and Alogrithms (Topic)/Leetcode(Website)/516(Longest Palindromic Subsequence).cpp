@@ -45,7 +45,16 @@ Time complexity: O(2^n)
 Space complexity: O(n)
 
 
-2. Bottom-up DP 
+2. Bottom-up DP
+
+If we observe the above approach, we can notice that there are several calculations that are being repeated again and again.
+As a result, once we have the max subsequence that is possible for a state, we store it so that it can be used once it is
+encoutnered in other states.
+
+We use a dpTable to store the states. If the characters at start index and end index don't match, we find the max of the
+the value at dpTable[i+1][j] and dpTable[i][j-1] as those are the two paths which will lead to the current node. If the 
+characters match, then our result will only depend on dpTable[i+1][j-1] as that is the only path posssible if two characters
+match so we check for start+1, end-1.
 
 Time complexity: O(n^2)
 Space complexity: O(n^2)
