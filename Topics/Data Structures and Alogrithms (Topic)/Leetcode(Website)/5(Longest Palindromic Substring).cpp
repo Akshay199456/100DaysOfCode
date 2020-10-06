@@ -45,6 +45,12 @@ Space complexity: O(n)
 
 3. Bottom up DP Approach
 
+If we notice the bottleneck in the previous approach, we notice that, we are performing the same calcualtions time and time
+again. So, we can instead cache those results for further use. As a result, we use a dpTable to store the state and set
+the dpTable[i][j] = 1 since any substring of length 1 will be a palindrome. We then start from the bottom of the array
+and move from left to right to fill in the tnries for the rest of the table depending on the recursive state relationship
+we encountered in My Approaches(2)
+
 
 Time complexity: O(n^2)
 Space complexity: O(n^2)
