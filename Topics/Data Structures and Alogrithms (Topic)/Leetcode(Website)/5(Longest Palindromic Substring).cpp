@@ -25,6 +25,29 @@ store the result. At the end, you want to return the string with the max length;
 
 Time complexity: O(n^3)
 Space complexity: O(1)
+
+
+2. Recursive approach[Not coded]
+
+If we observe this problem, this is a recusive problem. Starting from a length of the string, if the first character is
+equal to the end character, then we know that the outside of the string is a palindrome so we need to check the inside
+to make sure it is a palindrome as well. If the first character is not equal to the last character, then we know that
+we will not be able to generate a substring from the string of this length, so we look for substrings of size -1. There
+are two combinataions possible at each step, by either pushing the beginning pointer forward or by pushing the end pointer
+backward by 1. We continue this recursively. 
+
+Our base case is when we encounter a substring of either length 1 or 2. If it is of length 1, we know that is is a palindrome.
+If it is of length 2, we need to check the first and last character to determine if it is a palindrome 
+
+Time complexity: O(2^n)
+Space complexity: O(n)
+
+
+3. Bottom up DP Approach
+
+
+Time complexity: O(n^2)
+Space complexity: O(n^2)
 */
 
 /*
@@ -133,6 +156,52 @@ public:
             return "";
         else
             return findLongestPalindrome(s);
+    }
+};
+
+// My Approaches(3)
+class Solution {
+public:
+    vector<vector<bool>> dpTable;
+    
+    void constructDpTable(int size){
+        for(int i = 0; i < size; i++){
+            vector<bool> list;
+            for(int j = 0; j < size; j++){
+                if(i==j)
+                    list.push_back(true);
+                else
+                    list.push_back(false);
+            }
+            dpTable.push_back(list);
+        }
+    }
+    
+    string fillDpTable(string s){
+        int startIndex = 0, endIndex = 0;
+        for(int i = s.size()-1; i>=0; i--){
+            for(int j = i+1; j < s.size(); j++){
+                if(s[i] == s[j]){
+                    if(j-1 == i)
+                        dpTable[i][j] = true;
+                    else
+                        dpTable[i][j] = dpTable[i+1][j-1];
+                }
+                else
+                    dpTable[i][j] = false;
+                
+                if(dpTable[i][j] && endIndex - startIndex< j - i){
+                    startIndex = i;
+                    endIndex = j;
+                }
+            }
+        }
+        return s.substr(startIndex, endIndex-startIndex+1);
+    }
+    
+    string longestPalindrome(string s) {
+        constructDpTable(s.size());
+        return fillDpTable(s);
     }
 };
 
