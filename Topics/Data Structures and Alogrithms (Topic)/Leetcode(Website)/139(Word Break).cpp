@@ -45,6 +45,21 @@ by constructting it from those elements present in the dictionary
 
 Time compleixty: O(2^n)
 Space complexity: O(1)
+
+
+2. DP Bottom up approach
+
+This approach builds on the previous approach. If we notice the previous appproach, there is a bootleneck in that we are
+recalculating values which have already been calculated in previous steps. So, instead we store that information with DP
+and use it to fill the entry for our current step.
+
+As before, we check if a value exists in our set. If it does, it's simple, we know this word occurs in the dictionary so
+we mark it as true. However, if it doesn't exist, we will need to check the different substrings within it starting at at
+the beginning of the curent string to the end and see if the current string can be constructed from them. This is an &
+relationship since both parts of the ubstring would have to occur in the dictionary for it to be constructed valid.
+
+Time complexity: O(n^3)
+Space complexity: O(n^2)
 */
 
 // Other Approaches(1)
@@ -73,5 +88,68 @@ public:
     bool wordBreak(string s, vector<string>& wordDict) {
         constructSet(wordDict);
         return wordBreakCheck(s);
+    }
+};
+
+
+// Other Approaches(2)
+class Solution {
+public:
+    vector<vector<bool>> dpTable;
+    unordered_set<string> elementSet;
+    
+    void constructSet(vector<string> wordDict){
+        for(int i = 0; i < wordDict.size(); i++)
+            elementSet.emplace(wordDict[i]);
+    }
+    
+    void constructDpTable(int size){
+        for(int i = 0; i < size; i++){
+            vector<bool> list;
+            for(int j = 0; j < size; j++)
+                list.push_back(false);
+            dpTable.push_back(list);
+        }
+    }
+    
+    void buildDpTable(string s){
+        for(int i = s.size()-1; i >=0; i--){
+            for(int j = i; j < s.size(); j++){
+                if(elementSet.find(s.substr(i,j-i+1)) != elementSet.end())
+                    dpTable[i][j] = true;
+                else{
+                    bool isEnd = false;
+                    for(int k = i; k < j && !isEnd; k++){
+                        if(dpTable[i][k] && dpTable[k+1][j]){
+                            dpTable[i][j] = true;
+                            isEnd = true;
+                        }
+                            
+                    }
+                }
+            }
+        }
+    }
+    
+    void printDpTable(){
+        cout<<"  ";
+        for(int i = 0; i < dpTable.size(); i++)
+            cout<<i<<" ";
+        cout<<endl;
+        
+        for(int i = 0; i < dpTable.size(); i++){
+            cout<<i<<" ";
+            for(int  j = 0; j < dpTable[0].size(); j++)
+                cout<<dpTable[i][j]<<" ";
+            cout<<endl;
+        }
+    }
+    
+    bool wordBreak(string s, vector<string>& wordDict) {
+        constructSet(wordDict);
+        constructDpTable(s.size());
+        buildDpTable(s);
+        //printDpTable();
+        return dpTable[0][s.size()-1];
     }
 };
