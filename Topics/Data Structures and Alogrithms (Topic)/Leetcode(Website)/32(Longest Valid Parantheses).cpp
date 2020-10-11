@@ -52,6 +52,21 @@ a containsing substring, in which you have a valid substring contained within an
 need to check the character at index-1-dpList[index-1] and see if the character is '('; if it is ,we know that it is a valid
 containsing substring. We use these 2 checks as we along.
 
+Time complexity: O(n)
+Space complexity: O(n)
+
+
+2. Using a stack
+
+We can also use a stack to solve this problem. We know that we can use a stack to check whether a substring is valid or not
+by checking if it's empty after pushing in all the elements. We can slightly modify this approach by storing indexes
+of possible starts, indexes from which we can have valid substrings. At the end, we are only left with indexes which were
+invalid starts in the stack. Every other valid indexes have been removed and the maxLEngth has been calculated with respect
+to it on removal.
+
+Time complexity: O(n)
+Space complexity: O(n)
+
 */
 
 // Other Approaches(1)
@@ -102,4 +117,36 @@ public:
             return getResult(s);
         }
     }   
+};
+
+
+// Other Approaches(2)
+class Solution {
+public:
+    stack<int> indexStack;
+    
+    int getResult(string s){
+        int maxResult = 0;
+        for(int i=0; i < s.size(); i++){
+            if(s[i] == '(')
+                indexStack.push(i);
+            else{
+                indexStack.pop();
+                if(indexStack.empty())
+                    indexStack.push(i);
+                else
+                    maxResult = max(maxResult, i - indexStack.top());
+            }
+        }
+        return maxResult;
+    }
+    
+    int longestValidParentheses(string s) {
+        if(!s.size())
+            return 0;
+        else{
+            indexStack.push(-1);
+            return getResult(s);
+        }
+    }
 };
