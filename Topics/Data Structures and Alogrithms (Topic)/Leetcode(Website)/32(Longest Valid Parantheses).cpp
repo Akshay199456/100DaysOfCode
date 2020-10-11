@@ -42,7 +42,16 @@ Space complexity: O(n)
 
 /*
 -------------------------Other approaches
-1.
+1. Using DP as a bottom up-approach.
+
+We know that a valid substring at the least will end with a ')'. We can't have substrings that end with '(' as the '(' would
+have to cancel the ')' in order for the substring to be valid. Since we know that the substrings must end with a ')', there
+are 2 different variations of which a valid substring can occur. One, as I casll i, is the adjacent substring of the form
+'()()' where the substring is being closed immediately and so you have a '(' at the index-1 position. The second, is
+a containsing substring, in which you have a valid substring contained within another like '(())'. In this case, we would
+need to check the character at index-1-dpList[index-1] and see if the character is '('; if it is ,we know that it is a valid
+containsing substring. We use these 2 checks as we along.
+
 */
 
 // Other Approaches(1)
