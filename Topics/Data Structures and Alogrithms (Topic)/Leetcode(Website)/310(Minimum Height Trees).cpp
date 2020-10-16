@@ -55,7 +55,27 @@ Space complexity: O(V+E)
 
 /*
 -------------------------    Other approaches:
+1. Moving from the leaves of the graph towards the center
 
+We can visualize this problem as a graph of networks. In this case, the problem has mentioned that it follows tree conditions
+with no cycles. Our goal is to get towards the center of the graph as this will minimize the height of the tree. For exampke,
+let's assume we had a graph with oinly oine path
+
+1-2-3-4-5
+1-2-3-4-5-6
+
+In the first case, there is only going to be one tree with one min height and that starts with 3 which is the center.
+In the second case, there are two trees that are going to be with min height and that starts with 3 and 4. So, that will 
+be our answer.
+
+We can extend this appraoch to graphs with more than one path. As a result, at each step, we are going to start from
+the leaves and move towrds the center. We know the leaves will only have one path so in the graph, the leaf nodes are gping
+to be the one with length ==1 in their size. During each step, we will remove connections from the leaves as well as the 
+neighbors they are connected to and keep doing this till we are either left with one or 2 nodes. Once we reach this level,
+we have arrived at the root of the trees that will minimize the height.
+
+Time complexity: O(V)
+Space complexity: O(V+E)
 */
 
 // My Approaches(1)
@@ -116,6 +136,70 @@ public:
         else{
             addEdges(n, edges);
             return getMHT();
+        }
+    }
+};
+
+
+// Other approaches(1)
+class Solution {
+public:
+    vector<vector<int>> graph;
+    
+    void addEdges(int nVertices, vector<vector<int>> edges){
+        for(int i =0; i < nVertices; i++){
+            vector<int>list;
+            graph.push_back(list);
+        }
+        
+        for(int i = 0; i < edges.size(); i++){
+            graph[edges[i][0]].push_back(edges[i][1]);
+            graph[edges[i][1]].push_back(edges[i][0]);
+        }
+    }
+    
+    
+    vector<int> getMHT(int nVertices){
+        vector<int> leaves;
+        // find all the vertices that are leaves
+        for(int i =0; i < graph.size(); i++){
+            if(graph[i].size() == 1)
+                leaves.push_back(i);
+        }
+        
+        /*
+        At each step we want to get rid of the leaves so we end up closer to the center of the graph.
+        The center of the graph will be the point of minimum height.
+        */
+        while(nVertices > 2){
+            nVertices -= leaves.size();
+            vector<int> newLeaves;
+            // get rid of the connections from the leaves and the nodes that are connected to the leaves
+            for(int i = 0; i < leaves.size(); i++){
+                int neighbor = graph[leaves[i]][0];
+                graph[leaves[i]].clear();
+                
+                auto pos = find(graph[neighbor].begin(), graph[neighbor].end(), leaves[i]);
+                graph[neighbor].erase(graph[neighbor].begin() + distance(graph[neighbor].begin(), pos));
+                
+                if(graph[neighbor].size() == 1)
+                    newLeaves.push_back(neighbor);
+            }   
+            leaves = newLeaves;
+        }
+        
+        return leaves;
+    }
+    
+    
+    vector<int> findMinHeightTrees(int n, vector<vector<int>>& edges) {
+        if(!edges.size()){
+            vector<int> list(1,0);
+            return list;
+        }
+        else{
+            addEdges(n, edges);
+            return getMHT(n);
         }
     }
 };
