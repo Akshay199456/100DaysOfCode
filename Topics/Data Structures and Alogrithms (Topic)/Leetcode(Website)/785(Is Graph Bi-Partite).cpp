@@ -38,7 +38,14 @@ The graph is undirected: if any element j is in graph[i], then i will be in grap
 
 /*
 -------------------------    My Approaches:
+1. BFS implementation of Other Approaches(1)
 
+I have extended the implementation of Other approaches(1) using BFS instead. With BFS, we follow the same principle but
+if a node has a color , we make checks for if the color is the currect color. If the node doesn't have a color, we assign color
+to it and push its neighboring nodes into the queue.
+
+Time complexity: O(V+E)
+Space complexity: O(V+E)
 */
 
 /*
@@ -54,6 +61,51 @@ as we are going depth first into the graph.
 Time complexity: O(V+E)
 Space complexity: O(V+E)
 */
+
+
+// My Approaches(1)
+class Solution {
+public:
+    vector<int> colorVector;
+    
+    void defineColorVector(int nVertices){
+        for(int i=0; i<nVertices; i++)
+            colorVector.push_back(0);
+    }
+    
+    bool bfsColoring(vector<vector<int>> graph, int element, int color){
+        queue<pair<int, int>> elementColorPair;
+        elementColorPair.push(make_pair(element,color));
+        while(!elementColorPair.empty()){
+            pair<int,int> currentPair = elementColorPair.front();
+            elementColorPair.pop();
+            if(colorVector[currentPair.first] != 0){
+                if(colorVector[currentPair.first] != currentPair.second)
+                    return false;
+            }
+            else{
+                colorVector[currentPair.first] = currentPair.second;
+                for(int i=0; i<graph[currentPair.first].size(); i++){
+                    elementColorPair.push(make_pair(graph[currentPair.first][i], -1*currentPair.second));
+                }
+            }
+        }
+        return true;
+    }
+    
+    bool isBipartite(vector<vector<int>>& graph) {
+        defineColorVector(graph.size());
+        
+        // coloring each element into one of 2 sets: 1->red, -1->blue
+        for(int i=0; i<graph.size(); i++){
+            if(colorVector[i]==0 && !bfsColoring(graph,i,1))
+                return false;
+        }
+        return true;
+    }
+};
+
+
 
 // Other Approaches(1)
 class Solution {
