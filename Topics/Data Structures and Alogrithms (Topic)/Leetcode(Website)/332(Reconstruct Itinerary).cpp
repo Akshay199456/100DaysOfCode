@@ -24,6 +24,12 @@ Explanation: Another possible reconstruction is ["JFK","SFO","ATL","JFK","ATL","
 /*
 -------------------------    My Approaches:
 1. DFS(Exceeding runtime)
+
+We can use DFS to solve this problem. By using DFS, we can explore all possible solution paths and then choose the one
+with the lexicographically smallest path.
+
+Time complexity: O(V^3)
+Space complexity: O(V^2)
 */
 
 /*
@@ -71,7 +77,7 @@ public:
                 grid[fromIndex][toIndex] += 1;
         }
     }
-    
+    // My Approaches
     vector<string> getLexicoGraphicalSmallest(vector<string> path){
         int index = 0;
         while(index < result.size()){
@@ -116,3 +122,6 @@ public:
         return result;
     }
 };
+
+
+// Other Approaches(1)
