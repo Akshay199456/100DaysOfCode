@@ -34,7 +34,78 @@ Space complexity: O(V^2)
 
 /*
 -------------------------    Other approaches:
+1. Improvement on  My Approaches(1)
 
+Instead of finding all possible paths and then selecting the one with the least lexicographical order, we can instead represent
+the graph as an adjacency list. The improvment comes from the fact that we sort the adjacncy list associated with each
+vertex beforehand. This helps a lot as since all our elements in the adjancey list per vertex are arranged in lexicographical
+order, the fiorst valid solutuon that we come across will be the solution that we are looking for since that will be formed
+from entried that are the least lexicogrhical in order. Any other path that we find after that will not be a better solution
+than this. Hence, sorting it beforehand helps us in obtianing a solution after which we will not need to carry on the
+dfs anymore.
+class Solution {
+public:
+    unordered_map<string, vector<string>> airportMap;
+    vector<string> result;
+    
+    void createMap(vector<vector<string>> tickets){
+        // put entries into the graph
+        for(int i=0; i<tickets.size(); i++){
+            if(airportMap.find(tickets[i][0]) == airportMap.end()){
+                vector<string> list;
+                list.push_back(tickets[i][1]);
+                airportMap[tickets[i][0]] = list;
+            }
+            else
+                airportMap[tickets[i][0]].push_back(tickets[i][1]);
+        }
+        
+        // sort each adjacency list
+        for(auto it=airportMap.begin(); it!=airportMap.end(); it++)
+            sort((it->second).begin(), (it->second).end());
+    }
+    
+    void printMap(){
+        for(auto it =airportMap.begin(); it!=airportMap.end(); it++){
+            cout<<"City: "<<it->first<<endl;
+            for(int i=0; i<(it->second).size(); i++)
+                cout<<"\tNeighbor: "<<(it->second)[i]<<endl;
+        }
+    }
+    
+    
+    void traverseGraph(string currCity, vector<string> path, int limit){
+        if(path.size() == limit)
+            result = path;
+        else{
+            for(int i=0; i<airportMap[currCity].size(); i++){
+                if(!result.size()){
+                    string deletedCity = airportMap[currCity][i];
+                    path.push_back(deletedCity);
+                    airportMap[currCity].erase(airportMap[currCity].begin()+i);
+                    traverseGraph(deletedCity, path, limit);
+                    path.pop_back();
+                    airportMap[currCity].insert(airportMap[currCity].begin()+i, deletedCity);
+                }
+            }
+        }
+    }
+    
+    
+    vector<string> findItinerary(vector<vector<string>>& tickets) {
+        string startCity = "JFK";
+        vector<string> path;
+        path.push_back(startCity);
+        
+        createMap(tickets);
+        //printMap();
+        traverseGraph(startCity, path, tickets.size()+1);
+        return result;
+    }
+};
+v+e + v*vlog
+Time complexity: O(V+E+V^2logV) -> O(V^2logV)
+Space complexity: O(V+E)
 */
 
 // My Approaches(1)
@@ -77,7 +148,7 @@ public:
                 grid[fromIndex][toIndex] += 1;
         }
     }
-    // My Approaches
+
     vector<string> getLexicoGraphicalSmallest(vector<string> path){
         int index = 0;
         while(index < result.size()){
@@ -125,3 +196,63 @@ public:
 
 
 // Other Approaches(1)
+class Solution {
+public:
+    unordered_map<string, vector<string>> airportMap;
+    vector<string> result;
+    
+    void createMap(vector<vector<string>> tickets){
+        // put entries into the graph
+        for(int i=0; i<tickets.size(); i++){
+            if(airportMap.find(tickets[i][0]) == airportMap.end()){
+                vector<string> list;
+                list.push_back(tickets[i][1]);
+                airportMap[tickets[i][0]] = list;
+            }
+            else
+                airportMap[tickets[i][0]].push_back(tickets[i][1]);
+        }
+        
+        // sort each adjacency list
+        for(auto it=airportMap.begin(); it!=airportMap.end(); it++)
+            sort((it->second).begin(), (it->second).end());
+    }
+    
+    void printMap(){
+        for(auto it =airportMap.begin(); it!=airportMap.end(); it++){
+            cout<<"City: "<<it->first<<endl;
+            for(int i=0; i<(it->second).size(); i++)
+                cout<<"\tNeighbor: "<<(it->second)[i]<<endl;
+        }
+    }
+    
+    
+    void traverseGraph(string currCity, vector<string> path, int limit){
+        if(path.size() == limit)
+            result = path;
+        else{
+            for(int i=0; i<airportMap[currCity].size(); i++){
+                if(!result.size()){
+                    string deletedCity = airportMap[currCity][i];
+                    path.push_back(deletedCity);
+                    airportMap[currCity].erase(airportMap[currCity].begin()+i);
+                    traverseGraph(deletedCity, path, limit);
+                    path.pop_back();
+                    airportMap[currCity].insert(airportMap[currCity].begin()+i, deletedCity);
+                }
+            }
+        }
+    }
+    
+    
+    vector<string> findItinerary(vector<vector<string>>& tickets) {
+        string startCity = "JFK";
+        vector<string> path;
+        path.push_back(startCity);
+        
+        createMap(tickets);
+        //printMap();
+        traverseGraph(startCity, path, tickets.size()+1);
+        return result;
+    }
+};
