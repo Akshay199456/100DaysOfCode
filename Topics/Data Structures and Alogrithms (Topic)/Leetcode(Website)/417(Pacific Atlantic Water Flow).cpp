@@ -42,16 +42,27 @@ Space complexity: O(max(m,n))
 
 2. Improved version of My Approaches(1)[Time limit exceeded]
 
+// Note: This was a valid approach. Other approache sare very similar to this approach yet this failed due to time reasons
+// when the samiliar code was run in c++ it failed but it passed for python
+
 In this version of code, we only calculate the dfs of a path if it has not been calculated. Once we calculate the dfs of a
 path, any nodes that we exploreed as part of that dfs also have their path calculated. Thus, we don;t need to compute the 
 dfs again and again for thos nodes whos status we already know.
 
-Time complexity: O(mn * (mn))
+Time complexity: O(mn)
 Space complexity: O(max(m,n))
 */
 
 /*
 -------------------------    Other approaches:
+1. From ocean to unit cell
+
+In this approach, instead of goin from the cell to the ocean, we can alos go from the ocean to the cell. In this case, we
+check for fail conditions instead. If it doesn't fail, then, it is a valid path from the ocean to the unit so we explore
+we set it to true and check for other connected components that are its neighbors.
+
+Time complexity: O(mn)
+Space complexity: O(max(m,n))
 
 */
 
@@ -188,6 +199,57 @@ public:
                         fillMatrix(i,j, matrix, -1, matrix.size()-1, matrix[i].size()-1, atlanticMatrix);
                     
                     if(pacificMatrix[i][j] == 1 && atlanticMatrix[i][j] == 1){
+                        vector<int> list{i,j};
+                        result.push_back(list);
+                    }
+                }
+            }
+        }
+        return result;
+    }
+};
+
+
+// Other Approaches(1)
+class Solution {
+public:
+    vector<vector<int>> result;
+    vector<vector<bool>> pacificMatrix;
+    vector<vector<bool>> atlanticMatrix;
+    
+    void dfs(int i, int j, vector<vector<bool>> & matrixGeneric, int previousHeight, vector<vector<int>> matrix){
+        if(i<0 || j<0 || i>=matrix.size() || j>=matrix[0].size() || matrixGeneric[i][j] || matrix[i][j]< previousHeight){
+            
+        }
+        else{
+            matrixGeneric[i][j] = true;
+            dfs(i+1,j,matrixGeneric, matrix[i][j], matrix);
+            dfs(i-1,j,matrixGeneric, matrix[i][j], matrix);
+            dfs(i,j+1,matrixGeneric, matrix[i][j], matrix);
+            dfs(i,j-1,matrixGeneric, matrix[i][j], matrix);   
+        }
+    }
+    
+    vector<vector<int>> pacificAtlantic(vector<vector<int>>& matrix) {
+        if(matrix.size() && matrix[0].size()){
+            vector<vector<bool>> pacificMatrix(matrix.size(), vector<bool>(matrix[0].size()));
+            vector<vector<bool>> atlanticMatrix(matrix.size(), vector<bool>(matrix[0].size()));
+            
+            // row wise connected components from ocean
+            for(int i=0; i<matrix.size(); i++){
+                dfs(i,0,pacificMatrix, INT_MIN, matrix);
+                dfs(i,matrix[0].size()-1, atlanticMatrix, INT_MIN, matrix);
+            }
+            
+            // column wise connected components from ocean
+            for(int i=0; i<matrix[0].size(); i++){
+                dfs(0,i,pacificMatrix, INT_MIN, matrix);
+                dfs(matrix.size()-1,i, atlanticMatrix, INT_MIN, matrix);
+            }
+            
+            for(int i=0; i<matrix.size(); i++){
+                for(int j=0; j<matrix[0].size(); j++){
+                    if(pacificMatrix[i][j] && atlanticMatrix[i][j]){
                         vector<int> list{i,j};
                         result.push_back(list);
                     }
