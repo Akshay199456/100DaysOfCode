@@ -42,6 +42,9 @@ CodePath Weeks remaining:
 
 
 
-Sections that I still need to improve at:
+Sections that I still need to improve at in order of priority and should be followed while solving in leetcode:
 
 1. DP
+2. Greedy Algorithms
+3. Graph
+4. Everything else
