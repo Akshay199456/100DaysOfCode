@@ -34,7 +34,12 @@ Space complexity: O(V+E)
 
 /*
 -------------------------    Other approaches:
+1. Thinking of the buses as nodes instead of bus stops
 
+Time complexity: O(n^2)
+Space complexity: O(n^2)
+
+where n is number of buses
 */
 
 // My Approaches(1)
@@ -112,5 +117,96 @@ public:
         // printGraph();
         // return -1;
        return findShortestRoute(S, T);
+    }
+};
+
+
+// Other approaches(1)
+class Solution {
+public:
+    unordered_map<int, vector<int>> graph;
+    
+    bool intersect(vector<int> route1, vector<int> route2){
+        // checks for intersection of 2 routes
+        int beg1 = 0, beg2 = 0;
+        while(beg1 < route1.size() && beg2 < route2.size()){
+            if(route1[beg1] == route2[beg2])
+                return true;
+            else if(route1[beg1] < route2[beg2])
+                beg1++;
+            else
+                beg2++;
+        }
+        return false;
+    }
+
+    
+    void createGraph(vector<vector<int>> & routes){
+        // sort the buses routes by each bus
+        for(int i=0; i < routes.size(); i++){
+            vector<int> list;
+            sort(routes[i].begin(), routes[i].end());
+            graph[i] = list;
+        }
+        
+        
+        for(int i=0; i<routes.size(); i++){
+            for(int j=i+1; j<routes.size(); j++){
+                if(intersect(routes[i], routes[j])){
+                    graph[i].push_back(j);
+                    graph[j].push_back(i);
+                }
+            }
+        }
+    }
+    
+    void printGraph(){
+        for(auto it=graph.begin(); it!=graph.end(); it++){
+            cout<<"Current bus node: "<<it->first<<endl;
+            for(int i=0; i<it->second.size(); i++){
+                cout<<"\tIntersecting bus: "<<it->second[i]<<endl;
+            }
+        }
+    }
+    
+    int getMinBuses(vector<vector<int>> routes, int S, int T){
+        unordered_set<int> seenBuses, targetBuses;
+        queue<pair<int,int>> busQueue;
+        
+        // get idea of starting bus routes and ending bus routes
+        for(int i=0; i < routes.size(); i++){
+            if(binary_search(routes[i].begin(), routes[i].end(), S)){
+                seenBuses.emplace(i);
+                busQueue.push(make_pair(i,0));
+            }
+            if(binary_search(routes[i].begin(), routes[i].end(), T))
+                targetBuses.emplace(i);
+        }
+        
+        while(!busQueue.empty()){
+            pair<int,int> currentPair = busQueue.front();
+            busQueue.pop();
+            // if arrived at target bus, we need to return answer
+            if(targetBuses.find(currentPair.first) != targetBuses.end())
+                return currentPair.second + 1;
+            
+            for(int i=0; i<graph[currentPair.first].size(); i++){
+                if(seenBuses.find(graph[currentPair.first][i]) == seenBuses.end()){
+                    seenBuses.emplace(graph[currentPair.first][i]);
+                    busQueue.push(make_pair(graph[currentPair.first][i], currentPair.second+1));
+                }
+            }
+        }
+        return -1;
+    }
+    
+    
+    int numBusesToDestination(vector<vector<int>>& routes, int S, int T) {
+        if(S == T)
+            return 0;
+        createGraph(routes);
+        // printGraph();
+        return getMinBuses(routes, S, T);
+        return -1;
     }
 };
