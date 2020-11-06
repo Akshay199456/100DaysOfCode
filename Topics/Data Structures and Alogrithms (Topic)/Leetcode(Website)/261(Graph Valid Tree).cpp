@@ -1,10 +1,37 @@
 /*
+-------------------------Question:
+
+Given n nodes labeled from 0 to n - 1 and a list of undirected edges (each edge is a pair of nodes), write a function to check whether these edges make up a valid tree.
+For example:
+Given n = 5 and edges = [[0, 1], [0, 2], [0, 3], [1, 4]], return true.
+Given n = 5 and edges = [[0, 1], [1, 2], [2, 3], [1, 3], [1, 4]], return false.
+Note: you can assume that no duplicate edges will appear in edges. Since all edges are undirected, [0, 1] is the same as [1, 0]and thus will not appear together in edges.
 */
 
 /*
+-------------------------    My Approaches:
+1. Using the principle of detecting a cycle.
+
+To solve this problem, there are two components to it. For an undirected graph to be considered a tree, it must satisfy
+2 conditions. First, it must not contain a cycle and the second being that the graph is connected which means starting from
+any node, we can get to any other node.
+
+The latter can be decvided easily. We pass in a starting node to the dfs. At the end of that dfs, if the no of vertices
+that have been found is equal to the toal no of vertices, it means that eery vertice has been found which means it it 
+connected. 
+
+For the first part, we apply the cycle detecting algorithm that we applied to detecting cycle in a directed graph. The only
+caveat here is that we don't want to keep visiting the previous node that we came from in the dfs structure.
+
+Time complexity: O(V+E)
+Space complexity: O(V+E)
+
+
 */
 
 /*
+-------------------------    Other approaches:
+
 */
 
 // My Approaches(1)
