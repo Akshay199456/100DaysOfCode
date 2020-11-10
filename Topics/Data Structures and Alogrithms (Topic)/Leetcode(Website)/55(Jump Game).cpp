@@ -38,7 +38,7 @@ to other values.
 Time complexity: O(2^n)
 Space complexity: O(n)
 
-2. Backtracking with caching
+2. Backtracking with caching - Top down
 
 If we check the tree structure from My Approaches(1), we notice that the same call can be repeated multiple times across
 differnt structure calls. Once we know that we can't reach the goal from a particular index, we don't need to repeat it again
@@ -51,7 +51,16 @@ Space complexity: O(n)
 
 /*
 -------------------------    Other approaches:
+1. Bottom up approach
 
+We can base off the My Approaches(2) to find a bottom up approach. In this approach, we start from the right and move to
+the left. When we start from the right, given the max jump psossible at each index, we check if any of the posssible jump
+values can result us in arriving at the goal either indirectly or directly. However, the final check is made against the
+index 0, as we are starting from this index. If we are able to get to the  goal either directly or indirectly through
+other indexes from index 0, we return true else false.
+
+Time complexity: O(n^2)
+Space complexity: O(n)
 */
 
 // My Approaches(1)
@@ -107,5 +116,30 @@ public:
         if(nums.size() == 1)
             return true;
         return checkJump(nums, 0, statusVector);
+    }
+};
+
+// Other Approaches(1)
+class Solution {
+public:
+    bool checkJump(vector<int> nums, vector<int> & statusVector){
+        for(int i = nums.size()-2; i>=0; i--){
+            int maxJump = min((int) nums.size()-1, i + nums[i]);
+            bool isEnd = false;
+            for(int j = i+1; j <= maxJump && !isEnd; j++){
+                if(statusVector[j] == 1)
+                    isEnd = true;
+            }
+            
+            statusVector[i] = isEnd ? 1 : 0;
+        }
+        return statusVector[0] == 1;
+    }
+    
+    bool canJump(vector<int>& nums) {
+        // -1-> enexplored, 0->no path possible, 1->path possible
+        vector<int> statusVector(nums.size(), -1);
+        statusVector[nums.size()-1] = 1;
+        return checkJump(nums, statusVector);
     }
 };
