@@ -45,7 +45,7 @@ differnt structure calls. Once we know that we can't reach the goal from a parti
 and again. Instead, we can just use its cached state since we already know that we can't reach the goal from our current 
 index.
 
-Time complexity: O()
+Time complexity: O(n^2)
 Space complexity: O(n)
 */
 
