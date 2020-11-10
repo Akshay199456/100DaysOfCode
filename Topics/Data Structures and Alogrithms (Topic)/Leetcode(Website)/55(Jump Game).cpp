@@ -47,7 +47,20 @@ index.
 
 Time complexity: O(n^2)
 Space complexity: O(n)
+
+3. Greedy Approach
+
+We can use a greedy appraoch here in order to obtain the solution to the problem. If we analysze Other Approaches(1), we
+actually just need to keep track of the index to which we can jump to. If we can jump to the goal either directly or indirectly
+from an index, this means that we can jump there from the current index so we adjust the minIndexNeeeded to the current
+index since we just need to get here on the next run. As we run from right to left, we keep doing this. We return true 
+when we know we can jump from 0 to a valid index that reaches the goal, either directly or indirectly.
+
+Time complexity: O(n)
+Space complexity: O(1)
 */
+
+
 
 /*
 -------------------------    Other approaches:
@@ -118,6 +131,27 @@ public:
         return checkJump(nums, 0, statusVector);
     }
 };
+
+
+// My approaches(3)
+class Solution {
+public:
+    bool checkJump(vector<int> nums, int minIndexNeeded){
+        for(int i = nums.size() - 2; i >= 0; i--){
+            if(nums[i] >= minIndexNeeded - i)
+                minIndexNeeded = i;
+        }
+        
+        if(minIndexNeeded == 0)
+            return true;
+        return false;
+    }
+    
+    bool canJump(vector<int>& nums) {
+        return checkJump(nums, nums.size() -1);
+    }
+};
+
 
 // Other Approaches(1)
 class Solution {
