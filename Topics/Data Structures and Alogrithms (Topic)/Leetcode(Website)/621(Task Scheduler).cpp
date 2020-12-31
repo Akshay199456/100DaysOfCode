@@ -64,6 +64,11 @@ gives the optimum solution to the problem. For every other task other than the m
 that the same highest frequency, then one of the task point will end up after the current max point. As a result, only fMax-1 idle time slots are used up and thus these are to be duducted form the idleCount. 
 
 At the end, we return the max of (0 and idelCount) as this represnents the idleCount remaining afdter all tasks have been filled im and add this to the no of busy intervals.
+
+
+Time complexity: O(N) where N is no of tasks
+Space complexity: O(1)
+
 */
 
 // Other Approaches(1)
