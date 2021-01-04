@@ -20,6 +20,8 @@ The most frequent character gets the smallest code and the least frequent charac
 In this greedy approach, the character that occurs the most is the one with the shortest code while the one which occurs the least is the one with the longest code. We can then use the code generated to compress the data more effectively
 and can get back the data from the code using the encoding.
 
+We use a min heap to store the frequency of characters and a tree to hold the order of nodes starting with the node that occurs the most at the top of the tree.
+
 Check [Helping Images] for more info.
 
 Time complexity: O(nlog n)
