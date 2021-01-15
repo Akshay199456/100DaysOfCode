@@ -141,3 +141,6 @@ Apparently, have not been calculating the dates properly and am already at Day 1
 - Day 206 - 220: Working on CodePath
 - Day 225: Working on linus/bash scripting
 - Day 226: Working on linus/bash scripting
+
+------- Restart
+    Day 1: Worked on leetcode problems
