@@ -44,7 +44,16 @@ cost.length == n
 
 /*
 -------------------------    My Approaches:
+1. Only considering points that are local minima.
 
+The brute force approach for this problem is to basically start from each index and see if we can reach back to the same index in a cyclic manner. This takes O(n^2) time complexity.
+
+However, if we analyze the difference between the gas and cost, we can see a few interesting patterns. First, we can only start from an index if gas[i]-cost[i] starting from that index >=0 because only then can we move forwards.
+In addition, we want to find the local minima as the starting points because if we can't reach to the same indedx starting from the local minima, then we can't reach the same index from any point after the local minima that has a difference
+of gas[i]-cost[i]>=0 as the local minima builds upon these points in terms of gas advantage. So, we can reduce the check of cycles staring from the local minima only instead from all indexes who have a gas[i]-cost[i]>=0;
+
+Time complexity: O(n^2)
+Space complexity: O(n)
 */
 
 /*
