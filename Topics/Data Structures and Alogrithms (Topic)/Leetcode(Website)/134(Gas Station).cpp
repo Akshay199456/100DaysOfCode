@@ -57,7 +57,9 @@ Space complexity: O(n)
 
 2. Greedy Approach
 
-
+At each step, there are two variables we want to keep rack of, the totalTrack and currTrack. We know that if thte totalTrack is less than 0 after calcualting gas[i]-cost[i] for each station, then we know that there is no possible solution.
+This is because, if you want to complete a valid cycle the sum from gas[i] should be greater than the sum of cost[i]. We use currTrack to switch to the next station beginning when we find a station from which we can't move forward.
+[Check helping images ffor more info]
 
 Time complexity: O(n)
 Space complexity: O(1)
