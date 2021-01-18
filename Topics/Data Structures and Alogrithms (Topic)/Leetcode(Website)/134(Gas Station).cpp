@@ -54,6 +54,13 @@ of gas[i]-cost[i]>=0 as the local minima builds upon these points in terms of ga
 
 Time complexity: O(n^2)
 Space complexity: O(n)
+
+2. Greedy Approach
+
+
+
+Time complexity: O(n)
+Space complexity: O(1)
 */
 
 /*
@@ -132,5 +139,23 @@ public:
             getLocalMinimum(gas, cost, localMinimumSet);
             return checkRoute(gas, cost, localMinimumSet);
         }
+    }
+};
+
+
+// Other Approaches(1)
+class Solution {
+public:
+    int canCompleteCircuit(vector<int>& gas, vector<int>& cost) {
+        int startIndex = 0, totalTrack = 0, currTrack = 0;
+        for(int i=0; i<gas.size(); i++){
+            totalTrack += gas[i] - cost[i];
+            currTrack += gas[i] - cost[i];
+            if(currTrack < 0){
+                startIndex = i+1;
+                currTrack = 0;
+            }
+        }
+        return totalTrack >=0 ? startIndex : -1;
     }
 };
