@@ -22,6 +22,14 @@ Toggled to [[1,1,1,1],[1,0,0,1],[1,1,1,1]].
 
 /*
 -------------------------    My Approaches:
+1. Trying to amximize with greedy approach[Doesn't work]
+
+My thuinking here was that if we want to maximize the max score, then we want to conver the minimum value that is stored into  the rows into all 1s as that allows us to maximize the gain as compared to converting a differnet row with 
+all 1s that doesn't have the lowest score. This way, we could maximize our gains leading to a mximum score. By converting a row to all 1s, we get the a huge jump in total score and then we toggle rows accordingly in order to maximize
+the score for that row. While this strategy did give us good results given that we were maximizeing score, it didn't give us the best results that were possible.
+
+Time complexity: O(mn)
+Space copmplexity: O(1)
 
 */
 
