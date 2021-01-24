@@ -34,25 +34,22 @@ value within its vicinity, removing it would minimze theat value within that vic
 
 Time complexity: O(kn)
 Space complexity: O(n)
+
+
+2. Optimization of Greedy Approach
+
+We can optimize the previous approach by instead performing the removal of the digits that are greater in a single run. By pushing the elements into a stack when the stack is empty and the digit in increasing, we can populate it. AS soon
+as we encounter a digit where the current digit is less than the previous, we can pop the top of the stack and continue on with the operation. This way, our current element has the ability to keep cheks with the previous digits to find its
+position and so on till we encounter the end of the string.
+
+Time complexity: O(n)
+Space complexity: O(n)
+
 */
 
 /*
 -------------------------    Other approaches:
 
-*/
-
-/*
-Maybe use two pointer to optimize it
-
-int slowPtr = 0, fastPtr = 1;
-        while(fastPtr < num.size() && k > 0){
-            while(num[slowPtr] == '#')
-                slowPtr--;
-            
-            if(num[fastPtr] < num[slowPtr]){
-                num[slowPtr] = '#'
-            }
-        }
 */
 
 // My Approaches(1)
@@ -96,6 +93,74 @@ public:
         num = removeLeadingZeroes(num);
         // cout<<"Num after filter: "<<num<<endl;
         return num;
+    }
+    
+    string removeKdigits(string num, int k) {
+        if(k <= 0)
+            return num;
+        else if(num.size() == k)
+            return "0";
+        return getMinValue(num, k);
+    }
+};
+
+
+// My Approaches(2)
+class Solution {
+public:
+    stack<char> reverseStack(stack<char> digitStack){
+        stack<char> newStack;
+        while(!digitStack.empty()){
+            newStack.push(digitStack.top());
+            digitStack.pop();
+        }
+        return newStack;
+    }
+    
+    void removeLeadingZero(stack<char> & digitStack){
+        bool isEnd = false;
+        while(!isEnd && !digitStack.empty()){
+            if(digitStack.top() == '0')
+                digitStack.pop();
+            else
+                isEnd = true;
+        }
+    }
+    
+    string displayValue(stack<char> digitStack){
+        string result = "";
+        while(!digitStack.empty()){
+            result += digitStack.top();
+            digitStack.pop();
+        }
+        
+        if(!result.size())
+            return "0";
+        return result;
+    }
+    
+    string getMinValue(string num, int k){
+        stack<char> digitStack;
+        int startIndex = 0;
+        while(startIndex < num.size() && k > 0){
+            if(digitStack.empty() || digitStack.top() <= num[startIndex])
+                digitStack.push(num[startIndex++]);
+            else{
+                --k;
+                digitStack.pop();
+            }
+        }
+        
+        while(startIndex < num.size())
+            digitStack.push(num[startIndex++]);
+        while(k > 0){
+            --k;
+            digitStack.pop();
+        }
+        
+        digitStack = reverseStack(digitStack);
+        removeLeadingZero(digitStack);
+        return displayValue(digitStack);
     }
     
     string removeKdigits(string num, int k) {
