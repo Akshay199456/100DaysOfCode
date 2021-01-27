@@ -34,7 +34,9 @@ Both strings consists only of lowercase characters.
 -------------------------    My Approaches:
 1. Greedy approach
 
-We can apply the greedy approach here. When comparing s and t
+We can apply the greedy approach here. When comparing s and t. Using two pointers, onse for the string s and the other for string t, we can check for the character of s in t. If the character is present, we advance the pointer for string 
+s. Else, we keep advancing the pointer for string t. We end the loop when either of the pointers reach the end of the strings s and t. We know that s is a subsequuence of t if the pointer for s crosses is equal to the length fo the string
+s. Else we return false;
 
 Time complexity: O(n)
 Space complexity: O(1)
