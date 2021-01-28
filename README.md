@@ -143,4 +143,4 @@ Apparently, have not been calculating the dates properly and am already at Day 1
 - Day 226: Working on linus/bash scripting
 
 ------- Restart
-    Day 1: Worked on leetcode problems
+    Day 1-2: Worked on leetcode problems
