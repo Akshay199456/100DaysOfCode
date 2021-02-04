@@ -126,3 +126,26 @@ public:
             return divideArray(nums, 0, nums.size() - 1);        
     }
 };
+
+// Repeat1_My Approaches(1)
+class Solution {
+public:
+    int maxMoney(vector<int> nums, int index, vector<int> & list){
+        if(index >= nums.size())
+            return 0;
+        else if(list[index] != -1)
+            return list[index];
+        else{
+            list[index] = max(nums[index] + maxMoney(nums, index+2, list), maxMoney(nums, index+1, list));
+            return list[index];
+        }
+    }
+    
+    int rob(vector<int>& nums) {
+        if(!nums.size())
+            return 0;
+        
+        vector<int> list(nums.size(), -1);
+        return maxMoney(nums, 0, list);
+    }
+};
