@@ -43,7 +43,15 @@ Space complexity: O(n)
 
 /*
 -------------------------    Other approaches:
+1. Just using a stack with greedy approach[Not coded]
 
+We can also do this approach without having to use the set. As long as the elemnt in pushed is not the element in popped, we keep inseritng. We pop till the element at the top of the stack is equal to the popped element. For each elemetn
+we popped, we push the popped potr forward.
+
+Check 'Helping Images' for more info.
+
+Time complexity: O(n)
+Space complexity: O(n)
 */
 
 // My Approahces(1)
