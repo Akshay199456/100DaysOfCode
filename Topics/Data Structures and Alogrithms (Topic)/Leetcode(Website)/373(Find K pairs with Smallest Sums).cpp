@@ -38,6 +38,16 @@ Space complexity: O(mn)
 
 /*
 -------------------------    Other approaches:
+1. Using the property of sorted arrays.
+
+Since the arrays are sorted, we can use that property to fill the heap. For ay index (i,j), the contenders that could have values equla to (i,j) are (i+1,j) and (1,j+1). As a result, we insert these into the heap. The one that is the smallest
+will be wt the top of the heap so we remove it and insert it into the result. The next value on the top of the heap will be the next smallest entry. We contineu doing this till we reacf th end of the heap or k==0.
+
+The reason we initally fill in the heap with (i,0) is beacuse this makes sure that we are inserting each pair at most once into the heap as opposed to filling it multiple times resulting in dup;licates and a wrong result
+
+Time complexity: O(k log k)
+Space complexity: O(mn)
+
 
 */
 
@@ -68,6 +78,58 @@ public:
             elements.pop();
         }
         
+        return result;
+    }
+    
+    vector<vector<int>> kSmallestPairs(vector<int>& nums1, vector<int>& nums2, int k) {
+        vector<vector<int>> result;
+        if(!nums1.size() || !nums2.size() || !k)
+            return result;
+        return getSmallestPairs(nums1, nums2, k);
+    }
+};
+
+// Other Approaches(1)
+typedef pair<int,pair<int,int>> customTemplate;
+
+class Solution {
+public:
+    void printSet(set<pair<int,int>> occurredPairs){
+        for(auto it = occurredPairs.begin(); it!= occurredPairs.end(); it++){
+            cout<<"First elelment: "<<it->first<<" Second element: "<<it->second<<endl;
+        }
+    }
+    
+    vector<vector<int>> getSmallestPairs(vector<int> nums1, vector<int> nums2, int k){
+        vector<vector<int>> result;
+        priority_queue<customTemplate, vector<customTemplate>, greater<customTemplate>> elements;
+        set<pair<int,int>> occurredPairs;
+        
+        for(int i=0; i<nums1.size(); i++)
+            elements.push(make_pair(nums1[i] + nums2[0], make_pair(i,0)));
+            
+        // cout<<"Top of heap"<<endl;
+        // cout<<"Sum: "<<elements.top().first<<" i: "<<elements.top().second.first<<" j: "<<elements.top().second.second<<endl;
+        
+        while(!elements.empty() && k-- > 0){
+            int sum = elements.top().first;
+            pair<int,int> indexPair = elements.top().second;
+            elements.pop();
+            int i = indexPair.first, j = indexPair.second;
+            
+            occurredPairs.emplace(make_pair(i,j));
+            // cout<<" step sum: "<<sum<<" step i: "<<i<<" step j: "<<j<<endl;
+            
+            vector<int> temp{nums1[i], nums2[j]};
+            result.push_back(temp);
+
+            if(j+1 < nums2.size()){
+                pair<int,int> nextPair = make_pair(i,j+1);
+                if(occurredPairs.find(nextPair) == occurredPairs.end())
+                    elements.push(make_pair(nums1[i] + nums2[j+1], nextPair));
+            }   
+        }
+        // printSet(occurredPairs);
         return result;
     }
     
