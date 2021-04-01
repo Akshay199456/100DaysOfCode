@@ -29,6 +29,16 @@ pair. Using those two conditions, we can use the backtracking technique to solve
 Time complexity: O(4^n/sqrt(n))
 Space complexity: O(4^n/sqrt(n))
 
+
+2. Brute force approach[coded]
+
+The brute force approach is pretty simple. We generate all the 2^n combinations that can
+possibly exist. Once we have that we have to make sure to go through each combination to keep
+check that they are valid by making sure the close is alwyas less than or equal to the number of
+open brackets
+
+Time complexity: O(n*2^n)
+Space complexity: O(n*2^n)
 */
 
 /*
@@ -98,6 +108,47 @@ public:
         return result;
     }
 };
+
+
+// My Approaches(2)
+class Solution {
+public:
+    bool isValidSolution(string currentString){
+        stack<char> parStack;
+        for(int i=0; i<currentString.size(); i++){
+            if(currentString[i] == '(')
+                parStack.push('(');
+            else{
+                if(parStack.empty() || parStack.top() != '(')
+                    return false;
+                else
+                    parStack.pop();
+            }
+        }
+        return parStack.empty();
+    }
+    
+    void generateAllParenthesis(vector<string> & result, string currentString, int n, vector<string> tokens){
+        if(currentString.size() == 2*n && isValidSolution(currentString))
+            result.push_back(currentString);
+        else if(currentString.size() < 2*n){
+            for(int i=0; i<tokens.size(); i++){
+                currentString.append(tokens[i]);
+                generateAllParenthesis(result, currentString, n, tokens);
+                currentString.pop_back();
+            }
+        }
+    }
+    
+    vector<string> generateParenthesis(int n) {
+        vector<string> result;
+        vector<string> tokens{"(", ")"};
+        string currentString = "";
+        generateAllParenthesis(result, currentString, n, tokens);
+        return result;
+    }
+};
+
 
 
 // Other Approaches(2)
