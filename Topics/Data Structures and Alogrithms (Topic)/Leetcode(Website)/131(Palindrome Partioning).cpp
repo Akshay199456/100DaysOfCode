@@ -37,6 +37,15 @@ is a valid pallindrome. If it is, in that case we arrive at the end of the strin
 
 Time complexity: O(2^n * n) as O(n) time is taken to generate substring and check if it sa pallindrome.
 Space complexity: O(n)
+
+
+2. Using Backtracking and Dynamic programming
+
+We can apply dynamic programming on top of the backtracking appraoch to save a little additional time. We had learnt befpore that we can use a matrix to check if a string has substrings within it that are pallindromes using DP.
+We can apply that approach here as well so that we don't need to check if a substring is a pallindrome again and again in O(n) time and can instead do it in O(1) time
+
+Time complexity: O(2^n * n)
+Space complexity: O(n^2)
 */
 
 // Other Approaches(1)
@@ -69,6 +78,57 @@ public:
         vector<vector<string>> result;
         vector<string> list;
         getSubstrings(s, result, list, 0, 0);
+        return result;
+    }
+};
+
+// Other Approaches(2)
+class Solution {
+public:
+    void getSubstrings(string s, vector<vector<string>> & result, vector<string> list, int start, vector<vector<bool>> & statusMatrix){
+        if(start == s.size())
+            result.push_back(list);
+        else{
+            for(int i=start; i<s.size(); i++){
+                string curSubstring = s.substr(start, i-start+1); 
+                if(statusMatrix[start][i]){
+                    list.push_back(curSubstring);
+                    getSubstrings(s, result, list, i+1, statusMatrix);
+                    list.pop_back();
+                }
+            }   
+        }
+    }
+    
+    void generateMatrix(string s, vector<vector<bool>> & statusMatrix){
+        // initialize matrix
+        for(int i=0; i<s.size(); i++){
+            vector<bool> list;
+            for(int j=0; j<s.size(); j++)
+                list.push_back(false);
+            statusMatrix.push_back(list);
+        }
+        
+        // fillMatrix
+        for(int i=s.size()-1; i>=0; i--){
+            for(int j=i; j<s.size(); j++){
+                if(j-i==0)
+                   statusMatrix[i][j] = true;
+                else if(j-i==1 && s[i] == s[j])
+                    statusMatrix[i][j] = true;
+                else
+                    statusMatrix[i][j] = (s[i]==s[j] && statusMatrix[i+1][j-1] ? true : false); 
+            }
+        }
+    }
+    
+    
+    vector<vector<string>> partition(string s) {
+        vector<vector<string>> result;
+        vector<string> list;
+        vector<vector<bool>> statusMatrix;
+        generateMatrix(s, statusMatrix);
+        getSubstrings(s, result, list, 0, statusMatrix);
         return result;
     }
 };
