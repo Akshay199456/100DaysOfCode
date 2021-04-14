@@ -87,3 +87,53 @@ public:
         return  (!maxSquare) ? (oneEncountered ? 1 : 0 ) : (maxSquare * maxSquare);
     }
 };
+
+
+// Other Approaches(2)
+class Solution {
+public:
+    int getMinimum(vector<int> & xList, vector<int> & yList, int maxRows, int maxCols, vector<vector<int>> & dpMatrix){
+        vector<int> minValues;
+        for(int i=0; i<xList.size(); i++){
+            if(xList[i] < 0 || xList[i] > maxRows-1 || yList[i] < 0 || yList[i] > maxCols-1)
+                minValues.push_back(0);
+            else
+                minValues.push_back(dpMatrix[xList[i]][yList[i]]);
+        }
+        
+        // getMinimum of those values
+        int currMin = INT_MAX;
+        for(int i=0; i<minValues.size(); i++)
+            currMin = min(currMin, minValues[i]);
+        
+        return currMin;
+    }
+    
+    int getMaximalLength(vector<vector<char>> & matrix, vector<vector<int>> & dpMatrix){
+        int maxLength = 0;
+        
+        // initialize matrix
+        for(int i=0; i<matrix.size(); i++){
+            vector<int> list(matrix[0].size(), 0);
+            dpMatrix.push_back(list);
+        }
+        
+        for(int i=0; i<matrix.size(); i++){
+            for(int j=0; j<matrix[0].size(); j++){
+                if(matrix[i][j] == '1'){
+                    vector<int> xList{i-1,i-1,i};
+                    vector<int> yList{j-1,j,j-1};
+                    dpMatrix[i][j] = getMinimum(xList, yList, matrix.size(), matrix[0].size(), dpMatrix) + 1;
+                    maxLength = max(maxLength, dpMatrix[i][j]);
+                }
+            }
+        }
+        return maxLength;
+    }
+    
+    int maximalSquare(vector<vector<char>>& matrix) {
+        vector<vector<int>> dpMatrix;
+        int maxLength = getMaximalLength(matrix, dpMatrix);
+        return maxLength * maxLength;
+    }
+};
