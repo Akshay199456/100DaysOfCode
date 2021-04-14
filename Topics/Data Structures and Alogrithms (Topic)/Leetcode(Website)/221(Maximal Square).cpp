@@ -43,6 +43,23 @@ same, till we reach an invalid index.
 
 Time complexity: O(mn)^2
 Space complexity: O(1)
+
+
+2. Dynamic Programming
+
+We can use DP in order to solve this problem. If we analyze this problem and try to extend the current step from the rpev step, we notice that each point of the square depends on the indexes [i-1][j-1], [i-1][j] and [i][j-1]. These are
+the 3 primary determinants that will determine the state of the current index. We need to take the min of these thress indexes as only the min will allows us to extend the length of the square by 1. We use this principle to keep track
+of the states in a matrix as we go along
+
+Time omcplexity: O(mn)
+Space complexity: O(mn)
+
+3. Imporvements on DP
+
+We can improve the previous approach by using just two vectors instead of a matrix as we are only using the previous and current row at max
+
+Time complexity: O(mn)
+Soace complaeixty: O(n)
 */
 
 // Other approaches(1)
@@ -134,6 +151,54 @@ public:
     int maximalSquare(vector<vector<char>>& matrix) {
         vector<vector<int>> dpMatrix;
         int maxLength = getMaximalLength(matrix, dpMatrix);
+        return maxLength * maxLength;
+    }
+};
+
+
+// Other Approaches(3)
+class Solution {
+public:
+    int getMinimum(vector<int> & xList, vector<int> & yList, int maxRows, int maxCols, vector<int> & currRow, vector<int> & prevRow, int xRow, int yCol){
+        vector<int> minValues;
+        for(int i=0; i<xList.size(); i++){
+            if(xList[i] < 0 || xList[i] > maxRows-1 || yList[i] < 0 || yList[i] > maxCols-1)
+                minValues.push_back(0);
+            else if(xList[i] == xRow-1)
+                minValues.push_back(prevRow[yList[i]]);
+            else
+                minValues.push_back(currRow[yList[i]]);
+        }
+        
+        // getMinimum of those values
+        int currMin = INT_MAX;
+        for(int i=0; i<minValues.size(); i++)
+            currMin = min(currMin, minValues[i]);
+        
+        return currMin;
+    }
+    
+    int getMaximalLength(vector<vector<char>> & matrix){
+        int maxLength = 0;
+        vector<int> prevRow(matrix[0].size(), 0);
+        
+        for(int i=0; i<matrix.size(); i++){
+            vector<int> currRow(matrix[0].size(), 0);
+            for(int j=0; j<matrix[0].size(); j++){
+                if(matrix[i][j] == '1'){
+                    vector<int> xList{i-1,i-1,i};
+                    vector<int> yList{j-1,j,j-1};
+                    currRow[j] = getMinimum(xList, yList, matrix.size(), matrix[0].size(), currRow, prevRow, i, j) + 1;
+                    maxLength = max(maxLength, currRow[j]);
+                }
+            }
+            prevRow = currRow;
+        }
+        return maxLength;
+    }
+    
+    int maximalSquare(vector<vector<char>>& matrix) {
+        int maxLength = getMaximalLength(matrix);
         return maxLength * maxLength;
     }
 };
