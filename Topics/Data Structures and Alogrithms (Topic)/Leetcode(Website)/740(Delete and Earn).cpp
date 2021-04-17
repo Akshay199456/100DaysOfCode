@@ -48,6 +48,9 @@ We can approach upon this solution by using DP. This problem can acutally be con
 a bucket correponding to that number, this problem is basically asking us to select buckets in the maximized manner. If we select bucket i, then we can't select bucket i-1 and i+1 as those numbers will be removed. As a result, what we can
 do is create a list which stores the sum of each of those buckets and fill our dp array based on the maximized condition of those buckets. At each stage, we can make one of 2 choices: either skip this bucket(i) and taking whatever was the 
 max we had till i-1 or consider this bucket(i) and extend the max that we had from i-2. The max of these two gives the solution for dpList[i].
+
+Time complexity: O(c) where c is a constant representing the total range of numbers
+Space complexdity: O(c)
 */
 
 // My Approaches(1)
