@@ -42,7 +42,12 @@ Space omplexity: O(n)
 
 /*
 -------------------------    Other approaches:
+1. Dynamic Programming approach
 
+We can approach upon this solution by using DP. This problem can acutally be considered as a form of the robbing houese, jumping houses/game DP problem. If we distribute the different numbers into buckets where each number is put into 
+a bucket correponding to that number, this problem is basically asking us to select buckets in the maximized manner. If we select bucket i, then we can't select bucket i-1 and i+1 as those numbers will be removed. As a result, what we can
+do is create a list which stores the sum of each of those buckets and fill our dp array based on the maximized condition of those buckets. At each stage, we can make one of 2 choices: either skip this bucket(i) and taking whatever was the 
+max we had till i-1 or consider this bucket(i) and extend the max that we had from i-2. The max of these two gives the solution for dpList[i].
 */
 
 // My Approaches(1)
@@ -121,5 +126,29 @@ public:
         generateMap(nums, elementMap);
         getMaxPoints(nums, maxTotal, total, nOps, elementMap);
         return maxTotal;
+    }
+};
+
+
+
+// Other approaches(1)
+class Solution {
+public:
+    int deleteAndEarn(vector<int>& nums) {
+        int n = 10001;
+        vector<int> dpList(n, 0), tempList(n,0);
+        
+        // fill tempList
+        for(int num: nums)
+            tempList[num] += num;
+        
+        
+        dpList[1] = tempList[1]; 
+        // fill dpList 
+        for(int i=2; i<n; i++){
+            dpList[i] = max(dpList[i-1], dpList[i-2] + tempList[i]);
+        }
+        
+        return dpList[n-1];
     }
 };
