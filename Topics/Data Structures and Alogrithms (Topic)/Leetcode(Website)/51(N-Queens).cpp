@@ -34,7 +34,7 @@ We can use the backtracking approach to solve this problem. Whenevre we place a 
 the solution to that problem.
 
 Time complexity: O(n!)
-Space complexity: O()
+Space complexity: O(n)
 */
 
 /*
