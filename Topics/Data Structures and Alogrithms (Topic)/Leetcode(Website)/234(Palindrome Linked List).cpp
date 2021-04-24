@@ -171,7 +171,7 @@ public:
         ListNode * temp = head, * newTemp  = newHead;
         while(temp && newTemp){
             if(temp-> val != newTemp->val)
-                return false;
+                retu after it are procern false;
             temp = temp->next;
             newTemp = newTemp->next;
         }
