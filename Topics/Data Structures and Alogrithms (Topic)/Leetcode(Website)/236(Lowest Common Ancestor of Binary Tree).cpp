@@ -274,6 +274,14 @@ class Solution {
     TreeNode * ans;
 public:
     void traverseTree(TreeNode * root, TreeNode * p, TreeNode * q, stack<pair<TreeNode *, int>> elementStack){
+        /*
+        0 -> node not yet viisted
+        1 -> left of node visited
+        2 -> right of node visited
+        
+        */
+        
+        
         bool firstFound = false, allFound = false;
         TreeNode * nodeFirstVisited = NULL;
         while(!elementStack.empty() && !allFound){
@@ -305,13 +313,11 @@ public:
                 if((top.first)->left)
                     elementStack.push(make_pair((top.first)->left, 0));
             }
-            
             else if(!allFound && top.second == 1){
                 elementStack.top() = make_pair(top.first, 2);
                 if((top.first)->right)
                     elementStack.push(make_pair((top.first)->right,0));
             }
-            
             else if(!allFound && top.second == 2){
                 elementStack.pop();
                 if(top.first == ans){
