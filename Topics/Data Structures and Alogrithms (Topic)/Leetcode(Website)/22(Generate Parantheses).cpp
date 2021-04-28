@@ -89,7 +89,7 @@ class Solution {
 public:
     void getSolution(string element, int open, int close, int n, vector<string> & result){
         if(element.size() < 2*n){
-            if(open < n && open + 1 >= close)
+            if(open < n)
                 getSolution(element + "(", open + 1, close, n, result);
             if(close < n && open >= close + 1)
                 getSolution(element + ")", open, close + 1, n, result);
