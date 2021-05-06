@@ -39,6 +39,14 @@ We can nuse a custome sort comparator in order to sort the array and then select
 
 Time complexity: O(nlogn)
 Space complexity: O(1)
+
+
+2. Using min heap and hashmap
+
+We can use a hashmap and then use a min heap that stores the top 5 scores associated with each of the students. In addition, we could make use of a data structure to keep track of the total as we are going along and adjust it accordingly to simplify the calculations.
+
+Time complexity: O(nlogn)
+Space complexity: O(1)
 */
 
 /*
@@ -88,5 +96,83 @@ public:
         result.push_back(list);
         
         return result;
+    }
+};
+
+// My Approaches(2)
+struct StudentResults{
+    priority_queue<int, vector<int>, greater<int>> top5Heap;
+    int total;
+    
+    StudentResults(){
+        total = 0;
+    }
+    
+    void updateTotal(int marks){
+        this->total += marks;
+    }
+    
+    void pushHeap(int marks){
+        (this->top5Heap).push(marks);
+    }
+    
+    void popHeap(){
+        (this->top5Heap).pop();
+    }
+    
+    int getTop(){
+        return (this->top5Heap).top();
+    }
+    
+    int getTotal(){
+        return (this->total);
+    }
+};
+
+void createMap(vector<vector<int>> & items, unordered_map<int, StudentResults> & studentsMap){
+    for(int i=0; i<items.size(); i++){
+        vector<int> currentStudent = items[i];
+        if(studentsMap.find(currentStudent[0]) == studentsMap.end()){
+            StudentResults resultObject;
+            resultObject.updateTotal(currentStudent[1]);
+            resultObject.pushHeap(currentStudent[1]);
+            studentsMap[currentStudent[0]] = resultObject;
+        }
+        else{
+            if(studentsMap[currentStudent[0]].top5Heap.size() < 5){
+                studentsMap[currentStudent[0]].updateTotal(currentStudent[1]);
+                studentsMap[currentStudent[0]].pushHeap(currentStudent[1]);
+            }
+            else if(studentsMap[currentStudent[0]].getTop() < currentStudent[1]){
+                int minValue = studentsMap[currentStudent[0]].getTop();
+                studentsMap[currentStudent[0]].updateTotal(-1 * minValue);
+                studentsMap[currentStudent[0]].popHeap();
+                studentsMap[currentStudent[0]].pushHeap(currentStudent[1]);
+                studentsMap[currentStudent[0]].updateTotal(currentStudent[1]);
+            }
+        }
+    }
+}
+
+void updateResults(vector<vector<int>> & results, unordered_map<int, StudentResults> & studentsMap){
+    for(auto it = studentsMap.begin(); it!= studentsMap.end(); it++){
+        vector<int> list;
+        list.push_back(it->first);
+        list.push_back((it->second).getTotal() / 5);
+        results.push_back(list);
+    }
+    
+    sort(results.begin(), results.end());
+}
+
+
+class Solution {
+public:
+    vector<vector<int>> highFive(vector<vector<int>>& items){
+        unordered_map<int, StudentResults> studentsMap;
+        vector<vector<int>> results;
+        createMap(items, studentsMap);
+        updateResults(results, studentsMap);
+        return results;
     }
 };
