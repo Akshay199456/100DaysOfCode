@@ -54,7 +54,13 @@ Space complexity: O(n)
 
 /*
 -------------------------    Other approaches:
+1. Using two sum similar technique
 
+We can apply the two sum technique and use O(1) space instead. If we find the sum of the whole array during the first run, we can then use that to calculate the rightSum and leftSum as we are moving along and when we find the index when
+they are equal we return that index
+
+Time complexity: O(n)
+Space complexity: O(1)
 */
 
 // My Approaches(1)
@@ -88,5 +94,34 @@ public:
             }
         }
         return pivotIndex;
+    }
+};
+
+
+// Other Approaches(1)
+class Solution {
+public:
+    int getTotal(vector<int> & nums){
+        int total = 0;
+        for(int i=0; i<nums.size(); i++)
+            total += nums[i];
+        return total;
+    }
+    
+    int getPivotIndex(vector<int> & nums, int rightSum){
+        int leftSum = 0;
+        for(int i=0; i<nums.size(); i++){
+            rightSum -= nums[i];
+            if(leftSum == rightSum)
+                return i;
+            else
+                leftSum += nums[i];   
+        }
+        return -1;
+    }
+    
+    int pivotIndex(vector<int>& nums) {
+        int sum = getTotal(nums);
+        return getPivotIndex(nums, sum);
     }
 };
