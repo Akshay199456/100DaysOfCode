@@ -52,6 +52,13 @@ a bit
 
 Time complexity: O(max(tx,ty));
 Space complexity: O(1)
+
+4. Using modulus operator
+
+We can use the modulus operator to improve upon Other Approaches(3) by getting rid of calculations as long as tx > ty or vice versa and other certain conditions.
+
+Time Complexity: O(log(max(m,n)))
+Space complexity: O(1)
 */
 
 // Other Approaches(1)
@@ -124,3 +131,32 @@ public:
 };
 
 // Other Approaches(4)
+class Solution {
+public:
+    bool checkMoveExists(int sx, int sy, int tx, int ty){
+        bool isEnd = false;
+        while(tx >= sx && ty >= sy && !isEnd){
+            if(tx == ty)
+                isEnd = true;
+            else{
+                if(tx > ty){
+                    if(ty > sy)
+                        tx %= ty;
+                    else
+                        return (tx - sx) % ty == 0; 
+                }
+                else{
+                    if(tx > sx)
+                        ty %= tx;
+                    else
+                        return (ty-sy) % tx == 0;
+                }
+            }
+        }
+        return tx == sx && ty == sy;
+    }
+    
+    bool reachingPoints(int sx, int sy, int tx, int ty) {
+        return checkMoveExists(sx, sy, tx, ty);
+    }
+};
