@@ -45,8 +45,14 @@ Output: -1
 
 We can split the string into tokens hich we can then compare the values associated with them and finally return the values.
 
-Time complexity: O(n+m)
-Space complexity: O(n+m)
+Time complexity: O(max(n,m))
+Space complexity: O(max(n,m))
+
+
+2. Two pointer approach
+
+Time complexity: O(max(m,n))
+Space complexity: O(1)
 */
 
 /*
@@ -111,5 +117,51 @@ public:
         vector<string> stringValues {version1, version2};
         vector<vector<int>> intValues = splitValues(stringValues);
         return compareSizeAndValues(intValues);
+    }
+};
+
+
+// My Approaches(2)
+class Solution {
+public:
+    int getValue(string text, int & ptr){
+        string stringValue = "";
+        while(text[ptr] != '.' && ptr < text.size()){
+            stringValue += text[ptr++];
+        }
+        ptr++;
+        return stoi(stringValue);
+    }
+    
+    int compareStrings(string version1, string version2, int & ptr1, int & ptr2){
+        while(ptr1 < version1.size() && ptr2 < version2.size()){
+            int value1 = getValue(version1, ptr1);
+            int value2 = getValue(version2, ptr2);
+            if(value1 < value2)
+                return -1;
+            else if(value1 > value2)
+                return 1;
+        }
+        
+        if(ptr1 == version1.size() + 1 && ptr2 == version2.size() + 1)
+            return 0;
+        else if(ptr2 < version2.size() + 1){
+            while(ptr2 != version2.size()){
+                ptr1 = 0;
+                return compareStrings("0", version2, ptr1, ptr2);   
+            }
+        }
+        else{
+            while(ptr1 != version1.size()){
+                ptr2 = 0;
+                return compareStrings(version1, "0", ptr1, ptr2);   
+            }
+        }
+        return INT_MAX;
+    }
+    
+    int compareVersion(string version1, string version2) {
+        int ptr1 = 0, ptr2 = 0;
+        return compareStrings(version1, version2, ptr1, ptr2);
     }
 };
