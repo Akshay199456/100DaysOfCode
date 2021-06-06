@@ -45,8 +45,8 @@ Output: -1
 
 We can split the string into tokens hich we can then compare the values associated with them and finally return the values.
 
-Time complexity: O(n)
-Space complexity: O(n)
+Time complexity: O(n+m)
+Space complexity: O(n+m)
 */
 
 /*
