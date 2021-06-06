@@ -21,7 +21,13 @@ Constraints:
 
 /*
 -------------------------    My Approaches:
+1.Using two sum approach
 
+We can initially sort the array. Once we do that we have the integers in proper order so we can move pointers as we need to get the result we need. Since for
+each integer, we will be looking at O(n) times, te time complexity comes to O(n^2)
+
+Time complexity: O(n^2)
+Space complexity: O(1)
 */
 
 /*
