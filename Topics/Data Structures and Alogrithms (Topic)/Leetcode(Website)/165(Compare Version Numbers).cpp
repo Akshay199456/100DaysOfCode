@@ -51,8 +51,10 @@ Space complexity: O(max(n,m))
 
 2. Two pointer approach
 
+We can probably improve this approach in terms of space complexity by using an iterative instead of recursive approach
+
 Time complexity: O(max(m,n))
-Space complexity: O(1)
+Space complexity: O(max(m,n))
 */
 
 /*
