@@ -60,7 +60,13 @@ Space complexity: O(n)
 
 /*
 -------------------------    Other approaches:
+1. In place linked list manipulation
 
+Insteafd of using ahashmap to store relationships between old and new nodes, we can instead create new nodes nad then link the old nodes immediately to the nwe nodes. Using this stategy, we can easily change both the new nd random
+poiunters for the new and old nodes respectively that would give us the ability to modify the linked list in place.
+
+Time complexity: O(n)
+Space complexity: O(1)
 */
 
 // My Approaches(1)
@@ -151,5 +157,68 @@ public:
         }
         return newHead->next;
         
+    }
+};
+
+
+// Other Approaches(1)
+/*
+// Definition for a Node.
+class Node {
+public:
+    int val;
+    Node* next;
+    Node* random;
+    
+    Node(int _val) {
+        val = _val;
+        next = NULL;
+        random = NULL;
+    }
+};
+*/
+
+class Solution {
+public:
+    void attachNewNodes(Node * & head){
+        Node * temp = head;
+        while(temp){
+            Node * newNode = new Node(temp->val);
+            newNode->next = temp->next;
+            temp->next = newNode;
+            temp = newNode->next;
+        }
+    }
+    
+    void attachRandomNodes(Node * & head){
+        Node * temp = head;
+        while(temp){
+            Node * oldNode = temp, * newNode = temp->next;
+            if(oldNode->random)
+                newNode->random = oldNode->random->next;
+            temp = newNode->next;
+        }
+    }
+    
+    void removeOldAttachments(Node * & head, Node * & newHead){
+        Node * temp = head;
+        newHead->next = temp->next;
+        while(temp){
+            Node * oldNode = temp, * newNode = temp->next;
+            oldNode->next = newNode->next;
+            if(oldNode->next)
+                newNode->next = oldNode->next->next;
+            temp = temp->next;
+        }
+    }
+    
+    Node* copyRandomList(Node* head) {
+        Node * newHead = new Node(-1);
+        if(head){
+            attachNewNodes(head);
+            attachRandomNodes(head);
+            removeOldAttachments(head, newHead);   
+        }
+        return newHead->next;
     }
 };
