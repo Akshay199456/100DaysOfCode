@@ -34,7 +34,7 @@ Constraints:
 The problem has certiain patterns that wc can use to solve. It has prefixes, suffixes and terms depending on the value of the 3 membered value
 
 Time complexity: O(n)
-Space omplexity: O(n)
+Space omplexity: O(1)
 */
 
 /*
