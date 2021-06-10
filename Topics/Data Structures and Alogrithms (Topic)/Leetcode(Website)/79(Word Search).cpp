@@ -37,8 +37,8 @@ board and word consists only of lowercase and uppercase English letters.
 We can apply the bracktracking approach to solve this problem. If we find a character that matches the current index, we can search its neighbors for the next character and so on. If at the end, we arrive at the end of word, then
 we have found the word else we have not.
 
-Time complexity: O(mnk) whre k is length of word
-Space complexity: O(max(m,n))
+Time complexity: O(mn * 3^k) whre k is length of word
+Space complexity: O(k)
 
 
 */
