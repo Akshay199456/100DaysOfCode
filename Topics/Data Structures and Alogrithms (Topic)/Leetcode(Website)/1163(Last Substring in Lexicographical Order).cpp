@@ -34,7 +34,12 @@ Space complexity: O(n^2)
 
 /*
 -------------------------    Other approaches:
+1. Comparing two substrings at each time
 
+[Check Helping Images for more information on these approaches]
+
+Time complexity: O(n)
+Space complexity: O(1)
 */
 
 // My Approafches(1) [Time limit exceeded]
@@ -55,5 +60,32 @@ public:
         generateSubstrings(s, allSubstrings);
         sort(allSubstrings.begin(), allSubstrings.end());
         return allSubstrings[allSubstrings.size()-1];
+    }
+};
+
+
+// Other Approaches(1)
+class Solution {
+public:
+    string getLastSubstring(string s){
+        int i = 0, j = 1, k = 0;
+        while(j + k < s.size()){
+            if(s[i+k] == s[j+k])
+                ++k;
+            else if(s[i+k] > s[j+k]){
+                j = j+k+1;
+                k=0;
+            }
+            else{
+                i = max(i+k+1, j);
+                j = i+1;
+                k=0;
+            }
+        }
+        return s.substr(i);
+    }
+    
+    string lastSubstring(string s) {
+        return getLastSubstring(s);
     }
 };
