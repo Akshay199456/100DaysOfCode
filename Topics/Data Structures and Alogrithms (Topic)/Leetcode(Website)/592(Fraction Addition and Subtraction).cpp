@@ -40,7 +40,9 @@ The numerator and denominator of the final result are guaranteed to be valid and
 
 We can break down the expression into numerators and denominators and then perform the calculations once we have the tokens.
 
-Time complexity: O(n)
+Note: We can also improve upon this solution by instead calculating the value as we are going along instead of splitting into tokens. The time complexity would remain the same [O(nlog x)] but the space complexity would be O(1) in that case.
+
+Time complexity: O(n log x) where x is the max possible value for the denominator
 Space complexity: O(n)
 */
 
