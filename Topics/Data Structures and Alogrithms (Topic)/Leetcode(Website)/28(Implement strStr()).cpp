@@ -81,7 +81,12 @@ KMP uses a two stepped approach to find the matching substring in O(m+n) time co
 Total complexity:
 
 Time complexity: O(m+n)
-Space complexity: O(n)	
+Space complexity: O(n)
+
+
+Note: The lps array stands for longest proper prefix that is also a suffix. By building it, the advantage is that upon a mismatch, we can obtain the value at the previous index. This value tells us whether there is any match upto the current
+value. If it is, we know that this is a suffix that exists in the string. This then means that there must be a prefix that matches this string. As a result, we make our len jump to value. This will be the value from which we can continue
+searching for next patterns thereby skipping a few characters.
 
 */
 
