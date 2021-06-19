@@ -46,7 +46,7 @@ We can apply the sliding window problem cause we are looking at substrings. As l
 remove the characters from the left ptr till condition is not satisifed and keep repeating this process.
 
 Time complexity: O(m+n)
-Space complexity: O(m)
+Space complexity: O(m+n)
 */
 
 /*
