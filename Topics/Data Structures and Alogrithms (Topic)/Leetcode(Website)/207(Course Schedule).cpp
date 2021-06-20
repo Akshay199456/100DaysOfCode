@@ -71,6 +71,15 @@ we use the current vertex and go through its neighbors to reduce the incoming ed
 
 Time complexity: O(n^2)
 Space complexity: O(n^2)
+
+2. Improved version of My Approaches(1)
+
+In my approaches(1), we start at each course number and check if we can detect a cycle. This is repetitive as that would mean we would be checking for nodes that are descendant from a node more than once., As a result, that
+would lead to inefficiency. We cn take care of that by using another array that stores the state of whether or not we have checked it before. If we have cheked it before, we don't need to check it again and skip through
+it instead.
+
+Time complexity: O(V+E)
+Space complexity: O(V+E)
 */
 
 // My Approaches(1)
@@ -179,5 +188,62 @@ public:
     bool canFinish(int numCourses, vector<vector<int>>& prerequisites) {
         createGraph(numCourses, prerequisites);
         return finishAllCourses(numCourses);
+    }
+};
+
+// Other Approaches(2)
+class Solution {
+public:
+    unordered_map<int, vector<int>> graph;
+    
+    void createGraph(int numCourses, vector<vector<int>> & prerequisites){
+        // fill with empty lists
+        vector<int> list;
+        for(int i=0; i< numCourses; i++)
+            graph[i] = list;
+        
+        // fill with edges
+        for(int i=0; i< prerequisites.size(); i++){
+            graph[prerequisites[i][0]].push_back(prerequisites[i][1]);
+        }
+    }
+    
+    void printGraph(){
+        for(auto it=graph.begin(); it!=graph.end(); it++){
+            cout<<"Element: "<<it->first<<endl;
+            for(int i=0; i<it->second.size(); i++){
+                cout<<"\tDependency: "<<it->second[i]<<endl;
+            }
+        }
+    }
+    
+    bool hasCycle(int currCourse, vector<bool> & hasPreviouslySeen, vector<bool> & hasChecked){
+        bool result = false;
+        
+        if(hasPreviouslySeen[currCourse])
+            return true;
+        else if(hasChecked[currCourse] || !graph[currCourse].size())
+            return false;
+        
+        hasPreviouslySeen[currCourse] = true;
+        for(int i=0; i< graph[currCourse].size() && !result; i++){
+            result = hasCycle(graph[currCourse][i], hasPreviouslySeen, hasChecked); 
+        }
+        
+        hasPreviouslySeen[currCourse] = false;
+        hasChecked[currCourse] = true;
+        return result;
+    }
+    
+    bool canFinish(int numCourses, vector<vector<int>>& prerequisites) {
+        createGraph(numCourses, prerequisites);
+        vector<bool> hasPreviouslySeen(numCourses, false);
+        vector<bool> hasChecked(numCourses, false);
+        
+        for(int i=0; i<numCourses; i++){
+            if(hasCycle(i, hasPreviouslySeen, hasChecked))
+                return false;
+        }
+        return true;
     }
 };
