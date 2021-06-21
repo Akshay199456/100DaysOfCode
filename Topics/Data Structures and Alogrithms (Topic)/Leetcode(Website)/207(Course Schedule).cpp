@@ -76,7 +76,7 @@ Space complexity: O(n^2)
 
 In my approaches(1), we start at each course number and check if we can detect a cycle. This is repetitive as that would mean we would be checking for nodes that are descendant from a node more than once., As a result, that
 would lead to inefficiency. We cn take care of that by using another array that stores the state of whether or not we have checked it before. If we have cheked it before, we don't need to check it again and skip through
-it instead.
+it instead. 
 
 Time complexity: O(V+E)
 Space complexity: O(V+E)
