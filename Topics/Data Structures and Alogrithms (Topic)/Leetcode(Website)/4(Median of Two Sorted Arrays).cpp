@@ -49,13 +49,25 @@ Follow up: The overall run time complexity should be O(log (m+n)).
 
 We can merge the two sorted arrays into a new array and then find the median from that new array
 
+[Note]: We can actually improve upon this approach by using two pointers instead of moving into a new array. The time omplexity remains the same i.e. O(m+n) but the space complexity is O(1).
+
 Time complexity: O(m+n)
 Space complexity: O(m+n)
 */
 
 /*
 -------------------------    Other approaches:
+1. Using binary search
 
+The key behind this approach is that we want to diving the collection of m+n elemets into two groups such that all theleemnts in the left group are less than theleemtns in the roght group. When this condition is satisifed, if the no of 
+elements are odd, then our answer lies on the right end verge of the left collection. Else we need to avg that answer with the min of hte answers on the left verge of the rght collection. If the maxLeftX > minLEftY, that means we have
+to move our partition in x towards the left because that would allows us to expenad in partition in y therby getting us closer to the answer. Else we move the partition in x right.
+
+Check out [https://www.youtube.com/watch?v=LPFhl65R7ww&t=3s&ab_channel=TusharRoy-CodingMadeSimple] for the approach on the answer. In addition, check out the helping images to learn more about the approach from my examples and from other's
+explanation.
+
+Time complexity: O(log(m+n))
+Space complexity: O(1)
 */
 
 // My Approaches(1)
@@ -97,5 +109,46 @@ public:
             
         // find the median of the result array
         return calculateMedian(result);
+    }
+};
+
+
+// Other Approaches(1)
+class Solution {
+public:
+    double findMedianSortedArrays(vector<int>& nums1, vector<int>& nums2) {
+        bool isEnd = false;
+        double result;
+        
+        if(nums1.size() > nums2.size())
+            return findMedianSortedArrays(nums2, nums1);
+        
+        int smallSize = nums1.size(), bigSize = nums2.size();
+        int beg = 0, end = smallSize;
+        while(beg <= end && !isEnd){
+            int partX = (beg + end)/2;
+            int partY = ((smallSize + bigSize + 1) / 2) - partX;
+            
+            int maxLeftX = (partX == 0) ? INT_MIN : nums1[partX-1];
+            int minRightX = (partX == smallSize) ? INT_MAX : nums1[partX];
+            int maxLeftY = (partY == 0) ? INT_MIN : nums2[partY-1];
+            int minRightY = (partY == bigSize) ? INT_MAX : nums2[partY];
+            
+            // if condition satisfied
+            if(maxLeftX <= minRightY && maxLeftY <= minRightX){
+                result = max(maxLeftX, maxLeftY);
+                if((smallSize + bigSize) % 2 == 0)
+                    result = (result + (double) min(minRightX, minRightY))/2;
+                
+                isEnd = true;
+            }
+            
+            else if(maxLeftX > minRightY)
+                end = partX-1;
+            else
+                beg = partX+1;
+        }
+        
+        return result;
     }
 };
