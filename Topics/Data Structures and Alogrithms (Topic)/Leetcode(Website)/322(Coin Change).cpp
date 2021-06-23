@@ -43,9 +43,18 @@ Constraints:
 -------------------------    My Approaches:
 1. Using DP just like Coin Change 2 but here each cell stores the least number of coins to make that amount
 
+We can apply the same techniues we laernt in Coing Change 2. But, here, we use the fewest number of coins that can be made for a certain amount and certain amount of coins into each cell. That eventually builds up to the final
+answer.
 
 Time complexity: O(kn) where k is the amount and n is the no of coins available
 Space complexity: O(kn)
+
+2. Improvemnt on My Approaches(1)
+
+If we observe My Approaches(1), we only use the last row at max, so we don't need to store a table. We can just store the prevRow into a list and record its value at the end of a particular value of i.
+
+Time complexity: O(kn)
+Space complexity: O(k)
 */
 
 /*
@@ -90,5 +99,35 @@ public:
         if(dpTable[coins.size()][amount] == INT_MAX)
             return -1;
         return dpTable[coins.size()][amount];
+    }
+};
+
+// My Approaches(2)
+class Solution {
+public:
+    int getFewestCoins(vector<int> & coins, int amount){
+        vector<int> prevRow;
+        for(int i=0; i<= coins.size(); i++){
+            vector<int> currRow;
+            for(int j=0; j<=amount; j++){
+                if(j == 0)
+                    currRow.push_back(0);
+                else if(i==0)
+                    currRow.push_back(INT_MAX);
+                else{
+                    if(j < coins[i-1] || currRow[j-coins[i-1]] == INT_MAX)
+                        currRow.push_back(prevRow[j]);
+                    else
+                        currRow.push_back(min(1+ currRow[j - coins[i-1]], prevRow[j]));
+                }
+            }
+            prevRow = currRow;
+        }
+        int temp = prevRow[prevRow.size()-1];
+        return temp == INT_MAX ? -1 : temp;
+    }
+    
+    int coinChange(vector<int>& coins, int amount) {
+        return getFewestCoins(coins, amount);
     }
 };
