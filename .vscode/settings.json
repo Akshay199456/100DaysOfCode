@@ -9,6 +9,9 @@
         "regex": "cpp",
         "utility": "cpp",
         "valarray": "cpp",
-        "string": "cpp"
+        "string": "cpp",
+        "*.tcc": "cpp",
+        "unordered_map": "cpp",
+        "unordered_set": "cpp"
     }
 }

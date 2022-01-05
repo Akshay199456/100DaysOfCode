@@ -12,7 +12,13 @@ Space complexity: O(n)
 */
 
 /*
--------------------------    Brute force approach: 
+-------------------------    Other Approaches 
+1. Sorting and using two pointer technique
+
+with this appraoch, you can sort ehe original array so that the elements are now in sorted order. once they are in sorted order, you can assign one pointer at the beginning of the array and the other pointer at the end of the array.As long the sum is less than the target, you keep moving th eleft pointer right and if the sum if greater than the target, then you keep moving the right pointer left. We continue this till we hoit our target sum or left crosses over right
+
+Time complexity: O(nlogn)
+Space complexity: O(1)
 */
 
 // My approaches(1)
@@ -39,3 +45,5 @@ vector<int> twoNumberSum(vector<int> array, int targetSum) {
 		return {};
 	return getResult(array, targetSum);
 }
+
+
