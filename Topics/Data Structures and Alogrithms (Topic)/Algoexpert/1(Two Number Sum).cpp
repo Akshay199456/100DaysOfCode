@@ -21,6 +21,19 @@ Time complexity: O(nlogn)
 Space complexity: O(1)
 */
 
+/*
+-------------------------    Video Explanation 
+x+y = target sum
+y = target sum - x
+
+eg: 
+[3,5,-4,8,11,1,-1,6]
+
+Often hash table will make your algorithm run faster and more efficiently but will use a bit more space
+
+*/
+
+
 // My approaches(1)
 #include <vector>
 using namespace std;
