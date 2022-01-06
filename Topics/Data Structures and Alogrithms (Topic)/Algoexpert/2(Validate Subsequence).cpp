@@ -22,6 +22,11 @@ Space compleixty: O(1)
 
 /*
 -------------------------    Video Explanation 
+in subsequences, all of the numbers in the subsequence must appear in the array but they must also appear in the same order.
+have to traverse botha rrays.
+have to traverse the maina rray as well
+
+becasue the order of the elements in subsequence matters, we are lookinf for the first element and every element matters.
 
 */
 
