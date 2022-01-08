@@ -26,6 +26,8 @@ Space complexity: O(n)
 
 /*
 -------------------------    Video Explanation 
+whenever a problem is given like this and it is specified that is sorted or ina  aparticular order, that is a pretty good indication that you should be able 
+to solve in in a complexity better than the bruite force solutions, possibly even linear time.
 
 */
 
