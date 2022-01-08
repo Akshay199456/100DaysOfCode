@@ -8,7 +8,7 @@ We use a ,map to store the teams and their scores. in addition, we keep track of
 go through the map a second time to find the max
 
 Time complexity: O(n)
-Space complexity: O(n)
+Space complexity: O(k) where k is hte number of teams
 */
 
 /*
