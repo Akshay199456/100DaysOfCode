@@ -17,6 +17,10 @@ Space complexity: O(k) where k is hte number of teams
 
 /*
 -------------------------    Video Explanation 
+because the length of the name of each team is capped, our alogirhtm is capped. our space complexity 
+would we mouch worse if the length of our keys were not capped.
+our space complexity: O(30k+1) because 30 mis max character per key
+
 
 */
 
