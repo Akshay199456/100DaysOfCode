@@ -7,6 +7,9 @@
 1. 
     Start: 
     End: 
+
+    Time complexity: O(n)
+    Space complexity: O(1)
 */
 """
 
@@ -16,6 +19,9 @@
 1.
     Start: 
     End: 
+
+    Time complexity: O(n)
+    Space complexity: O(1)
 """
 
 
