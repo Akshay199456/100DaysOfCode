@@ -1,5 +1,9 @@
 """
+Given an array of characters where each character represents a fruit tree, you are given two baskets, and your goal is to put maximum number of fruits in each basket. The only restriction is that each basket can have only one type of fruit.
 
+You can start with any tree, but you can’t skip a tree once you have started. You will pick one fruit from each tree until you cannot, i.e., you will stop when you have to pick from a third fruit type.
+
+Write a function to return the maximum number of fruits in both baskets.
 """
 
 """
@@ -21,6 +25,12 @@
 1.
     Start: 
     End: 
+
+    ollwos the sliding window pattern 
+
+Quite similar to longest substring with k distinct character  
+
+Need to find theh length of the longest subarray with no more than 2 distinct character. This transfdorms the current problem into longest substring with k distinct characters where k=2. 
 """
 
 

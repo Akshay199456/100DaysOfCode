@@ -1,4 +1,6 @@
 """
+Problem statement:
+
 
 """
 
@@ -16,7 +18,6 @@
 """
 
 """
-/*
 -------------------------    Other Approaches 
 1.
     Start: 
@@ -29,8 +30,18 @@
 """
 
 
+"""
+-------------------------    Notes
+
+Follows sliding window pattern. 
+
+In this problem, the sliding window is not fixed 
+"""
+
+
 
 #  My approaches(1)
+
 
 
 # Other Approaches(1)

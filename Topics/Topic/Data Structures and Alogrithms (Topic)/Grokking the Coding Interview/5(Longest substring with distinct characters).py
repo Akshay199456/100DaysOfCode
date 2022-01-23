@@ -1,5 +1,5 @@
 """
-
+Given a string, find the length of the longest substring, which has all distinct characters.
 """
 
 """
@@ -29,6 +29,19 @@
 
     Time complexity: O()
     Space complexity: O()
+
+ollows the liding window pattern. 
+
+Can use a dynamic sliding window approach 
+
+Can use a hashmap to remember the last index of each character we have processes. Whenever we get a duplicate character, we will shrink our sliding window to ensure we always have dstinct character in the sliding window. 
+
+Time complexity 
+
+O(n) 
+
+Space complexity: O(k) where k is the nu,ber of distinct characters in the input string.this also means that k <= n , because in the worst case, the whole string might not have any duplicate character so the entire string will bne added to the hashmpa. Having said that, since we can expect a fixed set of characters in the input string, we can say the algorithm runs in fixed space O(1).. In this case, we can use a fixed size array instead of the hashmap. 
+
 """
 
 
