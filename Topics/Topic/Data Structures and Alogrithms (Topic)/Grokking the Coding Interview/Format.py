@@ -33,9 +33,6 @@ Problem statement:
 """
 -------------------------    Notes
 
-Follows sliding window pattern. 
-
-In this problem, the sliding window is not fixed 
 """
 
 
