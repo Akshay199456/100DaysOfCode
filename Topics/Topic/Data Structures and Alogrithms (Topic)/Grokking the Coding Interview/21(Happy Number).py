@@ -116,10 +116,18 @@ Step ‘13’ leads us back to step ‘5’ as the number becomes equal to ‘89
     Start: 
     End: 
 
+    interstingly enough, another appraoch.
+    we know that any number whether a happy number or not will end in a cycle. if number is ahppy number
+    it ends in a cycle with val 1. if not, it will repeat the same pattern over ad over again.
+    so, since any number leads toa  aycle, we can use the fast and slow pointer method to quickly
+    skip through and check. we also know that if we are in a cycle and we have tow pointers
+    ,one faster than the other, and the two pointers will meet at some point or the other.
+    so, once the cyelce is found, we just need to check if the value we have found is a 
+    1 or not.
     
 
-    Time complexity: O()
-    Space complexity: O()
+    Time complexity: O(log n)
+    Space complexity: O(1)
 """
 
 
@@ -166,3 +174,33 @@ main()
 
 
 # Other Approaches(1)
+def get_sum_squares(num):
+  total = 0
+  while num:
+    rem = num % 10
+    total += rem ** 2
+    num = num//10
+  return total
+
+def find_happy_number(num):
+  # TODO: Write your code here
+  isEnd = False
+  slow = fast = num
+  while not isEnd:
+    slow = get_sum_squares(slow)
+    fast = get_sum_squares(get_sum_squares(fast))
+
+    if slow == fast:
+      isEnd = True
+
+  if slow == 1:
+    return True
+  return False
+
+def main():
+  print(find_happy_number(23))
+  print(find_happy_number(12))
+
+
+main()
+
