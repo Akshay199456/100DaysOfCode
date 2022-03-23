@@ -51,7 +51,26 @@ Explanation: Since all the given intervals overlap, we merged them into one.
 
 """
 -------------------------    Notes
+let's take example of two intervals (a and b) usch that a.start <= b.start. there are 4 possible scenariops:
+    1. a and b dont overlap
+    2. some part of b overlaps with a
+    3. a fully overlaps b
+    4. b fully overalps a but both have same start time
 
+goal is to merge intervals whenever they overlap
+for scenarios 2,3 and 4 this is how we will merge them
+    2. c = (a.start, b.end)
+    3. c = (a.start, a.end)
+    4. c = (a.start, b.end)
+
+algorithm looks like this
+    1. sport the intervals on the start time to ensure a.start <= b.start
+    2. if a overlaps b (i.e. b.start <= a.end), we need to merge them into a new interval
+    c such that
+        c.start = a.start
+        c.end = max(a.end, b.end)
+    3. will keep repeeating the above two steps to merge c with the new interval if it 
+    overlaps with c.
 """
 
 
@@ -109,3 +128,57 @@ main()
 
 
 # Other Approaches(1)
+from __future__ import print_function
+
+
+class Interval:
+  def __init__(self, start, end):
+    self.start = start
+    self.end = end
+
+  def print_interval(self):
+    print("[" + str(self.start) + ", " + str(self.end) + "]", end='')
+
+
+def merge(intervals):
+  if len(intervals) < 2:
+    return intervals
+
+  # sort the intervals on the start time
+  intervals.sort(key=lambda x: x.start)
+
+  mergedIntervals = []
+  start = intervals[0].start
+  end = intervals[0].end
+  for i in range(1, len(intervals)):
+    interval = intervals[i]
+    if interval.start <= end:  # overlapping intervals, adjust the 'end'
+      end = max(interval.end, end)
+    else:  # non-overlapping interval, add the previous internval and reset
+      mergedIntervals.append(Interval(start, end))
+      start = interval.start
+      end = interval.end
+
+  # add the last interval
+  mergedIntervals.append(Interval(start, end))
+  return mergedIntervals
+
+
+def main():
+  print("Merged intervals: ", end='')
+  for i in merge([Interval(1, 4), Interval(2, 5), Interval(7, 9)]):
+    i.print_interval()
+  print()
+
+  print("Merged intervals: ", end='')
+  for i in merge([Interval(6, 7), Interval(2, 4), Interval(5, 9)]):
+    i.print_interval()
+  print()
+
+  print("Merged intervals: ", end='')
+  for i in merge([Interval(1, 4), Interval(2, 6), Interval(3, 5)]):
+    i.print_interval()
+  print()
+
+
+main()
