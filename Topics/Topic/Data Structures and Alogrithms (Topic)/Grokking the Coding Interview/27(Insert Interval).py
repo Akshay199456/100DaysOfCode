@@ -17,8 +17,8 @@ Problem statement:
 -------------------------    Other Approaches 
 1.
 
-    Time complexity: O()
-    Space complexity: O()
+    Time complexity: O(n)
+    Space complexity: O(1)
 """
 
 
