@@ -31,7 +31,7 @@ Explanation: Since [4,5] and [3,6] overlap, a person cannot attend both of these
     based on start time and then check if any 2 intervals intersect
 
     Time complexity: O(nlogn)
-    Space complexity: O(1)
+    Space complexity: O(n) -> reqired for sorting array
 */
 """
 
