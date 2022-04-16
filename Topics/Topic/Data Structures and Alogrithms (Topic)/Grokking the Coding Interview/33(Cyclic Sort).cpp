@@ -49,6 +49,16 @@ Output: [1, 2, 3, 4, 5, 6]
 
 /*
 -------------------------    Notes
+input array contrians numbers form range 1-n. can use this fact
+to devise an efficeint way to sort hte numbers . since all numbers unique, can try placing each number
+at its correct place i.e placing 1 at index '0', placing 2 at index 'a'and so on.
+
+to place number at correct index, first need to find that number. if we first fina a number and then place it at its correct place, will take us O(n^2)
+which is not acceptable.
+
+what if we iterate array one number at a time and if correct number we are iterating
+is not at the correct index. this way, we will go through all numbers and placeing them at their correct hence sorting the whole
+array
 
 */
 
@@ -87,3 +97,52 @@ class CyclicSort {
 
 
 //  Other Approaches(1)
+using namespace std;
+
+#include <iostream>
+#include <vector>
+
+class CyclicSort {
+ public:
+  static void sort(vector<int> &nums) {
+    int i = 0;
+    while (i < nums.size()) {
+      int j = nums[i] - 1;
+      if (nums[i] != nums[j]) {
+        swap(nums, i, j);
+      } else {
+        i++;
+      }
+    }
+  }
+
+ private:
+  static void swap(vector<int> &arr, int i, int j) {
+    int temp = arr[i];
+    arr[i] = arr[j];
+    arr[j] = temp;
+  }
+};
+
+int main(int argc, char *argv[]) {
+  vector<int> arr = {3, 1, 5, 4, 2};
+  CyclicSort::sort(arr);
+  for (auto num : arr) {
+    cout << num << " ";
+  }
+  cout << endl;
+
+  arr = vector<int>{2, 6, 4, 3, 1, 5};
+  CyclicSort::sort(arr);
+  for (auto num : arr) {
+    cout << num << " ";
+  }
+  cout << endl;
+
+  arr = vector<int>{1, 5, 6, 4, 3, 2};
+  CyclicSort::sort(arr);
+  for (auto num : arr) {
+    cout << num << " ";
+  }
+  cout << endl;
+}
