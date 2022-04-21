@@ -45,7 +45,15 @@ Output: 4
 
 /*
 -------------------------    Notes
+follows cuclic sort pattern and shares similarities with find the missing number with one 
+big difference, in this problem, numbers not bound by any range so we can have any number
+in the input array
 
+follow same appraoch as dicussed in miussing number to place numbers on their correct
+indeices and ignore all numbers that are out of range of array (i.e. all negative numbers and
+all numbers greater than length of array). once done with cyclic sort, will iterate array and
+that first index that does not have the correct number will be the smallest missing
+positive number
 */
 
 
@@ -61,7 +69,7 @@ class FirstSmallestMissingPositive {
   static void sortNumbers(vector<int> & nums){
     int start{0};
     while(start < nums.size()){
-      if((nums[start] == start+1) || (nums[start] < 1))
+      if((nums[start] == start+1) || (nums[start] < 1) || (nums[start] > nums.size()))
         ++start;
       else{
         int startIndex{start}, swappedIndex{nums[start]-1};
@@ -74,19 +82,71 @@ class FirstSmallestMissingPositive {
 
   static int findMissingNumber(vector<int> & nums){
     for(int i=0; i<nums.size(); i++){
-      if(nums[i] < 1)
+      if((nums[i] != i+1))
         return i+1;
     }
-    return -1;
+    return nums.size()+1;
+  }
+
+  static void printList(vector<int> & nums){
+    for(int i=0; i< nums.size(); i++)
+      cout<<nums[i]<<" ";
+    cout<<endl;
   }
 
   static int findNumber(vector<int> &nums) {
     // TODO: Write your code here
     sortNumbers(nums);
+    printList(nums);
     return findMissingNumber(nums);
   }
 };
 
 
 
+
 //  Other Approaches(1)
+using namespace std;
+
+#include <iostream>
+#include <vector>
+
+class FirstSmallestMissingPositive {
+ public:
+  static int findNumber(vector<int> &nums) {
+    int i = 0;
+    while (i < nums.size()) {
+      if (nums[i] > 0 && nums[i] <= nums.size() && nums[i] != nums[nums[i] - 1]) {
+        swap(nums, i, nums[i] - 1);
+      } else {
+        i++;
+      }
+    }
+
+    for (i = 0; i < nums.size(); i++) {
+      if (nums[i] != i + 1) {
+        return i + 1;
+      }
+    }
+
+    return nums.size() + 1;
+  }
+
+ private:
+  static void swap(vector<int> &arr, int i, int j) {
+    int temp = arr[i];
+    arr[i] = arr[j];
+    arr[j] = temp;
+  }
+};
+
+int main(int argc, char *argv[]) {
+  vector<int> v1 = {-3, 1, 5, 4, 2};
+  cout << FirstSmallestMissingPositive::findNumber(v1) << endl;
+
+  v1 = {3, -2, 0, 1, 2};
+  cout << FirstSmallestMissingPositive::findNumber(v1) << endl;
+
+  v1 = {3, 2, 5, 1};
+  cout << FirstSmallestMissingPositive::findNumber(v1) << endl;
+}
