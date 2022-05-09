@@ -8,7 +8,10 @@ A path can be defined as a sequence of nodes between any two nodes and doesn’t
 
 /*
 -------------------------    My Approaches:
-1. Does not work - Tree Depth First Search
+1. Tree Depth First Search[Does not work]
+
+    can apply the depth first search pattern here. get the left sum,, right sum and
+    caclulate the max sum
 
     Time complexity: O(n)
     Space complexity: O(n)
