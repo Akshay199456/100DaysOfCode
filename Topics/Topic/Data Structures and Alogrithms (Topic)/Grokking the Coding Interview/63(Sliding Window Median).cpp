@@ -31,16 +31,27 @@ Problem statement:
 
 /*
 -------------------------    Other Approaches 
-1.
+1. 2 heaps pattern
 
-    Time complexity: O()
-    Space complexity: O()
+    the pattern they sue is very similar to what i use. the only idfference is that in order to 
+    remove el,enmts from the ehap, they use a find element pattern by overriding an 
+    implementation of a method in prirotity queue which is a pretty interesting technique
+
+    Time complexity: O(NK)
+    Space complexity: O(K)
 */
 
 
 /*
 -------------------------    Notes
+follows two heap pattern and shares similkarities with find the median of a number
+strean. we can follow a smi,lar approach of maintianing a max heap and min-heap
+for the list of numbers to find their median
 
+only differnce is that we need to keep track of slidign window of 'k' numbers. this means, in each
+iteration, when we insert a new number in the heaps, we need to remove one number from the 
+heaps which is going out of the sliding window. after the removal, we need to reblanace the heaps
+in the same way we did while inserting.
 */
 
 
