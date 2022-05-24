@@ -52,7 +52,23 @@ Explanation: As the array is assumed to be circular, the smallest letter greater
 
 /*
 -------------------------    Notes
+problem follows the binary search pattern. since bonary search helps us find an element in
+a sorted array efficiently, we can use a modfiied version of it to find next letter
 
+can use a similar approach to ceiling of a number. there are a couple of differences through:
+
+1. the arrya is considered circular which means if the key is bigger than the last letter of the
+arayy or if it is smalletr than the first letter of the array, the key's next letter will
+be the first letter of the array
+
+2. the other difference is that we have to find the next biggest letter which cant be eqaul to the
+'key'. this means that we will ignore the case where key == arr[middle]. to handle this case,
+we can update our start range to start = middle + 1;
+
+in the end, instead of returning the eklement pointed out by start, we have to
+return the letter pointed out by start % array_length. this is needed becasue of point 2
+dicussed above. imagine that th elast ltter of the array is equal to the 'key'. in that case, we 
+have to return the first letter of the input array.
 */
 
 
@@ -100,3 +116,34 @@ int main(int argc, char* argv[]) {
 
 
 //  Other Approaches(1)
+using namespace std;
+
+#include <iostream>
+#include <vector>
+
+class NextLetter {
+ public:
+  static char searchNextLetter(const vector<char>& letters, char key) {
+    int n = letters.size();
+
+    int start = 0, end = n - 1;
+    while (start <= end) {
+      int mid = start + (end - start) / 2;
+      if (key < letters[mid]) {
+        end = mid - 1;
+      } else {  // if (key >= letters[mid]) {
+        start = mid + 1;
+      }
+    }
+    // since the loop is running until 'start <= end', so at the end of the
+    // while loop, 'start == end+1'
+    return letters[start % n];
+  }
+};
+
+int main(int argc, char* argv[]) {
+  cout << NextLetter::searchNextLetter(vector<char>{'a', 'c', 'f', 'h'}, 'f') << endl;
+  cout << NextLetter::searchNextLetter(vector<char>{'a', 'c', 'f', 'h'}, 'b') << endl;
+  cout << NextLetter::searchNextLetter(vector<char>{'a', 'c', 'f', 'h'}, 'm') << endl;
+  cout << NextLetter::searchNextLetter(vector<char>{'a', 'c', 'f', 'h'}, 'h') << endl;
+}
