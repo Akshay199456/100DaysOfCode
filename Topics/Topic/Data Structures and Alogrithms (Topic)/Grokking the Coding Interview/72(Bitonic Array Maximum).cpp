@@ -54,7 +54,20 @@ Output: 10
 
 /*
 -------------------------    Notes
+bitonic array is sorted array; only difference is that its first part is sorted in ascending order
+and the second part in descending order. can use a similar approach as dicussed in 
+order-agnostic binaryu search. since no two consecutive numbers are same, whenever we calculate
+middle, we can compare the numbers pointed out byh the index middle and middle+1 to find if 
+we are in the ascending or descending part. So:
+    1. if arr[middle] > arr[middle+1], we are in second(descending) part of the bitonic array.
+    therefore, our required number could either be pointed out by middle or will be before middle.
+    this means we will be doing: end = middle
+    2. if arr[middle] < arr[middle+1], we are in the first (ascending part) of the bitonic array.
+    therefore, the required number will be after middle. this means we will be doing
+    start = middle+1.
 
+we can break when start==end. due to the two points smentioned above, both start and end will bne
+pointing at the maximim number of the bitonic array.
 */
 
 
@@ -110,3 +123,32 @@ int main(int argc, char* argv[]) {
 
 
 //  Other Approaches(1)
+using namespace std;
+
+#include <iostream>
+#include <vector>
+
+class MaxInBitonicArray {
+ public:
+  static int findMax(const vector<int>& arr) {
+    int start = 0, end = arr.size() - 1;
+    while (start < end) {
+      int mid = start + (end - start) / 2;
+      if (arr[mid] > arr[mid + 1]) {
+        end = mid;
+      } else {
+        start = mid + 1;
+      }
+    }
+
+    // at the end of the while loop, 'start == end'
+    return arr[start];
+  }
+};
+
+int main(int argc, char* argv[]) {
+  cout << MaxInBitonicArray::findMax(vector<int>{1, 3, 8, 12, 4, 2}) << endl;
+  cout << MaxInBitonicArray::findMax(vector<int>{3, 8, 3, 1}) << endl;
+  cout << MaxInBitonicArray::findMax(vector<int>{1, 3, 8, 12}) << endl;
+  cout << MaxInBitonicArray::findMax(vector<int>{10, 9, 8}) << endl;
+}
