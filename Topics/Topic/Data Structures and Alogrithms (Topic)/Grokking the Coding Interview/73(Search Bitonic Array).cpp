@@ -51,7 +51,18 @@ Output: 0
 
 /*
 -------------------------    Notes
+problem follows binary search pattern. since binary search helps us efficiently find a number
+in a sorted array, we can use a modified version of the binary search to find the 'key' 
+in the bitonic array
 
+here is how we can search in a bitonic array:
+1. first, we can find the index of the maximum value of the bitonuic array, similar to 
+bitonic array maximum problem. lets call the inex of the maximum number maxIndex.
+2. now we can break the array into 2 sub-arrays:
+    1. array from index '0' to maxindex, sorted in ascending order
+    2. array from index maxIndex+1 to array_length-1, sorted in desicneidng order
+3. we can then call binary search separately in these two arrays to search the key. we can use
+the same order-agnostic binary search for searching
 */
 
 
@@ -142,3 +153,69 @@ int main(int argc, char *argv[]) {
 
 
 //  Other Approaches(1)
+using namespace std;
+
+#include <iostream>
+#include <vector>
+
+class SearchBitonicArray {
+ public:
+  static int search(const vector<int> &arr, int key) {
+    int maxIndex = findMax(arr);
+    int keyIndex = binarySearch(arr, key, 0, maxIndex);
+    if (keyIndex != -1) {
+      return keyIndex;
+    }
+    return binarySearch(arr, key, maxIndex + 1, arr.size() - 1);
+  }
+
+  // find index of the maximum value in a bitonic array
+  static int findMax(const vector<int> &arr) {
+    int start = 0, end = arr.size() - 1;
+    while (start < end) {
+      int mid = start + (end - start) / 2;
+      if (arr[mid] > arr[mid + 1]) {
+        end = mid;
+      } else {
+        start = mid + 1;
+      }
+    }
+
+    // at the end of the while loop, 'start == end'
+    return start;
+  }
+
+ private:
+  // order-agnostic binary search
+  static int binarySearch(const vector<int> &arr, int key, int start, int end) {
+    while (start <= end) {
+      int mid = start + (end - start) / 2;
+
+      if (key == arr[mid]) {
+        return mid;
+      }
+
+      if (arr[start] < arr[end]) {  // ascending order
+        if (key < arr[mid]) {
+          end = mid - 1;
+        } else {  // key > arr[mid]
+          start = mid + 1;
+        }
+      } else {  // descending order
+        if (key > arr[mid]) {
+          end = mid - 1;
+        } else {  // key < arr[mid]
+          start = mid + 1;
+        }
+      }
+    }
+    return -1;  // element is not found
+  }
+};
+
+int main(int argc, char *argv[]) {
+  cout << SearchBitonicArray::search(vector<int>{1, 3, 8, 4, 3}, 4) << endl;
+  cout << SearchBitonicArray::search(vector<int>{3, 8, 3, 1}, 8) << endl;
+  cout << SearchBitonicArray::search(vector<int>{1, 3, 8, 12}, 12) << endl;
+  cout << SearchBitonicArray::search(vector<int>{10, 9, 8}, 10) << endl;
+}
