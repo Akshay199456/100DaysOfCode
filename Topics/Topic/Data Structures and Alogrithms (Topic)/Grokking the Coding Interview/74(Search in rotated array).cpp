@@ -97,7 +97,7 @@ My notes:
 
 this is definitely a very interesting approach to the problem. comparing against my approach, it's not too similar to what i was thinkinging but i think 
 i had the right idea.
-rememebr that this is an array that is rotated around a single point. that means that there is one pat that is not sorted and the other that is sorted.
+rememebr that this is an array that is rotated around a single point. that means that there is one pat that is not sorted and the other that is sorted always.
 they way this approach works is that we tfirst take the sorted part. we then check if the key we are looking for is withing than bounds. if it is , we can skip
 the other half. if it isn't , then if the element exists in the half that is not sorted on a single point, we should be checking that array.
 we then do the same checks in tha half till we either find that elment or beg > end.
