@@ -73,7 +73,39 @@ Explanation: '10' is present in the array at index '4'.
 
 /*
 -------------------------    Notes
+problem followz the binary search pattern. can use a similar approach as docussed in 
+order-agnositc binary search and modify it similar to search
+biotonic array to search for the key in the rotated array.
 
+after calculating the middle, we can compare the numbers at indices start and 
+middle. this will give us two options:
+
+1. if arr[start] <= arr[middle], the numbers from start to midd;e are sprted om
+ascending order
+2. else the numbers from middle+1 to end are sorted in ascending order.
+
+once we know which part of the array is sorted, it is easy to adjust our ranges.
+for example, if option 1 is true, we have two choices:
+
+1. by comparing the 'key' with the numbers at index start
+and middle, we can easily find out if the key lies between indices start and middle. if it does,
+we can skip the second part => end = middle-1
+2. else we can skip the first part => start = middle+1
+
+
+My notes:
+
+this is definitely a very interesting approach to the problem. comparing against my approach, it's not too similar to what i was thinkinging but i think 
+i had the right idea.
+rememebr that this is an array that is rotated around a single point. that means that there is one pat that is not sorted and the other that is sorted.
+they way this approach works is that we tfirst take the sorted part. we then check if the key we are looking for is withing than bounds. if it is , we can skip
+the other half. if it isn't , then if the element exists in the half that is not sorted on a single point, we should be checking that array.
+we then do the same checks in tha half till we either find that elment or beg > end.
+
+It';s a good approach to learn from.
+
+time complexity: O(logn)
+Space complexity: O(1)
 */
 
 
@@ -153,3 +185,42 @@ int main(int argc, char* argv[]) {
 
 
 //  Other Approaches(1)
+using namespace std;
+
+#include <iostream>
+#include <vector>
+
+class SearchRotatedArray {
+ public:
+  static int search(const vector<int>& arr, int key) {
+    int start = 0, end = arr.size() - 1;
+    while (start <= end) {
+      int mid = start + (end - start) / 2;
+      if (arr[mid] == key) {
+        return mid;
+      }
+
+      if (arr[start] <= arr[mid]) {  // left side is sorted in ascending order
+        if (key >= arr[start] && key < arr[mid]) {
+          end = mid - 1;
+        } else {  // key > arr[mid]
+          start = mid + 1;
+        }
+      } else {  // right side is sorted in ascending order
+        if (key > arr[mid] && key <= arr[end]) {
+          start = mid + 1;
+        } else {
+          end = mid - 1;
+        }
+      }
+    }
+
+    // we are not able to find the element in the given array
+    return -1;
+  }
+};
+
+int main(int argc, char* argv[]) {
+  cout << SearchRotatedArray::search(vector<int>{10, 15, 1, 3, 8}, 15) << endl;
+  cout << SearchRotatedArray::search(vector<int>{4, 5, 7, 9, 10, -1, 2}, 10) << endl;
+}
