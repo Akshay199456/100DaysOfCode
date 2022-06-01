@@ -79,7 +79,23 @@ Explanation: The array has been not been rotated.
 
 /*
 -------------------------    Notes
+follows binary search pattern. can use a similar strategy as dicussed in search in rotated array.
 
+in this problem, asked to find the index of the minimum elelement. the number of times the 
+minimum element is moved to the rright will be equal to the number of rotations. another interesting
+fact about he minimum element is that it is the only element in the given array which is smaller
+than its previous element. since the array is sorted in ascending order, all other elements are
+bigger than theoir previous element.
+
+after calculating the  middle, we can compare the number at index middle with its previous and
+next number. this will give us two options:
+1. if arr[middle] > arr[middle+1], then element middle+1 is the smallest
+2. if arr[middle-1] > arr[middle], then element at middle is the smallest.
+
+to adjust the ranges, we can follow the smae appraoch as dicussed in search in rotated array
+problem. compareing the numbers at indeices start and middle will give us two optoons:
+1. if arr[start] < arr[middle], numbers from start to middle are sorted.
+2. else numbers from middle+1 to end are sorted.
 */
 
 
@@ -135,3 +151,38 @@ int main(int argc, char* argv[]) {
 
 
 //  Other Approaches(1)
+using namespace std;
+
+#include <iostream>
+#include <vector>
+
+class RotationCountOfRotatedArray {
+ public:
+  static int countRotations(const vector<int>& arr) {
+    int start = 0, end = arr.size() - 1;
+    while (start < end) {
+      int mid = start + (end - start) / 2;
+
+      if (mid < end && arr[mid] > arr[mid + 1]) {  // if mid is greater than the next element
+        return mid + 1;
+      }
+      if (mid > start && arr[mid - 1] > arr[mid]) {  // if mid is smaller than the previous element
+        return mid;
+      }
+
+      if (arr[start] < arr[mid]) {  // left side is sorted, so the pivot is on right side
+        start = mid + 1;
+      } else {  // right side is sorted, so the pivot is on the left side
+        end = mid - 1;
+      }
+    }
+
+    return 0;  // the array has not been rotated
+  }
+};
+
+int main(int argc, char* argv[]) {
+  cout << RotationCountOfRotatedArray::countRotations(vector<int>{10, 15, 1, 3, 8}) << endl;
+  cout << RotationCountOfRotatedArray::countRotations(vector<int>{4, 5, 7, 9, 10, -1, 2}) << endl;
+  cout << RotationCountOfRotatedArray::countRotations(vector<int>{1, 3, 8, 10}) << endl;
+}
