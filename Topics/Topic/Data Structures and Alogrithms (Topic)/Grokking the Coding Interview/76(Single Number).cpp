@@ -38,7 +38,26 @@ Output: 9
 
 /*
 -------------------------    Notes
+one straight forward solution can be to use hashmap and iterate through input:
+  1. if a number s already present in hashmap, remove it
+  2. if number is not presetn in hashmpa, add t.
+  3., in the end, only number left in hte hashmap is our requireed single number
 
+  time complexity: On
+
+Space complexity: O(n)
+
+
+Can do better with Exor appraoch.
+the following two properties of xor are:
+  1. it retjurns zero if we take xor of two same numbers
+  it returns the same number if we xor with zero
+
+so we can exor all the numbers in t einput; duplicate numbers will zero our
+each other and we will eb left with the single number
+
+time complexity: O(n)
+Space complexity: O(1)
 */
 
 
@@ -75,3 +94,22 @@ int main(int argc, char* argv[]) {
 
 
 //  Other Approaches(1)
+using namespace std;
+
+#include <iostream>
+#include <vector>
+
+class SingleNumber {
+  public:
+    static int findSingleNumber(const vector<int>& arr) {
+      int num = 0;
+      for (int i=0; i < arr.size(); i++) {
+        num = num ^ arr[i];
+      }
+      return num;
+    }
+};
+
+int main(int argc, char* argv[]) {
+  cout << SingleNumber::findSingleNumber(vector<int>{1, 4, 2, 1, 3, 2, 3}) << endl;
+}
