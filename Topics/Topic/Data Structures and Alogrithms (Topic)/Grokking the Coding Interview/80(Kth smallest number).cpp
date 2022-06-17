@@ -57,6 +57,9 @@ can follow the same approach as discussed in 'top k elements' problem. to handle
 instead of a min-heap. as we know, the root is the biggest element in th emax heap. so, since we want to keep track of the 'k' smal;lest numbers, we can
 compare every number with the root while iterating throwingh all numbers and if its smaller than the root, we will take the root out and inser the 
 smallestr number
+
+    Time complexity: O(klogk + (n-k)*logk) = O(nlogk)
+    Space complexity: O(k)
 */
 
 
