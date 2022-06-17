@@ -42,7 +42,12 @@ Output: [[1, 3], [2, -1]]
 
 /*
 -------------------------    Notes
+problem follows top k nubers pattern. only difference in this problem is that we need to find the closest point
+(to the origin) as compared ot finding the largest numbers.
 
+we can use a max heap to find 'k' points closes to origin. while iterating through all points, if a point
+(say 'p') is closer to the origin than the top poont if the max-heap, we will remove that top point form the heap
+and add 'p' to always keep the closes points in the ehap.
 
     Time complexity: O()
     Space complexity: O()
