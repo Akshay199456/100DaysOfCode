@@ -49,7 +49,7 @@ Output: [5, 6, 9]
 /*
 -------------------------    Notes
 problem follows the top k numbers pattern. biggest difference in this problem is that we need to
-find the closes(to 'X') numbers compared to finding the overall largest numbers. another diff is that given array is sorted.
+find the closes(to 'X') numbers compared to f7nding the overall largest numbers. another diff is that given array is sorted.
 
 utilizing similar approach, can find the numbers closest to 'x' through following algorithm:
 1. since array sorted, can first find the number closest to 'x' through binary search. lets say that number is 'Y'.
