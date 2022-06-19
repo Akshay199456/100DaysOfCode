@@ -48,10 +48,25 @@ Output: [5, 6, 9]
 
 /*
 -------------------------    Notes
+problem follows the top k numbers pattern. biggest difference in this problem is that we need to
+find the closes(to 'X') numbers compared to finding the overall largest numbers. another diff is that given array is sorted.
+
+utilizing similar approach, can find the numbers closest to 'x' through following algorithm:
+1. since array sorted, can first find the number closest to 'x' through binary search. lets say that number is 'Y'.
+2. The 'k' closest numbers to 'Y' will be adjacent to 'T' in the array. can search in both directions of 'y' to find the closest numbers
+3. can use a heap to efficiently search for closest numbers. will take 'k' numbers in both directions of 'y' and push them in min heap
+sorted by absolute difference from 'x'. this will ensure that the numbers with smallest difference from 'x' (i.e closest to 'x') cna be extracted easily
+from min heap.
+4. findally, will extract the top k numbers from the min heap to find the required numbers.
+
+    Time complexity: O(log n + klogk)
+    Space complexity: O(k)
 
 
-    Time complexity: O()
-    Space complexity: O()
+Comparing my apporac against theirs, they are almost very similar. however, since hte arrya is sorted, they have made use of binary search to find the element that is closest to X
+and then use that to get K elements on its left and right as the answer has to lie between that and cannot be outside of that which is a prtty efficient way to think about it.
+
+another improvied approach they used was the two pointers after the binary search which also is a good approach.
 */
 
 
@@ -135,3 +150,156 @@ int main(int argc, char *argv[]) {
 
 
 //  Other Approaches(1)
+using namespace std;
+
+#include <algorithm>
+#include <iostream>
+#include <queue>
+#include <vector>
+
+class KClosestElements {
+ public:
+  struct numCompare {
+    bool operator()(const pair<int, int> &x, const pair<int, int> &y) { return x.first > y.first; }
+  };
+
+  static vector<int> findClosestElements(const vector<int> &arr, int K, int X) {
+    int index = binarySearch(arr, X);
+    int low = index - K, high = index + K;
+    low = max(low, 0);                      // 'low' should not be less than zero
+    high = min(high, (int)arr.size() - 1);  // 'high' should not be greater the size of the array
+
+    priority_queue<pair<int, int>, vector<pair<int, int>>, numCompare> minHeap;
+    // add all candidate elements to the min heap, sorted by their absolute difference from 'X'
+    for (int i = low; i <= high; i++) {
+      minHeap.push(make_pair(abs(arr[i] - X), i));
+    }
+
+    // we need the top 'K' elements having smallest difference from 'X'
+    vector<int> result;
+    for (int i = 0; i < K; i++) {
+      result.push_back(arr[minHeap.top().second]);
+      minHeap.pop();
+    }
+
+    sort(result.begin(), result.end());
+    return result;
+  }
+
+ private:
+  static int binarySearch(const vector<int> &arr, int target) {
+    int low = 0;
+    int high = (int)arr.size() - 1;
+    while (low <= high) {
+      int mid = low + (high - low) / 2;
+      if (arr[mid] == target) {
+        return mid;
+      }
+      if (arr[mid] < target) {
+        low = mid + 1;
+      } else {
+        high = mid - 1;
+      }
+    }
+    if (low > 0) {
+      return low - 1;
+    }
+    return low;
+  }
+};
+
+int main(int argc, char *argv[]) {
+  vector<int> result = KClosestElements::findClosestElements(vector<int>{5, 6, 7, 8, 9}, 3, 7);
+  cout << "'K' closest numbers to 'X' are: ";
+  for (auto num : result) {
+    cout << num << " ";
+  }
+  cout << endl;
+
+  result = KClosestElements::findClosestElements(vector<int>{2, 4, 5, 6, 9}, 3, 6);
+  cout << "'K' closest numbers to 'X' are: ";
+  for (auto num : result) {
+    cout << num << " ";
+  }
+  cout << endl;
+}
+
+
+// Other Approches(2)
+using namespace std;
+
+#include <deque>
+#include <iostream>
+#include <vector>
+
+class KClosestElements {
+ public:
+  static vector<int> findClosestElements(const vector<int> &arr, int K, int X) {
+    deque<int> result;
+    int index = binarySearch(arr, X);
+    int leftPointer = index;
+    int rightPointer = index + 1;
+    for (int i = 0; i < K; i++) {
+      if (leftPointer >= 0 && rightPointer < (int)arr.size()) {
+        int diff1 = abs(X - arr[leftPointer]);
+        int diff2 = abs(X - arr[rightPointer]);
+        if (diff1 <= diff2) {
+          result.push_front(arr[leftPointer--]);  // append in the beginning
+        } else {
+          result.push_back(arr[rightPointer++]);  // append at the end
+        }
+      } else if (leftPointer >= 0) {
+        result.push_front(arr[leftPointer--]);
+      } else if (rightPointer < (int)arr.size()) {
+        result.push_back(arr[rightPointer++]);
+      }
+    }
+    vector<int> resultVec;
+    std::move(std::begin(result), std::end(result), std::back_inserter(resultVec));
+    return resultVec;
+  }
+
+ private:
+  static int binarySearch(const vector<int> &arr, int target) {
+    int low = 0;
+    int high = (int)arr.size() - 1;
+    while (low <= high) {
+      int mid = low + (high - low) / 2;
+      if (arr[mid] == target) {
+        return mid;
+      }
+      if (arr[mid] < target) {
+        low = mid + 1;
+      } else {
+        high = mid - 1;
+      }
+    }
+    if (low > 0) {
+      return low - 1;
+    }
+    return low;
+  }
+};
+
+int main(int argc, char *argv[]) {
+  vector<int> result = KClosestElements::findClosestElements(vector<int>{5, 6, 7, 8, 9}, 3, 7);
+  cout << "'K' closest numbers to 'X' are: ";
+  for (auto num : result) {
+    cout << num << " ";
+  }
+  cout << endl;
+
+  result = KClosestElements::findClosestElements(vector<int>{2, 4, 5, 6, 9}, 3, 6);
+  cout << "'K' closest numbers to 'X' are: ";
+  for (auto num : result) {
+    cout << num << " ";
+  }
+  cout << endl;
+
+  result = KClosestElements::findClosestElements(vector<int>{2, 4, 5, 6, 9}, 3, 10);
+  cout << "'K' closest numbers to 'X' are: ";
+  for (auto num : result) {
+    cout << num << " ";
+  }
+  cout << endl;
+}
