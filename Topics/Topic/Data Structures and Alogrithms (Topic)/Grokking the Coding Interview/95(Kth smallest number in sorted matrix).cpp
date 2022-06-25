@@ -44,6 +44,29 @@ can be seen as a sorted list, we essentially need to find the kth smallest numbe
 
     Time complexity: O()
     Space complexity: O()
+
+
+
+Alternate solution
+
+we are given that each row and column of the matrix sorted, so it might be possible to use binary search to find th ekth smalelst number.
+
+biggest proble to use binary search, in this case, is that we dont have a straighforward sorted array, instead we have a mat5rix. in binary search,
+we calculate the middle index of the search space('1' to 'n') and see if our required number is pointed out by the middle index; if not we either search in the lower half or the upper half.
+in a sorted matrix, we can't really find a middle. even if we do consider some index as middle, it is not straightforward to find the search space containing numbers bigger or smaller than the number pointed out
+bu the middle index.
+
+an alternative could be to apply the binary search on the 'number range' instead of the 'index range' as we know that the smallest number of our matrix
+is at the top left corner and the biggest number is at the bottom right corner. these two numbers can represent the 'range' i.e the start and the 
+end for the bonary search. here is how our algorithm will work:
+    1. start the binary search with start = matrix[0][0] and end = matrix[n-1][n-1].
+    2. find middle of the start and the end. this middle number is not necesarily an element in the matrix.
+    3. count all the numbers smaller than or equal to middle in the matrix. as the matrix is sorte,d we can do this in O(n).
+    4. while counting,m we can keep track of the 'smallest number greater than the middl;e'(lets call it n1) and at the same time 'the biggest number less than or equal to the middle'(lets call it n2). these two numbers will be used to adjust the
+    'number range' for the binary search in the next iteration.
+    5. if the count is equal to 'k', n2 will be our required number as it is the 'biggest number less than or equal to the middle' and is definitely present in the matrix.
+    6. if the count is less than 'k', we can update start = n2 to search in the higheer part of the matrix and if the count is greater than 'k', we can update end = n1 to search in the lower part of the matrix in the next iteration.
+
 */
 
 
@@ -141,6 +164,68 @@ class KthSmallestInSortedMatrix {
       }
     }
     return result;
+  }
+};
+
+int main(int argc, char *argv[]) {
+  vector<vector<int>> matrix2 = {vector<int>{2, 6, 8}, vector<int>{3, 7, 10},
+                                 vector<int>{5, 8, 11}};
+  int result = KthSmallestInSortedMatrix::findKthSmallest(matrix2, 5);
+  cout << "Kth smallest number is: " << result << endl;
+}
+
+
+
+// Other Approaches(2)
+using namespace std;
+
+#include <iostream>
+#include <queue>
+#include <vector>
+
+class KthSmallestInSortedMatrix {
+ public:
+  static int findKthSmallest(vector<vector<int>> &matrix, int k) {
+    int n = matrix.size();
+    int start = matrix[0][0], end = matrix[n - 1][n - 1];
+    while (start < end) {
+      int mid = start + (end - start) / 2;
+      // first number is the smallest and the second number is the largest
+      pair<int, int> smallLargePair = {matrix[0][0], matrix[n - 1][n - 1]};
+      int count = countLessEqual(matrix, mid, smallLargePair);
+      if (count == k) {
+        return smallLargePair.first;
+      }
+
+      if (count < k) {
+        start = smallLargePair.second;  // search higher
+      } else {
+        end = smallLargePair.first;  // search lower
+      }
+    }
+
+    return start;
+  }
+
+ private:
+  static int countLessEqual(vector<vector<int>> &matrix, int mid, pair<int, int> &smallLargePair) {
+    int count = 0;
+    int n = matrix.size(), row = n - 1, col = 0;
+    while (row >= 0 && col < n) {
+      if (matrix[row][col] > mid) {
+        // as matrix[row][col] is bigger than the mid, let's keep track of the
+        // smallest number greater than the mid
+        smallLargePair.second = min(smallLargePair.second, matrix[row][col]);
+        row--;
+      } else {
+        // as matrix[row][col] is less than or equal to the mid, let's keep track of the
+        // biggest number less than or equal to the mid
+        smallLargePair.first = max(smallLargePair.first, matrix[row][col]);
+        count += row + 1;
+        col++;
+      }
+    }
+    return count;
   }
 };
 
