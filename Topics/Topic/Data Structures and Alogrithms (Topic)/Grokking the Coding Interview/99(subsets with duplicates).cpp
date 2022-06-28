@@ -53,7 +53,7 @@ ADditional notes:
 the part i missed was sorting. if you look through my notes, I had though of sorting the arrya. however, i didn't process with it
 since i thought by sorting, we would loose order and that would affect our result we were interested in. hpwever, since we were intersted in dicstinct subsets,
 any ordering of the elements that gives to the same result is a duplicate. so, if we just asorted the elements and had used the logic after that, we would have been able to solve the problem.
-in order words, [3,5,5] is the same as [5,3,3] and [5,3,5]
+in order words, [3,5,5] is the same as [5,3,3] and [5,3,5]. and since we are intersted in subsets/combinations, ordering does not matter so even if were to sort, we couild get a valid solution. that is omething i need to rememebr going forward.
 
 now i know that if we are interested in dicstinct subsets, we can sue the sort without worry about hte result as we will be capturing one of the results and that's all we are interested in
 
