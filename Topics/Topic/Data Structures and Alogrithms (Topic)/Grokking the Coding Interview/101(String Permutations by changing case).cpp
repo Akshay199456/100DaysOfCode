@@ -22,6 +22,15 @@ Output: "ab7c", "Ab7c", "aB7c", "AB7c", "ab7C", "Ab7C", "aB7C", "AB7C"
 
     Time complexity: O(k!) where k is the number of alphabets in the string
     Space complexity: O(k!)
+
+
+2. BFS + queue
+
+    we can also use a bfs approach witha  queue to solve this problem. in that case, this approach is very similar to problem 100 where they used the bfs approach with queuue.
+
+    Time complexity: O(k!) where k is the number of alphabets in the string
+    Space complexity: O(k!)
+
 */
 
 
@@ -92,6 +101,70 @@ int main(int argc, char* argv[]) {
   }
   cout << endl;
 }
+
+
+// My Approaches(2)
+using namespace std;
+
+#include <iostream>
+#include <string>
+#include <vector>
+#include <queue>
+#include <cctype>
+
+class LetterCaseStringPermutation {
+ public:
+  static void generatePermutations(const string& str, vector<string> & permutations){
+    queue<string> layers;
+    layers.push("");
+
+    for(auto ch: str){
+      int n = layers.size();
+      for(int i=0; i< n; i++){
+        string oldLayer = layers.front();
+        layers.pop();
+
+        if(!isalpha(ch))
+          layers.push(oldLayer + string(1,ch));
+        else{
+          layers.push(oldLayer + string(1,tolower(ch)));
+          layers.push(oldLayer + string(1,toupper(ch)));
+        }
+      }
+    }
+
+    // whatever remains in the queu is the answer
+    while(!layers.empty()){
+      permutations.push_back(layers.front());
+      layers.pop();
+    }
+  }
+
+  static vector<string> findLetterCaseStringPermutations(const string& str) {
+    vector<string> permutations;
+    // TODO: Write your code here
+    if(str.size())
+      generatePermutations(str, permutations);
+    return permutations;
+  }
+};
+
+int main(int argc, char* argv[]) {
+  vector<string> result = LetterCaseStringPermutation::findLetterCaseStringPermutations("aB");
+  cout << "String permutations are: ";
+  for (auto str : result) {
+    cout << str << " ";
+  }
+  cout << endl;
+
+  result = LetterCaseStringPermutation::findLetterCaseStringPermutations("");
+  cout << "String permutations are: ";
+  for (auto str : result) {
+    cout << str << " ";
+  }
+  cout << endl;
+}
+
 
 
 
