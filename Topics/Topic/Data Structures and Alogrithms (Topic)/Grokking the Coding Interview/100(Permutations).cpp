@@ -45,7 +45,9 @@ Output: [1,3,5], [1,5,3], [3,1,5], [3,5,1], [5,1,3], [5,3,1]
 
 /*
 -------------------------    Notes
+solution follows the subsets pattern and we can follow a smiliar BFS approach. however, ubnlike subsets, every permutation must contain all the numbers.
 
+following a bfs approach, we will consider one number at a time.
 
     Time complexity: O()
     Space complexity: O()
@@ -103,3 +105,91 @@ int main(int argc, char* argv[]) {
 
 
 //  Other Approaches(1)
+using namespace std;
+
+#include <iostream>
+#include <queue>
+#include <vector>
+
+class Permutations {
+ public:
+  static vector<vector<int>> findPermutations(const vector<int>& nums) {
+    vector<vector<int>> result;
+    queue<vector<int>> permutations;
+    permutations.push(vector<int>());
+    for (auto currentNumber : nums) {
+      // we will take all existing permutations and add the current number to create new
+      // permutations
+      int n = permutations.size();
+      for (int i = 0; i < n; i++) {
+        vector<int> oldPermutation = permutations.front();
+        permutations.pop();
+        // create a new permutation by adding the current number at every position
+        for (int j = 0; j <= oldPermutation.size(); j++) {
+          vector<int> newPermutation(oldPermutation);
+          newPermutation.insert(newPermutation.begin() + j, currentNumber);
+          if (newPermutation.size() == nums.size()) {
+            result.push_back(newPermutation);
+          } else {
+            permutations.push(newPermutation);
+          }
+        }
+      }
+    }
+    return result;
+  }
+};
+
+int main(int argc, char* argv[]) {
+  vector<vector<int>> result = Permutations::findPermutations(vector<int>{1, 3, 5});
+  cout << "Here are all the permutations: " << endl;
+  for (auto vec : result) {
+    for (auto num : vec) {
+      cout << num << " ";
+    }
+    cout << endl;
+  }
+}
+
+
+//Other approaches(2)
+using namespace std;
+
+#include <iostream>
+#include <vector>
+
+class PermutationsRecursive {
+ public:
+  static vector<vector<int>> generatePermutations(const vector<int> &nums) {
+    vector<vector<int>> result;
+    vector<int> currentPermutation;
+    generatePermutationsRecursive(nums, 0, currentPermutation, result);
+    return result;
+  }
+
+ private:
+  static void generatePermutationsRecursive(const vector<int> &nums, int index,
+                                      vector<int> &currentPermutation, vector<vector<int>> &result) {
+    if (index == nums.size()) {
+      result.push_back(currentPermutation);
+    } else {
+      // create a new permutation by adding the current number at every position
+      for (int i = 0; i <= currentPermutation.size(); i++) {
+        vector<int> newPermutation(currentPermutation);
+        newPermutation.insert(newPermutation.begin() + i, nums[index]);
+        generatePermutationsRecursive(nums, index + 1, newPermutation, result);
+      }
+    }
+  }
+};
+
+int main(int argc, char *argv[]) {
+  vector<vector<int>> result = PermutationsRecursive::generatePermutations(vector<int>{1, 3, 5});
+  cout << "Here are all the permutations: " << endl;
+  for (auto vec : result) {
+    for (auto num : vec) {
+      cout << num << " ";
+    }
+    cout << endl;
+  }
+}
