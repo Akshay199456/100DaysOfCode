@@ -41,7 +41,25 @@ Output: ((())), (()()), (())(), ()(()), ()()()
 
 /*
 -------------------------    Notes
+solution follows subsets pattern and can be mapped to permutations. can follow a similar BFS approach.
 
+taking example-2 mentiioned above to generate all the combinations of balanced parentheses. following a bfs approach,
+will leep adding open parentheses '(' or close parentheses ')'. at each step, we need to keep two things in mind:
+    1. cant add more than 'n' open parenthesis
+    2. to keep parentheses balanced, we can add a close parenthesis ')' only when we have already added enough open parenthesis '('. for thism we can keep a count of opena nd close parenthsis
+    with every combination
+
+following this guideline, let's generate parenthese for N=3:
+1. start with an empty combination: ""
+2. at every step, let's take all combinations of the previous step and add ( or ) keeping the above two mentuoned rules in moind.
+3. for the empty combination, we can add ( since the ciunt of open parentheiss will be less than 'N'. we cant add ) as we dont have an equivalent open parenthesis, so our
+list of combinations will now be "(".
+4. for the next iteration, let's take all combinations of the previous set. For (, we can add another ( to it since the count of open parentheis will be less than 'N'. We can aslo add ')' as we do have an equivalent
+open parenthesiss, so our list of combinations will be '(('' '()'.
+5. in the next iteration, for the first comnnatiopn "((", we can add another ( to it as the count of open parenthesis will be less than 'N'. We can aslo add ')' as we do have an equivalent open parenthesis. this gives us two neew combinations
+: "(((" and "(()". for the second combination, "()", we can add another "(" to it since teh count open parenthesis will be less than 'N'. we can't add ")" as we dont have an equivalent open parentehsis, so 
+our list of combinations will be "(((", "(()", "()(".
+and we can continue 
 
     Time complexity: O()
     Space complexity: O()
@@ -114,3 +132,120 @@ int main(int argc, char *argv[]) {
 
 
 //  Other Approaches(1)
+using namespace std;
+
+#include <iostream>
+#include <queue>
+#include <string>
+#include <vector>
+
+class ParenthesesString {
+ public:
+  string str;
+  int openCount = 0;   // open parentheses count
+  int closeCount = 0;  // close parentheses count
+
+  ParenthesesString(const string &s, int openCount, int closeCount) {
+    this->str = s;
+    this->openCount = openCount;
+    this->closeCount = closeCount;
+  }
+};
+
+class GenerateParentheses {
+ public:
+  static vector<string> generateValidParentheses(int num) {
+    vector<string> result;
+    queue<ParenthesesString> queue;
+    queue.push({"", 0, 0});
+    while (!queue.empty()) {
+      ParenthesesString ps = queue.front();
+      queue.pop();
+      // if we've reached the maximum number of open and close parentheses, add to the result
+      if (ps.openCount == num && ps.closeCount == num) {
+        result.push_back(ps.str);
+      } else {
+        if (ps.openCount < num) {  // if we can add an open parentheses, add it
+          queue.push({ps.str + "(", ps.openCount + 1, ps.closeCount});
+        }
+
+        if (ps.openCount > ps.closeCount) {  // if we can add a close parentheses, add it
+          queue.push({ps.str + ")", ps.openCount, ps.closeCount + 1});
+        }
+      }
+    }
+    return result;
+  }
+};
+
+int main(int argc, char *argv[]) {
+  vector<string> result = GenerateParentheses::generateValidParentheses(2);
+  cout << "All combinations of balanced parentheses are: ";
+  for (auto str : result) {
+    cout << str << " ";
+  }
+  cout << endl;
+
+  result = GenerateParentheses::generateValidParentheses(3);
+  cout << "All combinations of balanced parentheses are: ";
+  for (auto str : result) {
+    cout << str << " ";
+  }
+  cout << endl;
+}
+
+
+// Other Approaches(2)
+using namespace std;
+
+#include <iostream>
+#include <string>
+#include <vector>
+
+class GenerateParenthesesRecursive {
+ public:
+  static vector<string> generateValidParentheses(int num) {
+    vector<string> result;
+    vector<char> parenthesesString(2 * num);
+    generateValidParenthesesRecursive(num, 0, 0, parenthesesString, 0, result);
+    return result;
+  }
+
+ private:
+  static void generateValidParenthesesRecursive(int num, int openCount, int closeCount,
+                                                vector<char> &parenthesesString, int index,
+                                                vector<string> &result) {
+    // if we've reached the maximum number of open and close parentheses, add to the result
+    if (openCount == num && closeCount == num) {
+      result.push_back(string(parenthesesString.begin(), parenthesesString.end()));
+    } else {
+      if (openCount < num) {  // if we can add an open parentheses, add it
+        parenthesesString[index] = '(';
+        generateValidParenthesesRecursive(num, openCount + 1, closeCount, parenthesesString,
+                                          index + 1, result);
+      }
+
+      if (openCount > closeCount) {  // if we can add a close parentheses, add it
+        parenthesesString[index] = ')';
+        generateValidParenthesesRecursive(num, openCount, closeCount + 1, parenthesesString,
+                                          index + 1, result);
+      }
+    }
+  }
+};
+
+int main(int argc, char *argv[]) {
+  vector<string> result = GenerateParenthesesRecursive::generateValidParentheses(2);
+  cout << "All combinations of balanced parentheses are: ";
+  for (auto str : result) {
+    cout << str << " ";
+  }
+  cout << endl;
+
+  result = GenerateParenthesesRecursive::generateValidParentheses(3);
+  cout << "All combinations of balanced parentheses are: ";
+  for (auto str : result) {
+    cout << str << " ";
+  }
+  cout << endl;
+}
