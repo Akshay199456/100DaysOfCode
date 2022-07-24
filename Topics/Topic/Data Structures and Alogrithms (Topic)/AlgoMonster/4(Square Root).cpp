@@ -80,3 +80,31 @@ int main() {
 
 
 //  Other Approaches(1)
+include <iostream> // cin, cout, streamsize
+#include <limits> // numeric_limits
+
+int square_root(int n) {
+    int left = 0, right = n, res = -1;
+    while (left <= right) {
+        int mid = left + (right - left) / 2;
+        if (mid <= n / mid) {
+            left = mid + 1;
+            res = mid;
+        } else {
+            right = mid - 1;
+        }
+    }
+    return res;
+}
+
+void ignore_line() {
+    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+}
+
+int main() {
+    int n;
+    std::cin >> n;
+    ignore_line();
+    int res = square_root(n);
+    std::cout << res << '\n';
+}
