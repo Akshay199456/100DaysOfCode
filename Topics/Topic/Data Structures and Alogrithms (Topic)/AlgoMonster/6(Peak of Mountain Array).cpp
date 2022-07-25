@@ -42,7 +42,11 @@ Explanation: the largest element is 3 and its index is 3.
 
 /*
 -------------------------    Notes
+the peak element is always larger than the next element. applying the filter of arr[i] > arr[i+1] we get a boolean array.
+a minor edge case is for the last element as it has no next element. in that case, we assume its next element is negative infinity.
 
+now the problem is reduced to finding the first true element in a boolean array. and we already know how to do this from
+find the boundary problem.
 
     Time complexity: O()
     Space complexity: O()
@@ -98,3 +102,39 @@ int main() {
 
 
 //  Other Approaches(1)
+#include <algorithm> // copy
+#include <iostream> // cin, cout
+#include <iterator> // back_inserter, istream_iterator
+#include <sstream> // istringstream
+#include <string> // getline, string
+#include <vector> // vector
+
+int peak_of_mountain_array(std::vector<int> arr) {
+    int left = 0, right = arr.size() - 1, boundary_index = -1;
+    while (left <= right) {
+        int mid = left + (right - left) / 2;
+        if (arr[mid] > arr[mid + 1]) {
+            boundary_index = mid;
+            right = mid - 1;
+        } else {
+            left = mid + 1;
+        }
+    }
+    return boundary_index;
+}
+
+template<typename T>
+std::vector<T> get_words() {
+    std::string line;
+    std::getline(std::cin, line);
+    std::istringstream ss{line};
+    std::vector<T> v;
+    std::copy(std::istream_iterator<T>{ss}, std::istream_iterator<T>{}, std::back_inserter(v));
+    return v;
+}
+
+int main() {
+    std::vector<int> arr = get_words<int>();
+    int res = peak_of_mountain_array(arr);
+    std::cout << res << '\n';
+}
