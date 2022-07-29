@@ -40,9 +40,19 @@ Explanation: ab is the longest substring, length 2
 
 /*
 -------------------------    Notes
+intuituon
 
+the brute force approach is to check every single substring and count he oines with non-repeating characters. a substring is defined by a start index and end index
 
-    Time complexity: O()
+to improve on brute force, we have to skip unnecessary operations. for a substring start with start that already contains one 
+duplicate chaacter, we want to stop checking  more substring with the start index. when this happens we want to increment start and look at the next set of substirngs.
+
+this makes it a classic sliding window problem. a sliding winodw is defined by two pointers mmoving in the same direction. we move the window
+(incrementing pointers) whoile maintaining a certain invariant. for this particular problem, the invariant  is the characters inside the window being unique.
+we use a set to record what's in the winodw. and when we encounter a character that's already in the window, we want to move the left pointer until it goes past the last occurentce of that 
+character
+
+    Time complexity: O(n)
     Space complexity: O()
 */
 
@@ -83,3 +93,32 @@ int main() {
 
 
 //  Other Approaches(1)
+#include <algorithm> // max
+#include <iostream> // cin, cout
+#include <string> // getline
+#include <unordered_set> // unordered_set
+
+int longest_substring_without_repeating_characters(std::string s) {
+    int n = s.size();
+    int longest = 0;
+    int l = 0, r = 0;
+    std::unordered_set<char> window;
+    while (r < n) {
+        if (!window.count(s[r])) {
+            window.emplace(s[r]);
+            r++;
+        } else {
+            window.erase(s[l]);
+            l++;
+        }
+        longest = std::max(longest, r - l);
+    }
+    return longest;
+}
+
+int main() {
+    std::string s;
+    std::getline(std::cin, s);
+    int res = longest_substring_without_repeating_characters(s);
+    std::cout << res << '\n';
+}
