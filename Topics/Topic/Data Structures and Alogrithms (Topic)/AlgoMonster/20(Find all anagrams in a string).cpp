@@ -57,7 +57,9 @@ Each string consists of only lowercase characters in standard English alphabet.
 
 /*
 -------------------------    Notes
-
+classical sliding window problem. sliding window is maintained at the size of check, and we keep track if the number of each type of characters
+inside the wndow in a hashmap. everyc cycle, we move the window to the right, pushing the rightost character while pooing the leftmost
+character. we check that at any given time, if the content of the set matches the character count of check, by definition, that substring is an anagram and we can isner the index into the resulting list
 
     Time complexity: O()
     Space complexity: O()
@@ -128,3 +130,53 @@ int main() {
 
 
 //  Other Approaches(1)
+#include <algorithm> // copy
+#include <iostream> // cin, cout
+#include <iterator> // ostream_iterator, prev
+#include <string> // getline
+#include <vector> // vector
+
+std::vector<int> find_all_anagrams(std::string original, std::string check) {
+    // check_length is the window size
+    int original_length = original.length(), check_length = check.length();
+    if (original_length < check_length) return {};
+    
+    std::vector<int> res;
+    // stores the frequency of each character in the check string
+    std::vector<int> check_counter(26, 0);
+    // stores the frequency of each character in the current window
+    std::vector<int> window(26, 0);
+    // first window
+    for (int i = 0; i < check_length; i++) {
+        check_counter[check[i] - 'a']++;
+        window[original[i] - 'a']++;
+    }
+    if (window == check_counter) res.emplace_back(0);
+
+    for (int i = check_length; i < original_length; i++) {
+        window[original[i - check_length] - 'a']--;
+        window[original[i] - 'a']++;
+        if (window == check_counter) {
+            res.emplace_back(i - check_length + 1);
+        }
+    }
+    return res;
+}
+
+template<typename T>
+void put_words(const std::vector<T>& v) {
+    if (!v.empty()) {
+        std::copy(v.begin(), std::prev(v.end()), std::ostream_iterator<T>{std::cout, " "});
+        std::cout << v.back();
+    }
+    std::cout << '\n';
+}
+
+int main() {
+    std::string original;
+    std::getline(std::cin, original);
+    std::string check;
+    std::getline(std::cin, check);
+    std::vector<int> res = find_all_anagrams(original, check);
+    put_words(res);
+}
