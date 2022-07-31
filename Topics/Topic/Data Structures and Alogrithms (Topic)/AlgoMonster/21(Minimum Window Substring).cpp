@@ -47,9 +47,14 @@ original and check both contains only upper case and lower case characters in En
 
 /*
 -------------------------    Notes
+solution similar to find all anagrams in a string except instead of amtching exactly, we are to find a window that contains all characters
+in check. in this case, the comparison for checking valdid woindow is changed to compare that for every character in check, see if the window contains more of that charcter
 
+in addition, the movingin conditions of the window changes as well. instead of two pointers moving at once, maintinaing of he size of the window, each pointer moves independently.
+wehnt he windows does not contain check, we move the end pointer until t does (or it reaches the end), then we mvo teh start poonter until the window is no longer contains checkk. in this case, just
+before moving the winwo was the local minimial substring. then, its a simple matter of comparing local minimal substring and find the minimum one.
 
-    Time complexity: O()
+    Time complexity: O(n)
     Space complexity: O()
 */
 
@@ -142,3 +147,82 @@ int main() {
 
 
 //  Other Approaches(1)
+#include <iostream> // cin, cout
+#include <string> // getline, string
+#include <unordered_map> // unordered_map
+
+// Change the number of char c inside the window by "delta"
+// Automatically increase or decrease "satisfy_count" to reflect the current value.
+// Returns the new "satisfy_count"
+int delta_char(char c, int delta, int satisfy_count, std::unordered_map<char, int>& check_count, std::unordered_map<char, int>& window_count) {
+    if (!window_count.count(c)) {
+        window_count[c] = 0;
+    }
+    if (window_count[c] >= (check_count.count(c) ? check_count[c] : 0)) {
+        satisfy_count -= 1;
+    }
+    window_count[c] += delta;
+    if (window_count[c] >= (check_count.count(c) ? check_count[c] : 0)) {
+        satisfy_count += 1;
+    }
+    return satisfy_count;
+}
+
+std::string get_minimum_window(std::string original, std::string check) {
+    // Counts the number of each character of "check"
+    std::unordered_map<char, int> check_count;
+    for (char c: check) {
+        if (check_count.count(c)) {
+            check_count[c] += 1;
+        } else {
+            check_count[c] = 1;
+        }
+    }
+    // Counts the number of each character in the sliding window
+    std::unordered_map<char, int> window_count;
+    // Count the number of entries in "check_count" that is smaller than or equal to that in "window_count"
+    // If "satisfy_count" is equal to the number of entries in "check_count", that window contains "check".
+    // We then just need to check if its the minimum.
+    int satisfy_count = 0;
+    int original_len = original.size();
+    // Two pointers pointing to the window (inclusive start, exclusive end)
+    int start_ptr = 0, end_ptr = 0;
+    // The number of entries in "check_count". Used to check if "window_count" contains "check_count"
+    int match_req = check_count.size();
+    // The smallest recorded string that satisfies the conditions
+    std::string smallest_str;
+    while (end_ptr < original_len) {
+        // Moves the end pointer until it contains "check" or it reaches the end
+        while (end_ptr < original_len && satisfy_count < match_req) {
+            satisfy_count = delta_char(original[end_ptr], 1, satisfy_count, check_count, window_count);
+            end_ptr++;
+        }
+        // If the window reaches the end and does not contain "check", break loop
+        if (end_ptr == original_len && satisfy_count < match_req) break;
+        // Otherwise, the window contains "check", so we move the start pointer
+        // until it no longer does. Then, the one before failing the check is the local
+        // minimal substring.
+        while (satisfy_count >= match_req) {
+            satisfy_count = delta_char(original[start_ptr], -1, satisfy_count, check_count, window_count);
+            start_ptr++;
+        }
+        std::string valid_window = original.substr(start_ptr - 1, end_ptr - start_ptr + 1);
+        // Compare the local minimum to the stored smallest string
+        // If there is nothing stored, or the condition outlined is true, we store the string
+        if (smallest_str == "" || smallest_str.size() > valid_window.size()) {
+            smallest_str = valid_window;
+        } else if (smallest_str.size() == valid_window.size() && valid_window < smallest_str) {
+            smallest_str = valid_window;
+        }
+    }
+    return smallest_str;
+}
+
+int main() {
+    std::string original;
+    std::getline(std::cin, original);
+    std::string check;
+    std::getline(std::cin, check);
+    std::string res = get_minimum_window(original, check);
+    std::cout << res << '\n';
+}
