@@ -44,7 +44,7 @@ array calculating prefix_sum. if at any point, prefix_sum-target is in the dicti
 in the implementation, typically we use prefix_sum[i] to denote the sum of elements in 0...i-1 (rightmost element i is not included in the sm). one good things about this is
 prefix_sum[0] then means sum of array up to bit not including the first element i.e empty array. the definition of empty array sum is useful when there exists a subarray starting from 0 that sums up to the target.
 without the defintion of empty array sum, we would miss it because its compleemnet 0 does not exist in the dictionary.
-    Time complexity: O(n)
+git    Time complexity: O(n)
     Space complexity: O()
 */
 
