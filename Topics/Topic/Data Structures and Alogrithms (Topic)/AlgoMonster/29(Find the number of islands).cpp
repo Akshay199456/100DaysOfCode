@@ -36,7 +36,7 @@ intuition
 
     similar to before, the time complexity is equal to the size of the matrix itself in the worst case. the size of the matrix is denotted by the number of rows times the 
     number of columsn so therefore we have r*c nodes in our graph. the number of edges for a given cell is 4 (ecept boundary cells whole edges are < 4). ad constants are dro[pped in the time
-    complexity notiation.]
+    complexity notiation.
 
 
     Time complexity: O(r*c)
@@ -48,7 +48,7 @@ intuition
     the visited scells simply as wwater.
 
     while this is acommon solution in coding problems, in the real world you most likely dont want to mutate the function arguments
-*/
+)*/
 
 
 
