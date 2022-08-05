@@ -20,7 +20,7 @@ Output: 2
 
 /*
 -------------------------    My Approaches:
-1. bfs
+1. graph - bfs
 
 since the problem asks for the shortest path between the two locations a and b, we can use bfs to solve this problem.
 
