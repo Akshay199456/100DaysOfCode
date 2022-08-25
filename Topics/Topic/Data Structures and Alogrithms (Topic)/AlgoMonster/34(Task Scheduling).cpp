@@ -40,10 +40,13 @@ Output: ["a", "c", "b", "d"]
 
 /*
 -------------------------    Notes
+apply  kahn's algorithm to solve the problem
 
-
-    Time complexity: O()
+    Time complexity: O(n+m)
     Space complexity: O()
+
+the time complexity is qual to n, the number of nodes in the graph and m , the number of edges in the graph. this is because
+we have to go through every connection and node once when we sort the graph.
 */
 
 
@@ -189,3 +192,117 @@ int main() {
 
 
 //  Other Approaches(1)
+#include <algorithm> // copy
+#include <iostream> // cin, cout, streamsize
+#include <iterator> // back_inserter, istream_iterator, ostream_iterator, prev
+#include <limits> // numeric_limits
+#include <queue> // queue
+#include <sstream> // istringstream
+#include <string> // getline, string
+#include <unordered_map> // unordered_map
+#include <vector> // vector
+
+template <typename T> std::unordered_map<T, int> count_parents(std::unordered_map<T, std::vector<T>> graph) {
+    std::unordered_map<T, int> counts;
+    for (auto entry : graph) {
+        counts[entry.first] = 0;
+    }
+    for (auto entry : graph) {
+        for (auto node : entry.second) {
+            counts[node] += 1;
+        }
+    }
+    return counts;
+}
+
+template <typename T> std::vector<T> topo_sort(std::unordered_map<T, std::vector<T>> graph) {
+    std::vector<T> res;
+    std::queue<T> q;
+    std::unordered_map<T, int> counts = count_parents(graph);
+    for (auto entry : counts) {
+        if (entry.second == 0) q.push(entry.first);
+    }
+    while (q.size() > 0) {
+        T node = q.front();
+        res.emplace_back(node);
+        for (T child : graph[node]) {
+            counts[child] -= 1;
+            if (counts[child] == 0) q.push(child);
+        }
+        q.pop();
+    }
+    if (graph.size() == res.size()) return res;
+    else {
+        std::cout << "Invalid topo sort: graph contains cycle" <<'\n';
+        return std::vector<T>();
+    }
+}
+
+std::vector<std::string> task_scheduling(std::vector<std::string> tasks, std::vector<std::vector<std::string>> requirements) {
+    std::unordered_map<std::string, std::vector<std::string>> graph;
+    for (std::string task : tasks) {
+        graph[task] = {};
+    }
+    for (std::vector<std::string> req : requirements) {
+        graph[req[0]].emplace_back(req[1]);
+    }
+    return topo_sort(graph);
+}
+
+template<typename T>
+void put_words(const std::vector<T>& v) {
+    if (!v.empty()) {
+        std::copy(v.begin(), std::prev(v.end()), std::ostream_iterator<T>{std::cout, " "});
+        std::cout << v.back();
+    }
+    std::cout << '\n';
+}
+
+template<typename T>
+std::vector<T> get_words() {
+    std::string line;
+    std::getline(std::cin, line);
+    std::istringstream ss{line};
+    std::vector<T> v;
+    std::copy(std::istream_iterator<T>{ss}, std::istream_iterator<T>{}, std::back_inserter(v));
+    return v;
+}
+
+void ignore_line() {
+    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+}
+
+int main() {
+    std::vector<std::string> tasks = get_words<std::string>();
+    int requirements_length;
+    std::cin >> requirements_length;
+    ignore_line();
+    std::vector<std::vector<std::string>> requirements;
+    for (int i = 0; i < requirements_length; i++) {
+        requirements.emplace_back(get_words<std::string>());
+    }
+    std::vector<std::string> res = task_scheduling(tasks, requirements);
+    if (res.size() != tasks.size()) {
+        std::cout << "output size " << res.size() << " does not match input size " << tasks.size() << '\n';
+        return 0;
+    }
+    std::unordered_map<std::string, int> indices;
+    for (int i = 0; i < res.size(); i++) {
+        indices.insert({res[i], i});
+    }
+    for (auto req : requirements) {
+        for (auto task : req) {
+            if (indices.find(task) == indices.end()) {
+                std::cout << "'" << task << "' is not in output" << '\n';
+                return 0;
+            }
+        }
+        std::string a = req[0];
+        std::string b = req[1];
+        if (indices[a] >= indices[b]) {
+            std::cout << "'" << a << "' is not before '" << b + "'" << '\n';
+            return 0;
+        }
+    }
+    std::cout << "ok" << '\n';
+}
