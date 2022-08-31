@@ -71,6 +71,16 @@ when we do a DFS, we mark each node in the path as 'visiting'. when we rech the 
 
 time compolexity is equal to n the number of ndoes in the graph plus m the number od edges in the graph. this is becasue we have to go through every connection
 and node once when we sort the graph.
+
+one question you may ask is why we have to introduce an additional state 'visiting'. couldn't have we solved it with only 'visited' and 'to be visited' as in normal DFS?
+
+Consider the following case (Additional Notes(1)-8):
+
+if we use the normal dfs logic and reject when a node in the 'visited' state is revisitied, we would have determined the above gropah to be a cycle., 
+however, node 3 is visited tweice bit the graph does not contain a cycle.
+
+in a directed graph, a pth is only a cycle if a node on the path points to an existing node on the same path. if we only have two states, we wouldnt be able to distinguhis this.
+the 'visiting' state gives us a way to represent the 'current path'
 */
 
 
