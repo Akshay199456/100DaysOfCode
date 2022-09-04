@@ -61,7 +61,8 @@ where n is the number of possible combination (which is 10$ = 10000 in this case
 Additional notes:
 
 there didnt seem to be anything complicated about this problem. it was a basic application of BFS to keep gettin adjacent neigbors and following that path, we should have got to th enaswer.
-we keep track ofhte numbers we have run into to avoid cycles and duplicate work.
+we keep track ofhte numbers we have run into to avoid cycles and duplicate work.. you just needed to know what adjacent and neighbors meant for that problem and since you know you were
+using BFS, once you got ot know what hte neighbors and adjacent was, everything else fell ointo place
 */
 
 
