@@ -56,9 +56,18 @@ we make use of converting a matrix to stirng and string to matrix to make it eas
 
 /*
 -------------------------    Notes
+this is a straightforward BFS problem. however, the biggest diffculty in implementing a solution is findint hte state adjacent to the curent state and being able to store the different states in a hash table
+for lookup of items. the core idea is another state is adjacent tot he current state when the entry with the 0 is swapped with one of the entries adjacent to it, which is
+very helpful if we use a mutable structure (like lists). on th eotehr hand, we need to store the swapped value in a hash table and in a quuee, which is veru helpful if we use  ahashable
+structure (like tuples) which are usually immutable. other than that, its just a standard BFS solution.
 
+a node transition graph might look like this
 
-    Time complexity: O()
+which side a line comes out of represents whuch way the puzzle can move and what happens when you move the puzzle that way. note this graph is two directions as you can always move back to return to the riginal poisiton.
+
+thje time complexitu is O(n!) where n is the size of the matrix in question. we usually would never reach the worst case scnario though.
+
+    Time complexity: O(n!)
     Space complexity: O()
 */
 
@@ -198,3 +207,103 @@ int main() {
 
 
 //  Other Approaches(1)
+#include <algorithm> // copy
+#include <cmath> // pow, round
+#include <iostream> // cin, cout, streamsize
+#include <iterator> // back_inserter, istream_iterator
+#include <limits> // numeric_limits
+#include <queue> // queue
+#include <sstream> // istringstream
+#include <string> // getline, string
+#include <unordered_map> // unordered_map
+#include <vector> // vector
+
+int serialize(std::vector<std::vector<int>> position) {
+    int total = 0;
+    for (std::vector<int> line : position) {
+        for (int entry : line) {
+            total *= 10;
+            total += entry;
+        }
+    }
+    return total;
+}
+
+std::vector<std::vector<int>> deserialize(int state) {
+    std::vector<std::vector<int>> result{{}, {}};
+    for (int i = 1; i >= 0; i--) {
+        for (int j = 2; j >= 0; j--) {
+            int exponent = i * 3 + j;
+            int digit = state / (int) (std::round(std::pow(10, exponent))) % 10;
+            result[1 - i].emplace_back(digit);
+        }
+    }
+    return result;
+}
+
+int num_steps(std::vector<std::vector<int>> init_pos) {
+    int target_state = 123450;
+    int row_directions[4] = {1, 0, -1, 0};
+    int col_directions[4] = {0, 1, 0, -1};
+
+    int init_state = serialize(init_pos);
+    if (init_state == target_state) return 0;
+    std::unordered_map<int, int> moves_map({{init_state, 0}});
+    std::queue<int> moves_queue;
+    moves_queue.push(init_state);
+    while (moves_queue.size() > 0) {
+        int top_state = moves_queue.front();
+        int row = 0, col = 0;
+        std::vector<std::vector<int>> top_position = deserialize(top_state);
+        for (int i = 0; i < 2; i++) {
+            for (int j = 0; j < 3; j++) {
+                if (top_position[i][j] == 0) {
+                    row = i;
+                    col = j;
+                }
+            }
+        }
+        for (int i = 0; i < 4; i++) {
+            int new_row = row + row_directions[i], new_col = col + col_directions[i];
+            if (0 <= new_row && new_row < 2 && 0 <= new_col && new_col < 3) {
+                std::vector<std::vector<int>> new_position = deserialize(top_state);
+                new_position[row][col] = top_position[new_row][new_col];
+                new_position[new_row][new_col] = top_position[row][col];
+                int new_state = serialize(new_position);
+                if (!moves_map.count(new_state)) {
+                    moves_map[new_state] = moves_map[top_state] + 1;
+                    moves_queue.push(new_state);
+                    if (new_state == target_state) return moves_map[new_state];
+                }
+            }
+        }
+        moves_queue.pop();
+    }
+    return -1;
+}
+
+template<typename T>
+std::vector<T> get_words() {
+    std::string line;
+    std::getline(std::cin, line);
+    std::istringstream ss{line};
+    std::vector<T> v;
+    std::copy(std::istream_iterator<T>{ss}, std::istream_iterator<T>{}, std::back_inserter(v));
+    return v;
+}
+
+void ignore_line() {
+    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+}
+
+int main() {
+    int init_pos_length;
+    std::cin >> init_pos_length;
+    ignore_line();
+    std::vector<std::vector<int>> init_pos;
+    for (int i = 0; i < init_pos_length; i++) {
+        init_pos.emplace_back(get_words<int>());
+    }
+    int res = num_steps(init_pos);
+    std::cout << res << '\n';
+}
