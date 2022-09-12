@@ -30,7 +30,13 @@ Given a ternary tree (each node of the tree has at most three children), find al
 
 /*
 -------------------------    Notes
+we use path to keep track of the nodes we have visited to reach the current node and use it to construct our solution when we reach leaf noddes.
 
+Additional approach:
+
+in the recursive call in the Other Approaches(1)-1, we create a new list each time we recurse with
+path + [root.val]. this is not space efficient because creating a new list requires allocating new spapce in memory and copying over each element. a more efficient 
+way is to use a single list path and push and pop fillowign the call stack.
 
     Time complexity: O()
     Space complexity: O()
@@ -125,3 +131,65 @@ int main() {
 
 
 //  Other Approaches(1)
+void dfs(Node<int>* root, std::vector<std::string> path, std::vector<std::string>& res) {
+    if (root->children.size() == 0) {
+        path.emplace_back(std::to_string(root->val));
+        std::string s = "";
+        for (int i = 0; i < path.size(); i++) {
+            if (i == path.size() - 1) {
+                s += path[i];
+            } else {
+                s += path[i] + "->";
+            }
+        }
+        res.emplace_back(s);
+        return;
+    }
+    for (auto& child: root->children) {
+        if (child) {
+            std::vector<std::string> path_copy(path);
+            path_copy.emplace_back(std::to_string(root->val));
+            dfs(child, path_copy, res);
+        }
+    }
+}
+
+std::vector<std::string> ternary_tree_paths(Node<int>* root) {
+    std::vector<std::string> res;
+    if (root) dfs(root, {}, res);
+    return res;
+}
+
+// Other Approaches(2)
+void dfs(Node<int>* root, std::vector<std::string> path, std::vector<std::string>& res) {
+    if (root->children.size() == 0) {
+        path.emplace_back(std::to_string(root->val));
+        std::string s = "";
+        for (int i = 0; i < path.size(); i++) {
+            if (i == path.size() - 1) {
+                s += path[i];
+            } else {
+                s += path[i] + "->";
+            }
+        }
+        res.emplace_back(s);
+        path.pop_back();
+        return;
+    }
+    for (auto& child: root->children) {
+        if (child) {
+            std::vector<std::string> path_copy(path);
+            path.emplace_back(std::to_string(root->val));
+            path_copy.emplace_back(std::to_string(root->val));
+            dfs(child, path, res);
+            dfs(child, path_copy, res);
+            path.pop_back();
+        }
+    }
+}
+std::vector<std::string> ternary_tree_paths(Node<int>* root) {
+    std::vector<std::string> res;
+    if (root) dfs(root, {}, res);
+    if (root)  dfs(root, {}, res);
+    return res;
+}
