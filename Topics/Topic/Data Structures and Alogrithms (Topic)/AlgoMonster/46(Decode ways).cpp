@@ -50,10 +50,28 @@ Explanation: "123" can be decoded as "ABC", "LC", "AW"
 
 /*
 -------------------------    Notes
+combinatoral search problem, apply the three-step system:
+
+1. identify states
+    what state do we need to know wheteher we have decoded a string?
+        we can keep track of the number of digits we have already matched in index i. when i == length of digits, we have finished.
+
+    what state do we need to decide which child nodes of the state-space tree should be visited next?
+    since there's no constrint on which letters can be used for decoding, we dont need any state here
+
+2. draw the sapce-state tree
+
+3. DFS
+    using the backtracking template as a basis, we add the state we identified in step 1:
+        1. i for the number of digites we have already matched
+    dfs returns the number of ways we can decode digits[i:]
 
 
-    Time complexity: O()
+
+    Time complexity: O(2^n)
     Space complexity: O()
+
+    n is the length of the string. essentially at every digit, we either make a new number or add it to the old one. we can make this into linerar time through dp but currently we have a exponential time solutionm
 */
 
 
@@ -92,3 +110,26 @@ int main() {
 
 
 //  Other Approaches(1)
+int dfs(int start_index, std::string digits, std::string letters[26]) {
+    if (start_index == digits.length()) return 1;
+    
+    int ways = 0;
+    std::string remaining = digits.substr(start_index);
+    for (int i = 0; i < 26; i++) {
+        std::string prefix = letters[i];
+        if (remaining.find(prefix) == 0) {
+            ways += dfs(start_index + prefix.length(), digits, letters);
+        }
+    }
+    return ways;
+}
+
+int decode_ways(std::string digits) {
+    std::string letters[26];
+    // use numbers 1 to 26 to represent all alphabet letters
+    for (int i = 0; i < 26; i++) {
+        letters[i] = std::to_string(i + 1);
+    }
+    
+    return dfs(0, digits, letters);
+}
