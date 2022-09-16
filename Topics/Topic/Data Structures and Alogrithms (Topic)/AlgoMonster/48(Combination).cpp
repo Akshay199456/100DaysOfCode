@@ -70,10 +70,27 @@ All elements of candidates are distinct.
 
 /*
 -------------------------    Notes
+we can try subtracting eahc candidate number until the remaining number is either less or equal to 0
+
+te only problem is that we have duplicatre combinations in our results
+
+dedup
+
+the way we deup us ti ibky use cindidate numbers whose index in the array is >= last used number's index. in this example,
+when we are at the teal node, we dont want to look back and use any precedent candidate such as 2. this is because by DFS order, we arlready exp;lored subtracting 2 and during that traversal we have considered using 3 (blue nodes)
+
+we use an additional state start_index to kkeep track of the position of the last used number ("start" index becauyse it is the index you want to start building new branches from). final tree with duplicate branch pruned
+
+the idea of establishing order and pruning backward branches a is very useful de-deuplication technique. you can also use it in tow pointer provlems that has
+duplicate candiudates
 
 
-    Time complexity: O()
+    Time complexity: O(n^target/min(candidates))
     Space complexity: O()
+
+in the worst case, the state-sapce tree has n branches and the depth of the tree is at most target divided by the smallest number in candidates
+
+every number can be used or not used therefore leading to exponential time complexity
 */
 
 
@@ -153,3 +170,67 @@ int main() {
 
 
 //  Other Approaches(1)
+#include <algorithm> // copy
+#include <iostream> // cin, cout, streamsize
+#include <iterator> // back_inserter, istream_iterator, ostream_iterator, prev
+#include <limits> // numeric_limits
+#include <sstream> // istringstream
+#include <string> // getline, string
+#include <vector> // vector
+
+void dfs(std::vector<int> candidates, int target, std::vector<std::vector<int>>& res, std::vector<int> seq, int sum, int start) {
+    if (sum == target) {
+        std::vector<int> list(seq);
+        res.emplace_back(list);
+    }
+    if (sum < target) {
+        for (int i = start; i < candidates.size(); i++) {
+            sum += candidates[i];
+            if (sum > target) break;
+            seq.emplace_back(candidates[i]);
+            dfs(candidates, target, res, seq, sum, i);
+            seq.pop_back();
+            sum -= candidates[i];
+        }
+    }
+}
+
+std::vector<std::vector<int>> combination_sum(std::vector<int> candidates, int target) {
+    std::vector<std::vector<int>> res;
+    dfs(candidates, target, res, {}, 0, 0);
+    return res;
+}
+
+template<typename T>
+std::vector<T> get_words() {
+    std::string line;
+    std::getline(std::cin, line);
+    std::istringstream ss{line};
+    std::vector<T> v;
+    std::copy(std::istream_iterator<T>{ss}, std::istream_iterator<T>{}, std::back_inserter(v));
+    return v;
+}
+
+void ignore_line() {
+    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+}
+
+template<typename T>
+void put_words(const std::vector<T>& v) {
+    if (!v.empty()) {
+        std::copy(v.begin(), std::prev(v.end()), std::ostream_iterator<T>{std::cout, " "});
+        std::cout << v.back();
+    }
+    std::cout << '\n';
+}
+
+int main() {
+    std::vector<int> candidates = get_words<int>();
+    int target;
+    std::cin >> target;
+    ignore_line();
+    std::vector<std::vector<int>> res = combination_sum(candidates, target);
+    for (const std::vector<int>& row : res) {
+        put_words(row);
+    }
+}
