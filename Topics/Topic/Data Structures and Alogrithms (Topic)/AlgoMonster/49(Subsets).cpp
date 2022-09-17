@@ -43,10 +43,28 @@ we are forming a subset, so we should be adding it to the result. we should stop
 
 /*
 -------------------------    Notes
+similar to permutations, we make a binary choice of whether to include the number in the subset at each level
 
+we cab yse a state u ti keeo tracj if tge ubdex if tge cyrrebt cgar we are at
 
     Time complexity: O()
     Space complexity: O()
+
+alternative solution
+
+    this problem is very special because every time we make a choce already have a subset so some of the leaf node values are in interna nodes as well. therefore, we can potentially terminate the search earlier
+
+    an alternative and faster soultuion is to tajke advantage of the fact that internal nodes are also final states and draw the tree differently.
+
+similar to combinatioon sum, we dedup by only pruinign backward branches
+
+the main difference betweent eh alternate solution and the original is the poisition of the res.append(cur). we dont wait inmtil
+we get to a leaf node to add to the result list. we isntead add to the result list at each step
+
+time complexity: O(2^n)
+
+we have to permute through the possibilities
+
 */
 
 
@@ -116,3 +134,116 @@ int main() {
 
 
 //  Other Approaches(1)
+#include <algorithm> // copy
+#include <iostream> // cin, cout
+#include <iterator> // back_inserter, istream_iterator, ostream_iterator, prev
+#include <sstream> // istringstream
+#include <string> // getline, string
+#include <vector> // vector
+
+void dfs(int i, std::vector<int> cur, std::vector<int> nums, std::vector<std::vector<int>>& res) {
+    if (i == nums.size()) {
+        std::vector<int> list(cur);
+        res.emplace_back(list);
+        return;
+    }
+    cur.emplace_back(nums[i]);
+    dfs(i + 1, cur, nums, res);
+    cur.pop_back();
+    dfs(i + 1, cur, nums, res);
+}
+
+std::vector<std::vector<int>> subsets(std::vector<int> nums) {
+    std::vector<std::vector<int>> res;
+    dfs(0, {}, nums, res);
+    return res;
+}
+
+template<typename T>
+std::vector<T> get_words() {
+    std::string line;
+    std::getline(std::cin, line);
+    std::istringstream ss{line};
+    std::vector<T> v;
+    std::copy(std::istream_iterator<T>{ss}, std::istream_iterator<T>{}, std::back_inserter(v));
+    return v;
+}
+
+template<typename T>
+void put_words(const std::vector<T>& v) {
+    if (!v.empty()) {
+        std::copy(v.begin(), std::prev(v.end()), std::ostream_iterator<T>{std::cout, " "});
+        std::cout << v.back();
+    }
+    std::cout << '\n';
+}
+
+int main() {
+    std::vector<int> nums = get_words<int>();
+    std::vector<std::vector<int>> res = subsets(nums);
+    for (std::vector<int> row : res) {
+        std::sort(row.begin(), row.end());
+    }
+    std::sort(res.begin(), res.end());
+    for (const std::vector<int>& row : res) {
+        put_words(row);
+    }
+}
+
+
+// Other appraoches(2)
+#include <algorithm> // copy
+#include <iostream> // cin, cout
+#include <iterator> // back_inserter, istream_iterator, ostream_iterator, prev
+#include <sstream> // istringstream
+#include <string> // getline, string
+#include <vector> // vector
+
+void dfs(int i, std::vector<int> cur, std::vector<int> nums, std::vector<std::vector<int>>& res) {
+    if (i == nums.size()) return;
+    cur.emplace_back(nums[i]);
+    std::vector<int> list(cur);
+    res.emplace_back(list);
+    dfs(i + 1, cur, nums, res);
+    cur.pop_back();
+    dfs(i + 1, cur, nums, res);
+}
+
+std::vector<std::vector<int>> subsets(std::vector<int> nums) {
+    std::vector<std::vector<int>> res;
+    std::vector<int> empty;
+    res.emplace_back(empty);
+    dfs(0, {}, nums, res);
+    return res;
+}
+
+template<typename T>
+std::vector<T> get_words() {
+    std::string line;
+    std::getline(std::cin, line);
+    std::istringstream ss{line};
+    std::vector<T> v;
+    std::copy(std::istream_iterator<T>{ss}, std::istream_iterator<T>{}, std::back_inserter(v));
+    return v;
+}
+
+template<typename T>
+void put_words(const std::vector<T>& v) {
+    if (!v.empty()) {
+        std::copy(v.begin(), std::prev(v.end()), std::ostream_iterator<T>{std::cout, " "});
+        std::cout << v.back();
+    }
+    std::cout << '\n';
+}
+
+int main() {
+    std::vector<int> nums = get_words<int>();
+    std::vector<std::vector<int>> res = subsets(nums);
+    for (std::vector<int> row : res) {
+        std::sort(row.begin(), row.end());
+    }
+    std::sort(res.begin(), res.end());
+    for (const std::vector<int>& row : res) {
+        put_words(row);
+    }
+}
