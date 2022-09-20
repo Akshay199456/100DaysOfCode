@@ -1,0 +1,135 @@
+/*
+Problem statement:
+
+Given a list of n items and their weights, find all sums that can be formed using their weights.
+
+Input
+weights: A list of items and their weights.
+Output
+A list of possible sums using the weights.
+
+Examples
+Example 1:
+Input:
+
+weights = [1, 3, 3, 5]
+Output: [0, 1, 3, 4, 5, 6, 7, 8, 9, 11, 12]
+
+Explanation:
+
+We can form all sums from 0 to 12 except 2 and 10. Here is a short explanation for the sums:
+
+0: use none of the weights
+1: use item with weight 1
+3: use item with weight 3
+4: use weights 1 + 3 = 4
+5: use item with weight 5
+6: use weights 3 + 3 = 6
+7: use weights 1 + 3 + 3 = 7
+8: use weights 3 + 5 = 8
+9: use weights 1 + 3 + 5 = 9
+11: use weights 3 + 3 + 5 = 11
+12: use all weights
+Constraints
+1 <= len(weights) <= 100
+1 <= weights[i] <= 100
+*/
+
+/*
+-------------------------    My Approaches:
+1. brute force approach - combinations
+
+    since the problem asks for all sums that can be formed using their weights, one way we can get the sum of all weights is to
+    generate all weight combinations first. this then falls into a combination problem where we are generating all possible combinations.
+    in order to generate all possible permutations, at each step, we have one of two chocies. we can either add this elemnt to the list from the previous
+    step or we can choose not to. doing that for all elements gives us all possible combinations and the sum of each gives us all poissible weight combination sums.
+
+    Time complexity: O(2^n)
+    Space complexity: O(n)
+*/
+
+
+/*
+-------------------------    Other Approaches 
+1.
+
+    Time complexity: O()
+    Space complexity: O()
+*/
+
+
+/*
+-------------------------    Notes
+
+
+    Time complexity: O()
+    Space complexity: O()
+*/
+
+
+
+//  My approaches(1)
+#include <algorithm> // copy, sort
+#include <iostream> // cin
+#include <iterator> // back_inserter, istream_iterator
+#include <sstream> // istringstream
+#include <string> // getline, string
+#include <vector> // vector
+#include <algorithm>
+#include <unordered_set>
+
+void dfs(std::vector<int> & weights, std::unordered_set<int> & elementSet, int index, int total){
+    if(index == weights.size())
+        elementSet.emplace(total);
+    else{
+        // we can choose to add this element to the total
+        dfs(weights, elementSet, index+1, total + weights[index]);
+        // we can choose to not add this element to the total
+        dfs(weights, elementSet, index+1, total);
+    }
+}
+
+
+void fillResult(std::unordered_set<int> & elementSet, std::vector<int> & result){
+    for(auto it = elementSet.begin(); it!= elementSet.end(); it++){
+        result.push_back(*it);
+    }
+}
+
+
+std::vector<int> knapsack_weight_only(std::vector<int> weights) {
+    // WRITE YOUR BRILLIANT CODE HERE
+    std::unordered_set<int> elementSet;
+    std::vector<int> result;
+    dfs(weights, elementSet, 0, 0);
+    // sort result and remove duplicates
+    fillResult(elementSet, result);
+    return result;
+}
+
+template<typename T>
+std::vector<T> get_words() {
+    std::string line;
+    std::getline(std::cin, line);
+    std::istringstream ss{line};
+    std::vector<T> v;
+    std::copy(std::istream_iterator<T>{ss}, std::istream_iterator<T>{}, std::back_inserter(v));
+    return v;
+}
+
+int main() {
+    std::vector<int> weights = get_words<int>();
+    std::vector<int> res = knapsack_weight_only(weights);
+    std::sort(res.begin(), res.end());
+    for (int i = 0; i < res.size(); i++) {
+      std::cout << res[i];
+      if (i != res.size() - 1) {
+        std::cout << " ";
+      }
+    }
+    std::cout << "\n";
+}
+
+
+
+//  Other Approaches(1)
