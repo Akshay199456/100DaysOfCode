@@ -101,6 +101,12 @@ Top-down dynamic programming
         since there are n* totalSum states, each state depends on O(1) subproblems and each state takes O(1) to compute and the final runtime is 
         O(n*totalSum)
 
+Additional note
+    we had come up with this improvmenet approach as shown in Other Approaches(2) itself. the only thing was that we didnt code it.
+    instead of using a 2d matrix to store the entries, we were going to use either a set or a map to store the level and sum we had encountered. 
+    we will be implmenting this.
+
+    so good job on finding the brute force approiach as well as the top-down approach to this problem
 
 */
 
@@ -167,6 +173,90 @@ int main() {
     }
     std::cout << "\n";
 }
+
+
+// My Approaches(2)
+#include <algorithm> // copy, sort
+#include <iostream> // cin
+#include <iterator> // back_inserter, istream_iterator
+#include <sstream> // istringstream
+#include <string> // getline, string
+#include <vector> // vector
+#include <algorithm>
+#include <unordered_set>
+#include <utility>
+
+// Hash function 
+struct hashFunction
+{
+  size_t operator()(const std::pair<int,int> &x) const
+  {
+    return x.first ^ x.second;
+  }
+};
+
+void dfs(std::vector<int> & weights, std::unordered_set<int> & elementSet, int index, int total, std::unordered_set<std::pair<int,int>, hashFunction> & visitedSet){
+    // (total, index)
+    std::pair<int,int> currentPair = std::make_pair(total, index);
+    if(visitedSet.find(currentPair) != visitedSet.end())
+        return;
+    else{
+        // push this as visited
+        visitedSet.emplace(currentPair);
+        
+        if(index == weights.size())
+            elementSet.emplace(total);
+        else{
+            // we can choose to add this element to the total
+            dfs(weights, elementSet, index+1, total + weights[index],visitedSet);
+            // we can choose to not add this element to the total
+            dfs(weights, elementSet, index+1, total, visitedSet);
+        }
+    }
+}
+
+
+void fillResult(std::unordered_set<int> & elementSet, std::vector<int> & result){
+    for(auto it = elementSet.begin(); it!= elementSet.end(); it++){
+        result.push_back(*it);
+    }
+}
+
+
+std::vector<int> knapsack_weight_only(std::vector<int> weights) {
+    // WRITE YOUR BRILLIANT CODE HERE
+    std::unordered_set<int> elementSet;
+    std::unordered_set<std::pair<int,int>, hashFunction> visitedSet;
+    std::vector<int> result;
+    dfs(weights, elementSet, 0, 0,visitedSet);
+    // sort result and remove duplicates
+    fillResult(elementSet, result);
+    return result;
+}
+
+template<typename T>
+std::vector<T> get_words() {
+    std::string line;
+    std::getline(std::cin, line);
+    std::istringstream ss{line};
+    std::vector<T> v;
+    std::copy(std::istream_iterator<T>{ss}, std::istream_iterator<T>{}, std::back_inserter(v));
+    return v;
+}
+
+int main() {
+    std::vector<int> weights = get_words<int>();
+    std::vector<int> res = knapsack_weight_only(weights);
+    std::sort(res.begin(), res.end());
+    for (int i = 0; i < res.size(); i++) {
+      std::cout << res[i];
+      if (i != res.size() - 1) {
+        std::cout << " ";
+      }
+    }
+    std::cout << "\n";
+}
+
 
 
 
