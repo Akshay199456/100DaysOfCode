@@ -101,6 +101,28 @@ Top-down dynamic programming
         since there are n* totalSum states, each state depends on O(1) subproblems and each state takes O(1) to compute and the final runtime is 
         O(n*totalSum)
 
+bottom-up dynamic programming
+    now, let's talk about the 'bottom-up' solution. reacall that the idea of any bottom-up solution i to work from the smallest cases,
+    'combine' them together and continue this until we get to our desired solution. thus, by looping through
+    each item, we determine which sums we can construct based on if there exists a smaller sum that we can build on top of.
+    for example, suppose we already built all possible sums using [1,3,3] and we wanted to know which sums we can build sing all of
+    [1,3,3,5] now. 
+
+    the final runtome of this program is O(n*totalSum) because thier is O(n*totoalSum) states, each state depends on O(1) subproblems,
+    and each state talkes O(1) to compute
+
+
+space optimization (optional)
+    finally, there is a slight memory optimization that we can perfoorm. obersve that dp[i][w] depends on, at most, the previous
+    row (dp[i][w] = dp[i-1][w]) || dp[i-1][w-weights[i-1]]. thus instead of storing the entire 2d array, we can simple
+    store two 1d arrays, one to keep track of the previous and one to for the current. this improves our memory usage from
+    O(n*totoalSum) to O(totalSum)
+
+    the space optimizatioin is a nice trick but its also easy to get the row swapping wrong. its great to mention this to the interviewer after
+    you have perfected your regular solution and confirm that with the interviewer. pre-mature optimization is the 
+    root of all evil in softwre engineering
+
+
 Additional note
     we had come up with this improvmenet approach as shown in Other Approaches(2) itself. the only thing was that we didnt code it.
     instead of using a 2d matrix to store the entries, we were going to use either a set or a map to store the level and sum we had encountered. 
@@ -306,4 +328,98 @@ vector<int> knapsack_weight_only(vector<int> weights) {
   generate_sums(weights, sums, 0, n, memo);
   vector ans(sums.begin(), sums.end());
   return ans;
+}
+
+
+// Other Approaches(3)
+ector<int> knapsack_weight_only(vector<int> weights) {
+  int n = weights.size();
+  int total_sum = 0;
+  for (int weight : weights) {
+    total_sum += weight;
+  }
+  vector<vector<bool>> dp(n + 1, vector<bool>(total_sum + 1, false));
+  dp[0][0] = true;
+  for (int i = 1; i <= n; i++) {
+    for (int w = 0; w <= total_sum; w++) {
+      // vertical blue arrow in the above slides
+      dp[i][w] = dp[i][w] || dp[i - 1][w];
+      // diagonal blue arrow in the above slides
+      if (w - weights[i - 1] >= 0) { // make sure current item's weight is smaller than the target weight w
+        dp[i][w] = dp[i][w] || dp[i - 1][w - weights[i - 1]];
+      }
+    }
+  }
+  vector<int> ans;
+  // check the last row for all possible answers
+  for (int w = 0; w <= total_sum; w++) {
+    if (dp[n][w]) {
+      ans.emplace_back(w);
+    }
+  }
+  return ans;
+}
+
+
+// Other Approaches(4)
+#include <algorithm> // copy, sort
+#include <iostream> // cin
+#include <iterator> // back_inserter, istream_iterator
+#include <sstream> // istringstream
+#include <string> // getline, string
+#include <vector> // vector
+
+using namespace std;
+
+vector<int> knapsack_weight_only(vector<int> weights) {
+  int n = weights.size();
+  int total_sum = 0;
+  for (int weight : weights) {
+    total_sum += weight;
+  }
+  vector<vector<bool>> dp(2, vector<bool>(total_sum + 1, false));
+  dp[0][0] = true;
+  for (int i = 1; i <= n; i++) {
+    for (int w = 0; w <= total_sum; w++) {
+      dp[1][w] = dp[1][w] || dp[0][w];
+      if (w - weights[i - 1] >= 0) {
+        dp[1][w] = dp[1][w] || dp[0][w - weights[i - 1]];
+      }
+    }
+    for (int w = 0; w <= total_sum; w++) { // update previous row to current row
+      dp[0][w] = dp[1][w];
+    }
+  }
+
+  // dp[0][w] = true if `w` is an attainable weight, thus add it to our answer
+  vector<int> ans;
+  for (int w = 0; w <= total_sum; w++) {
+    if (dp[0][w]) {
+      ans.emplace_back(w);
+    }
+  }
+  return ans;
+}
+
+template<typename T>
+std::vector<T> get_words() {
+    std::string line;
+    std::getline(std::cin, line);
+    std::istringstream ss{line};
+    std::vector<T> v;
+    std::copy(std::istream_iterator<T>{ss}, std::istream_iterator<T>{}, std::back_inserter(v));
+    return v;
+}
+
+int main() {
+    std::vector<int> weights = get_words<int>();
+    std::vector<int> res = knapsack_weight_only(weights);
+    std::sort(res.begin(), res.end());
+    for (int i = 0; i < res.size(); i++) {
+      cout << res[i];
+      if (i != res.size() - 1) {
+        cout << " ";
+      }
+    }
+    cout << "\n";
 }
