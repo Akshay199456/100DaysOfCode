@@ -41,6 +41,12 @@ The array can be partitioned as [1, 5, 5] and [11].
 
     Time complexity: O()
     Space complexity: O()
+
+2. DP - top-down approach
+
+    we can improve upon the previous approach by pruing off branches that are repeated as well as those that have repeated
+    branches. we use a set to store the state of th esums that we enter. if we come across it, then we know that we dont have a valid solution so we return false.
+    else we move down to the next branch after making modifications to the current sum branches.
 */
 
 
@@ -103,4 +109,68 @@ int main() {
 
 
 
-//  Other Approaches(1)
+//  My approaches(2)
+#include <algorithm> // copy
+#include <iostream> // boolalpha, cin, cout
+#include <iterator> // back_inserter, istream_iterator
+#include <sstream> // istringstream
+#include <string> // getline, string
+#include <vector> // vector
+#include <unordered_set>
+#include <utility>
+
+// Hash function 
+struct hashFunction
+{
+  size_t operator()(const std::pair<int,int> &x) const
+  {
+    return x.first ^ x.second;
+  }
+};
+
+bool dfs(std::vector<int> & nums, int sumA, int sumB, int index, std::unordered_set<std::pair<int,int>, hashFunction> & visited){
+    if(index == nums.size()){
+        if(sumA == sumB)
+            return true;
+        return false;
+    }
+    else if(!nums[index])
+        return dfs(nums, sumA + nums[index], sumB, index+1, visited) || dfs(nums, sumA, sumB + nums[index], index+1, visited);
+    
+    std::pair<int,int> firstPair = std::make_pair(sumA, sumB);
+    std::pair<int,int> secondPair = std::make_pair(sumB, sumA);
+    if(((visited.find(firstPair) != visited.end()) || (visited.find(secondPair) != visited.end())))
+        return false;
+    else{
+        visited.emplace(firstPair);
+        visited.emplace(secondPair);
+        return dfs(nums, sumA + nums[index], sumB, index+1, visited) || dfs(nums, sumA, sumB + nums[index], index+1, visited);
+    }
+    
+}
+
+bool can_partition(std::vector<int> nums) {
+    // WRITE YOUR BRILLIANT CODE HERE
+    std::unordered_set<std::pair<int,int>, hashFunction> visited;
+    if(!nums.size())
+        return true;
+    else
+        return dfs(nums, nums[0], 0, 1, visited) || dfs(nums,0, nums[0], 1, visited);
+}
+
+template<typename T>
+std::vector<T> get_words() {
+    std::string line;
+    std::getline(std::cin, line);
+    std::istringstream ss{line};
+    std::vector<T> v;
+    std::copy(std::istream_iterator<T>{ss}, std::istream_iterator<T>{}, std::back_inserter(v));
+    return v;
+}
+
+int main() {
+    std::vector<int> nums = get_words<int>();
+    bool res = can_partition(nums);
+    std::cout << std::boolalpha << res << '\n';
+}
+
