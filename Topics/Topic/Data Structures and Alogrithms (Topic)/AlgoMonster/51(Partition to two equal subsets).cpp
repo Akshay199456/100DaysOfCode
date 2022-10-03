@@ -61,10 +61,39 @@ The array can be partitioned as [1, 5, 5] and [11].
 
 /*
 -------------------------    Notes
+brute force:
 
+first, the sum of each subset should be the sum of the entire array divided by 2, sum(nums)/2, we will call it target. if the original sum is odd, we can immediately return false
+as it is impossible to find two equal subset sums where the sum is odd by parity rules
+
+the immediate approach would be to brute force all possible sums and check if a sum of target is possible. the following is a space-state tree of this idea
+
+in the figure, we continue search despite already having ffound target, but once we find it, we can return true. furthermore, if we notice that the current sum is greater than the target,
+we also dont need to keep searching but is not done in figure for clarity.
 
     Time complexity: O()
     Space complexity: O()
+
+Runtiime is O(2^n) in the worst case since there are n items and each item has two possibilities: either include it in the sum or don't. since this is implemetned
+recursively, the space complexity is O(n) since there are at most n items on the memory stack at any given moment.
+
+
+Parition DP
+
+1. top-down
+
+    we can see that when we consider elements [3,4,7] the sum of 7 can be generated in two different ways. we can sloso
+    see that the subtree beneath the nodes where the sum is 7, highlighted as node A and node B are the exact same. Despite node A
+    and node B being parts of different subtrees, adding level/number of items considered to the state makes the nodes 7 unique (are all the same).
+    so instead of recomputing these values everytime the sum is 7, we can immediately stop before going to deeper. thus, we can store, in a table,
+    if a subtree has been recompiuted already and its value. a fully-pruned state -space tree looks like this:
+
+    we see taht nodes that have already been computed still appear or are greater than the target sum still appear, but do not go deeper into
+    their computation
+
+    the runtime of this solution is O(n*target) since there are O(n*target) states, each state depends on O(1) subproblems and each state takes O(1) to compute. the runtime is also
+    O(n*target +n) = O(n*target) because of the O(n*target) dp table and O(n) recursion depth.
+
 */
 
 
@@ -174,3 +203,78 @@ int main() {
     std::cout << std::boolalpha << res << '\n';
 }
 
+
+// Other Approaches(1)
+bool target_exists(int n, vector<int> &nums, int target_sum, int current_sum) {
+  // target sum is possible
+  if (current_sum == target_sum) {
+    return true;
+  }
+  // impossible if no more elements or current sum exceeds target sum
+  if (n == 0 || current_sum > target_sum) {
+    return false;
+  }
+  bool exists = target_exists(n - 1, nums, target_sum, current_sum + nums[n - 1]) // use element
+             || target_exists(n - 1, nums, target_sum, current_sum);              // don't use element
+  return exists;
+}
+
+bool can_partition(vector<int> nums) {
+  int total_sum = 0;
+  for (int num : nums) {
+    total_sum += num;
+  }
+
+  if (total_sum % 2 != 0) {
+    return false;
+  }
+
+  int target = total_sum / 2;
+  int n = nums.size();
+  return target_exists(n, nums, target, 0);
+}
+
+
+
+// Other Approaches(2)
+bool target_exists(int n, vector<int> &nums, int target_sum, int current_sum, vector<vector<int>> &dp) {
+  // target sum is possible
+  if (current_sum == target_sum) {
+    return true;
+  }
+  // impossible if no more elements or current sum exceeds target sum
+  if (n == 0 || current_sum > target_sum) {
+    return false;
+  }
+  if (dp[n][currentSum] != 0) {
+    if (dp[n][currentSum] == 1) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+  bool exists = target_exists(n - 1, nums, target_sum, current_sum + nums[n - 1], dp) // use element
+            || target_exists(n - 1, nums, target_sum, current_sum, dp);              // don't use element
+  if (exists) {
+    dp[n][currentSum] = 1;
+  } else {
+    dp[n][currentSum] = 2;
+  }
+  return exists;
+}
+bool can_partition(vector<int> nums) {
+  int total_sum = 0;
+  for (int num : nums) {
+    total_sum += num;
+  }
+  if (total_sum % 2 != 0) {
+    return false;
+  }
+  int target = total_sum / 2;
+  int n = nums.size();
+  // dp[i][j] = 0 : value not computed yet
+  // dp[i][j] = 1 : value computed and is true
+  // dp[i][j] = 2 : value computed and is false
+  vector<vector<int>> dp(n + 1, vector<int>(target + 1, 0));
+  return target_exists(n, nums, target, 0, dp);
+}
