@@ -94,6 +94,25 @@ Parition DP
     the runtime of this solution is O(n*target) since there are O(n*target) states, each state depends on O(1) subproblems and each state takes O(1) to compute. the runtime is also
     O(n*target +n) = O(n*target) because of the O(n*target) dp table and O(n) recursion depth.
 
+
+2. bottom-up
+    the top down solution may exceed the recursive stack depth. so, we can implement thje idea bove iteratively. once again, the idea of iterative or bottom-up DP is to start from the samaleest case,
+    and build our way up to the final solution
+
+    we will maintain a 2d table where dp[i][s] = true if we can form the sum s when considering the first i items. otherwise dp[i][s] = false.
+    we can take our idea from the top-down solutuon by thinking about each item have two possibilities: including it in our sum or not.
+    thus, dp[i][s] = true if:
+        1. the sum s can be formed without including the ith element, dp[i-1][s]=true OR
+        2. the sum s can be formed including the ith element, dp[i-1][s-nums[i]] == true
+    
+    following figures present this idea when considering all elements [3,4,7,6]:
+
+    runtime of the code above is O(n*target) since there are O(n*target) states, each state depends on O(1) subproblems and each
+    state takes O(1) to compute. the space complexity is also O(n*target) with the ise ofthe 2D dp table
+
+3. Space optimization
+    can slightly optimize the memor usage of our solution above by notcing that for any dp[i][s],. we only really care about the preivous row, dp[i-1][...]. thus, instead of storing the entrire 2d grid,
+    we can store a 2 1d arrays, one for the current row and one for the previous row.
 */
 
 
@@ -277,4 +296,93 @@ bool can_partition(vector<int> nums) {
   // dp[i][j] = 2 : value computed and is false
   vector<vector<int>> dp(n + 1, vector<int>(target + 1, 0));
   return target_exists(n, nums, target, 0, dp);
+}
+
+
+// Other Approaches(3)
+bool can_partition(vector<int> nums) {
+  int total_sum = 0;
+  for (int num : nums) {
+    total_sum += num;
+  }
+
+  if (total_sum % 2 != 0) {
+    return false;
+  }
+
+  int target = total_sum / 2;
+  int n = nums.size();
+
+  vector<vector<bool>> dp(n + 1, vector<bool>(target + 1, false));
+  dp[0][0] = true;
+  for (int i = 1; i <= n; i++) {
+    for (int s = 0; s <= target; s++) {
+      if (s < nums[i - 1]) {
+        dp[i][s] = dp[i - 1][s];
+      } else {
+        dp[i][s] = dp[i - 1][s] || dp[i - 1][s - nums[i - 1]];
+      }
+    }
+  }
+  return dp[n][target];
+}
+
+
+// Other Approaches(4)
+#include <algorithm> // copy
+#include <iostream> // boolalpha, cin, cout
+#include <iterator> // back_inserter, istream_iterator
+#include <sstream> // istringstream
+#include <string> // getline, string
+#include <vector> // vector
+
+using namespace std;
+
+bool can_partition(vector<int> nums) {
+  int total_sum = 0;
+  for (int num : nums) {
+    total_sum += num;
+  }
+
+  if (total_sum % 2 != 0) {
+    return false;
+  }
+
+  int target = total_sum / 2;
+  int n = nums.size();
+
+  // dp[0] is the previous row
+  // dp[1] is the current row
+  vector<vector<bool>> dp(2, vector<bool>(target + 1, false));
+  dp[0][0] = true;
+  for (int i = 1; i <= n; i++) {
+    for (int s = 0; s <= target; s++) {
+      if (s < nums[i - 1]) {
+        dp[1][s] = dp[0][s];
+      } else {
+        dp[1][s] = dp[0][s] || dp[0][s - nums[i - 1]];
+      }
+    }
+    for (int s = 1; s <= target; s++) {
+      dp[0][s] = dp[1][s];
+      dp[1][s] = false;
+    }
+  }
+  return dp[0][target];
+}
+
+template<typename T>
+std::vector<T> get_words() {
+    std::string line;
+    std::getline(std::cin, line);
+    std::istringstream ss{line};
+    std::vector<T> v;
+    std::copy(std::istream_iterator<T>{ss}, std::istream_iterator<T>{}, std::back_inserter(v));
+    return v;
+}
+
+int main() {
+    std::vector<int> nums = get_words<int>();
+    bool res = can_partition(nums);
+    std::cout << std::boolalpha << res << '\n';
 }
