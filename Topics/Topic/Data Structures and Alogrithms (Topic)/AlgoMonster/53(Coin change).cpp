@@ -32,6 +32,11 @@ Output: -1
     because, we use combinatorics to generate all possible combination there can be states that are repeated during that recursion.
     as a result, we make use of a set to store the two states which represent whether an element has alreay occurred or not.
     those are the (level of recursion, sum). both of these togehther, let us know if we have already come across this state and help us get rid of branches whoich have been calculated before.
+
+
+3. bottom-up [not fully working]
+    the idea behind this approach was to start from the smallest unit to get the solution. as a result, the smallest unit would be
+    to have no coin and build up the amount. at each level we can then add one coin as we go and see if we can reach the amount we are looking for.
 */
 
 
@@ -199,6 +204,72 @@ int main() {
     std::cout << res << '\n';
 }
 
+
+// My Approaches(2) [not working]
+#include <algorithm> // copy
+#include <iostream> // cin, cout, streamsize
+#include <iterator> // back_inserter, istream_iterator
+#include <limits> // numeric_limits
+#include <sstream> // istringstream
+#include <string> // getline, string
+#include <vector> // vector
+
+int getMinCoins(std::vector<int> coins, int amount, int n){
+    std::vector<std::vector<int>> dp(n + 1, std::vector<int>(amount + 1, 0));
+
+    dp[0][0] = 1;
+    
+    for(int i=1; i <= coins.size(); i++){
+        int element = coins[i-1];
+        for(int j=0; j < amount+1; j++){
+            if(j < element)
+                dp[i][j] = dp[i-1][j];
+            else if(j == element)
+                dp[i][j] = 1;
+            else{
+                if(dp[i][j-element])
+                    dp[i][j] = dp[i][j-element] + 1;
+                if(dp[i-1][j])
+                    dp[i][j] = std::min(dp[i][j], dp[i-1][j]);
+            } 
+        }
+    }
+    if(!dp[n][amount])
+        return -1;
+    return dp[n][amount];
+}
+
+int coin_change(std::vector<int> coins, int amount) {
+    // WRITE YOUR BRILLIANT CODE HERE
+    int n = coins.size();
+    if(!amount)
+        return 0;
+    
+    return getMinCoins(coins, amount, n);
+}
+
+template<typename T>
+std::vector<T> get_words() {
+    std::string line;
+    std::getline(std::cin, line);
+    std::istringstream ss{line};
+    std::vector<T> v;
+    std::copy(std::istream_iterator<T>{ss}, std::istream_iterator<T>{}, std::back_inserter(v));
+    return v;
+}
+
+void ignore_line() {
+    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+}
+
+int main() {
+    std::vector<int> coins = get_words<int>();
+    int amount;
+    std::cin >> amount;
+    ignore_line();
+    int res = coin_change(coins, amount);
+    std::cout << res << '\n';
+}
 
 
 
