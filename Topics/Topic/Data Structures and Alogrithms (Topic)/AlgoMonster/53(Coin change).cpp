@@ -51,6 +51,12 @@ Output: -1
 
 /*
 -------------------------    Notes
+1. brute foce
+    this is a classical problem very similar to the unbounded knapsack problem.
+
+    brute foce method enumerates all possibilties with the use of backtracking. we start with a total sum of 0 and try every denomination.
+    since we can use each denomination more than once, we repeat this process until the toal sum reaches (or exceeds) the target.
+    runtime is O(n^{amount/T}} where T is the minimum denomination. the space complexity is amount/T since the recursive tree will be at most amount/T deep at any given time)    
 
 
     Time complexity: O()
@@ -274,3 +280,25 @@ int main() {
 
 
 //  Other Approaches(1)
+int min_coins(vector<int> &coins, int amount, int sum) {
+  if (sum == amount) {
+    return 0;
+  }
+  if (sum > amount) {
+    return numeric_limits<int>::max();
+  }
+  int ans = numeric_limits<int>::max();
+  for (auto &coin : coins) {
+    int result = min_coins(coins, amount, sum + coin);
+    if (result == numeric_limits<int>::max()) {
+      continue;
+    }
+    ans = min(ans, result + 1);
+  }
+  return ans;
+}
+
+int coin_change(vector<int> coins, int amount) {
+  int result = min_coins(coins, amount, 0);
+  return result == numeric_limits<int>::max() ? -1 : result;
+}
