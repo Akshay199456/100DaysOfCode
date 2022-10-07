@@ -61,6 +61,17 @@ Output: -1
 
     Time complexity: O()
     Space complexity: O()
+
+
+
+2. DFS + memoization
+    can optimize the brute force solution by storing answers that have already been computed in a 1d array called dp, where dp[i] is the minimum number of denomination
+    required to get a sum of i. can approach this question in similar way to the knapsack problem. the slight difference is that we no longer
+    need to keep track of the number of item as a parameter, because it is unbounded (i.e. each item can be used infinite times)
+
+    runtime is O(n*amount) since there are O(amount) states that we need to compute, each state takes O(n) to compute. the space complexity is
+    O(amount) due to the 1d dp array.
+
 */
 
 
@@ -300,5 +311,34 @@ int min_coins(vector<int> &coins, int amount, int sum) {
 
 int coin_change(vector<int> coins, int amount) {
   int result = min_coins(coins, amount, 0);
+  return result == numeric_limits<int>::max() ? -1 : result;
+}
+
+
+// Other Approaches(2)
+
+int min_coins(vector<int> &coins, int amount, int sum, vector<int> &memo) {
+  if (sum == amount) {
+    return 0;
+  }
+  if (sum > amount) {
+    return numeric_limits<int>::max();
+  }
+  if (memo[sum] != -1) {
+    return memo[sum];
+  }
+  int ans = numeric_limits<int>::max();
+  for (auto &coin : coins) {
+    int result = min_coins(coins, amount, sum + coin, memo);
+    if (result == numeric_limits<int>::max()) {
+      continue;
+    }
+    ans = min(ans, result + 1);
+  }
+  return memo[sum] = ans;
+}
+int coin_change(vector<int> coins, int amount) {
+  vector<int> memo(amount + 1, -1);
+  int result = min_coins(coins, amount, 0, memo);
   return result == numeric_limits<int>::max() ? -1 : result;
 }
