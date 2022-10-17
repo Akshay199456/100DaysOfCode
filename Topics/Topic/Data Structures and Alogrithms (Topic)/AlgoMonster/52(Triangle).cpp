@@ -90,6 +90,15 @@ the left branch is triangle[i+1][j] and the right branch is trinagle[i+1][j+1]. 
 
     lastly, we can optimize our memory usage by noticing that our transition only uses information from the row below it. this, for every row, we only need to keep track fo thr row
     below and everything else beyond that is useless. this takes our memory from O(n^2) to O(n)
+
+
+Additional notes:
+
+the top-down approach here which solves for duplicates works only when we start from the leaf. when we start frm the leaf with the aalgorithm they have
+used, duplicates occur. for eg, once we are done with minimum sum possible at the node 5, node 3 and node 4 on the upper layer make use of that minimum
+sum for their calculations. as a result, there is a duplicate effort invovled going from the leaf to the top. 
+otherwise, if we were going from top to down, i dont think we run into duplicate effort but it would definitely take more time.
+
 */
 
 

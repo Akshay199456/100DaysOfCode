@@ -72,6 +72,23 @@ Output: -1
     runtime is O(n*amount) since there are O(amount) states that we need to compute, each state takes O(n) to compute. the space complexity is
     O(amount) due to the 1d dp array.
 
+
+3. bottom-up DP
+    this can be done iteratively as well.
+    first, similar to the top-down solution, let dp[i] be the minimum number of denominations required to get a sum of i.
+
+    the idea is that we begin with dp[0] 0 since it takes 0 coins to get a sum of 0. next, we build up:
+        dp[1] = dp[0] + 1 = 1. aadding one coin of denomination 1 onto the minimum number for the sum of 0, we sget a sum of 1.
+        dp[2] = dp[0] + 1 = 1. similar as above, but we use one coin of denomination 2 to geta sum of 2.
+        dp[3] = min(dp[1], dp[2])+1= one coin of denomination 1 added on top of the result for sum of 2, or denomination 2 or denomination 2 on top 1. both yeilds a minimum of 2.
+        dp[4] = min(dp[2], dp[3])+1 = 2; coin of denomination 2 on top of result for 2, or coin of 1 on top of 3. min(dp[2], dp[3]) yields 1, so the result is 2.
+        dp[5] = min(dp[0], dp[3], dp[4])+1 = 1; either a coin of 5 on top of 0, a coin of 2 on top of 3 or a coiun of 1 on top of 4. the minimum is a 5 on top of 0.
+        
+        ... dp[n] = min(dp[n-1], dp[n-2], dp[n-5])+1; we use a coun of denomination of either 1,2, or 5 on top of the minimum result between the sums of n-1, n-2, or n-5. 
+
+    notice the small detials in the omplementation:
+        1. we start with all values being the largest number possible to indicate that the amount cannot be made up and to ensure those values are not included when we do min.
+        2. if tha target value is smaller than the current coint value, then the coin cannot be used since it would yield a negative new target.
 */
 
 
@@ -222,7 +239,7 @@ int main() {
 }
 
 
-// My Approaches(2) [not working]
+// My Approaches(3) [not working]
 #include <algorithm> // copy
 #include <iostream> // cin, cout, streamsize
 #include <iterator> // back_inserter, istream_iterator
