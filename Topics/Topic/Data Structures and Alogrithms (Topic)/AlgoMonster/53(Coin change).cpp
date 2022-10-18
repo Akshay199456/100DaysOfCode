@@ -359,3 +359,49 @@ int coin_change(vector<int> coins, int amount) {
   int result = min_coins(coins, amount, 0, memo);
   return result == numeric_limits<int>::max() ? -1 : result;
 }
+
+
+
+// Other Approaches(3)
+#include <algorithm> // copy
+#include <iostream> // cin, cout, streamsize
+#include <iterator> // back_inserter, istream_iterator
+#include <limits> // numeric_limits
+#include <sstream> // istringstream
+#include <string> // getline, string
+#include <vector> // vector
+
+int coin_change(std::vector<int> coins, int amount) {
+    if (amount == 0) return 0;
+    std::vector<long long> dp(amount + 1);
+    for (int i = 1; i <= amount; i++) {
+        dp[i] = std::numeric_limits<int>::max();
+        for (int coin : coins) {
+            dp[i] = std::min(dp[i], i >= coin ? dp[i - coin] + 1 : std::numeric_limits<int>::max());
+        }
+    }
+    return dp[amount] == std::numeric_limits<int>::max() ? -1 : dp[amount];
+}
+
+template<typename T>
+std::vector<T> get_words() {
+    std::string line;
+    std::getline(std::cin, line);
+    std::istringstream ss{line};
+    std::vector<T> v;
+    std::copy(std::istream_iterator<T>{ss}, std::istream_iterator<T>{}, std::back_inserter(v));
+    return v;
+}
+
+void ignore_line() {
+    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+}
+
+int main() {
+    std::vector<int> coins = get_words<int>();
+    int amount;
+    std::cin >> amount;
+    ignore_line();
+    int res = coin_change(coins, amount);
+    std::cout << res << '\n';
+}
