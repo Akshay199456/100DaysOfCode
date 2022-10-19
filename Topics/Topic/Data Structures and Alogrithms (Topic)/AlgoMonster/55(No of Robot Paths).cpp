@@ -39,6 +39,16 @@ Output: 15
 
     Time complexity: O(2^max(m,n))
     Space complexity: O(max(m,n))
+
+
+2. Top down + memo
+
+    we can use the top-down approach in order to solve this problem as well. if we observe the brute force approach, there are a few repearted calcualtions that are made
+    when we calculate the number of ways. we can store those results so that we return those when we encounter it the next time
+
+    Time complexity: O(m*n)
+    Space complexity: O(m*n)
+
 */
 
 
@@ -81,6 +91,50 @@ int unique_paths(int m, int n) {
     if(!m && !n)
         return 0;
     return countPaths(0,0,m-1,n-1);
+}
+
+void ignore_line() {
+    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+}
+
+int main() {
+    int m;
+    std::cin >> m;
+    ignore_line();
+    int n;
+    std::cin >> n;
+    ignore_line();
+    int res = unique_paths(m, n);
+    std::cout << res << '\n';
+}
+
+
+
+// My Approaches(2)
+#include <iostream> // cin, cout, streamsize
+#include <limits> // numeric_limits
+#include <vector>
+
+int countPaths(int currX, int currY, int destX, int destY, std::vector<std::vector<int>> & dp){
+    if(currX > destX || currY > destY)
+        return 0;
+    else if(currX == destX && currY == destY)
+        return 1;
+    else if(dp[currX][currY] != -1)
+        return dp[currX][currY];
+    else{
+        int nPaths = countPaths(currX+1, currY, destX, destY,dp) + countPaths(currX, currY+1, destX, destY,dp);
+        dp[currX][currY] = nPaths;
+        return dp[currX][currY];
+    }
+}
+
+int unique_paths(int m, int n) {
+    // WRITE YOUR BRILLIANT CODE HERE
+    std::vector<std::vector<int>> dp(m, std::vector<int>(n, -1));
+    if(!m && !n)
+        return 0;
+    return countPaths(0,0,m-1,n-1,dp);
 }
 
 void ignore_line() {
