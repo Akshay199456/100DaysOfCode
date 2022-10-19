@@ -80,10 +80,31 @@ Constraints
 
 /*
 -------------------------    Notes
+1.brute force
+
+    a brute force enumerates through all possibilitites. we start wth a total sum of 0 and try every denomination. since we can use each denomination more than once, after
+    we retry every denomination again until we reach our target.
+
+    we essentailly use the same iea used in combination sum problem where we try every single denomination while removing duplicate combinations by maintaingin the
+    starting indices
+
+    runtime is going to be O(n^(amount/T)) where t is the smallest denomination since each sum branches into n combinations with a max depth of
+    amount/T. the space compleity is amount/T since the reursion stack contains at most amount/T calls.
 
 
     Time complexity: O()
     Space complexity: O()
+
+
+2. DFS + memoization
+
+ can slightly imprive our runtime by reusing solutions that have already been computed. we apply memoization on the starting position as one dimention and the current sum as a seocnd dimension since our function
+ is really just f(start, sum)  where we want to find the number of ways to reach amount starting with sum and using all coins starting from index start   
+
+    additional note:
+        the thing we got right over here is that we needed a two layer system to store state. i had though it would be (sum, level in tree) but that didnt make sense after a while.
+        the right answer was (sum,index) cause if we have for eg: (4,0) giving us 2 possible solutions, that doesnt mean
+        (4,1) will give us the same answer. also levels can be the same if you ultiple answers to the same target in the same number of steps.
 */
 
 
@@ -145,3 +166,45 @@ int main() {
 
 
 //  Other Approaches(1)
+int num_of_ways(int sum, int amount, int start, vector<int> &coins) {
+  if (sum == amount) {
+    return 1;
+  }
+  if (sum > amount) {
+    return 0;
+  }
+  int res = 0;
+  for (int i = start; i < (int) coins.size(); i++) { // try every single denomination
+    res += num_of_ways(sum + coins[i], amount, i, coins);
+  }
+  return res;
+}
+
+int coin_game(vector<int> coins, int amount) {
+  return num_of_ways(0, amount, 0, coins);
+}
+
+
+// Other Approaches(2)
+int numOfWays(int sum, int amount, int start, vector<int> &coins, vector<vector<int>> &dp) {
+  if (sum == amount) {
+    return 1;
+  }
+  if (sum > amount) {
+    return 0;
+  }
+  if (dp[start][sum] != -1) {
+    return dp[start][sum];
+  }
+  int res = 0;
+  for (int i = start; i < (int) coins.size(); ++i) {
+    res += numOfWays(sum + coins[i], amount, i, coins, dp);
+  }
+  return dp[start][sum] = res;
+}
+
+int coin_game(vector<int> coins, int amount) {
+  int n = (int)coins.size();
+  vector<vector<int>> dp(n + 1, vector<int>(amount + 1, -1));
+  return numOfWays(0, amount, 0, coins, dp);
+}
