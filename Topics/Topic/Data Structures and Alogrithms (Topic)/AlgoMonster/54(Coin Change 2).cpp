@@ -105,6 +105,38 @@ Constraints
         the thing we got right over here is that we needed a two layer system to store state. i had though it would be (sum, level in tree) but that didnt make sense after a while.
         the right answer was (sum,index) cause if we have for eg: (4,0) giving us 2 possible solutions, that doesnt mean
         (4,1) will give us the same answer. also levels can be the same if you ultiple answers to the same target in the same number of steps.
+
+
+3. bottom-up approach
+
+    this can also be done iteratively in a similar way to the unbounded knapsack problm. once again, the iea of bottom-up DP
+    is to, instead of going from top-down , we build our solution froom the bottom-up
+
+    once again, the idea for this solution is extremely similar to that of the unbounded knapsack.
+
+    note the order of the loops. we first loop through all the coins, then amounts. you may think that with our
+    top-down recurisve solution, we would first loop through all amounts then coins.. however, that would be incrorrect.
+
+    why? because then we would be overcounting the number of ways since our DP definition actually changes to be dp[i][s] is
+    te number of ways to construct the amount s using all cooins. this is aking to the start value we pass in the finction in
+    combination sum to remove duplicates. we must keep our defintion to be dp[i][s] is the number of ways to construct the amount s using the first i coins,
+    oitherwise there will be duplicates
+
+    additoonal note:
+        the bottom up approach is very similar to the unbonunded knapsack problem. i had an idea about i and was doing it. 
+        however, i forgot that you could make use of the coin indefinitely. previous iterations of the problem that i had solved wau 
+        earlier were such that you ould not use the coin again. as a result, yu would go to the previous row for both the chocies (making sum with the coin and without the coin).
+        however, since we can us eht coin definjitely, we still ahve 2 chocies. one choice is to not make use of the coin (which takes us to repvious row)
+        while the other is to make us eof the coin (which will take us to the same row since we still ajhve the coint available to us but at a distance sum - coins[i])
+
+
+4. memory optimization
+    note that our transtition dp[i][s] += dp[i][s-coins[i-1]] only depends on the previos row. this, we can optimize our solution
+    form O(n*amount) to O(amount) by only storing the previous and current row.
+
+    the time complexity is still O(n*amount) where n is the number of items, ut now the space complexity is O(amount) since
+    we only have two amount sized 1d arrays.
+
 */
 
 
@@ -207,4 +239,80 @@ int coin_game(vector<int> coins, int amount) {
   int n = (int)coins.size();
   vector<vector<int>> dp(n + 1, vector<int>(amount + 1, -1));
   return numOfWays(0, amount, 0, coins, dp);
+}
+
+
+// Other Approaches(3)
+int coin_game(vector<int> coins, int amount) {
+  int N = coins.size();
+
+  vector<vector<int>> dp(N + 1, vector<int>(amount + 1, 0));
+
+  dp[0][0] = 1; // there is only 1 way to make a sum of 0 using none of the coins
+  for (int i = 1; i <= N; ++i) {
+    for (int s = 0; s <= amount; ++s) {
+      dp[i][s] = dp[i - 1][s]; // first take the number of ways to make `s` without the `i`th item
+      if (s - coins[i - 1] >= 0) {
+        dp[i][s] += dp[i][s - coins[i - 1]]; // then, try the `i`th item (if it's valid to use)
+      }
+    }
+  }
+  return dp[N][amount];
+}
+
+
+//Other Approaches(4)
+#include <algorithm> // copy
+#include <iostream> // cin, cout, streamsize
+#include <iterator> // back_inserter, istream_iterator
+#include <limits> // numeric_limits
+#include <sstream> // istringstream
+#include <string> // getline, string
+#include <vector> // vector
+
+using namespace std;
+
+int coin_game(vector<int> coins, int amount) {
+  int N = coins.size();
+
+  // dp[0][...] is the previous row
+  // dp[1][...] is the current row
+  vector<vector<int>> dp(2, vector<int>(amount + 1, 0));
+
+  dp[0][0] = 1; // there is only 1 way to make a sum of 0 using none of the coins
+  for (int i = 1; i <= N; ++i) {
+    for (int s = 0; s <= amount; ++s) {
+      dp[1][s] = dp[0][s]; // first take the number of ways to make `s` without the `i`th item
+      if (s - coins[i - 1] >= 0) {
+        dp[1][s] += dp[1][s - coins[i - 1]]; // then, try the `i`th item (if it's valid to use)
+      }
+    }
+    for (int s = 0; s <= amount; ++s) { // current row becomes previous row for the next iteration
+      dp[0][s] = dp[1][s];
+    }
+  }
+  return dp[0][amount];
+}
+
+template<typename T>
+std::vector<T> get_words() {
+    std::string line;
+    std::getline(std::cin, line);
+    std::istringstream ss{line};
+    std::vector<T> v;
+    std::copy(std::istream_iterator<T>{ss}, std::istream_iterator<T>{}, std::back_inserter(v));
+    return v;
+}
+
+void ignore_line() {
+    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+}
+
+int main() {
+    std::vector<int> coins = get_words<int>();
+    int amount;
+    std::cin >> amount;
+    ignore_line();
+    int res = coin_game(coins, amount);
+    std::cout << res << '\n';
 }
