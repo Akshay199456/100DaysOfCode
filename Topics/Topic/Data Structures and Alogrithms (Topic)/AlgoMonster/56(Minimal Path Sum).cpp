@@ -54,9 +54,24 @@ Because the path 1 → 3 → 1 → 1 → 1 minimizes the sum.
 
 /*
 -------------------------    Notes
+1. 
 
+    problem similar to robot unique paths. we can only move right or down from a cell. the difference is the cells now have weights and we want to choose the 
+    path with the minimal wieght. the keyword 'minima;' and the grid is a good sign to use dynamic programming.
 
-    Time complexity: O()
+    the equivalent of 'only able to move right or down' is 'can only reach a cell from top or left'. since top and elft are the only
+    two ways to reach a cell, the minimal path sum to reach a cell is the minimum sum of top and left + value fo the cuurrent cell
+
+    let dp[r][c] represent the minimal path sum to reach cell (r,c).
+
+    dp[r][c] = min(dp[r-1][c], dp[r][c-1]) + grid[r][c]
+
+    where dp[r-1][c] is the minimal path sum to reach the cell at the top of the current cell and dp[r][c-1] is the minimal path sum to 
+    reach the cell to the left of the current cell
+
+    we fill the dp matrxi row bby row from left to right
+
+    Time complexity: O(m*n)
     Space complexity: O()
 */
 
@@ -254,3 +269,56 @@ int main() {
 
 
 //  Other Approaches(1)
+#include <algorithm> // copy, min
+#include <iostream> // cin, cout, streamsize
+#include <iterator> // back_inserter, istream_iterator
+#include <limits> // numeric_limits
+#include <sstream> // istringstream
+#include <string> // getline, string
+#include <vector> // vector
+
+int min_path_sum(std::vector<std::vector<int>> grid) {
+    int m = grid.size();
+    int n = grid[0].size();
+    int dp[m][n] = {{ 0 }};
+    dp[0][0] = grid[0][0];
+    for (int c = 1; c < n; c++) {
+        dp[0][c] = dp[0][c - 1] + grid[0][c];
+    }
+    for (int r = 1; r < m; r++) {
+        dp[r][0] = dp[r - 1][0] + grid[r][0];
+    }
+
+    for (int r = 1; r < m; r++) {
+        for (int c = 1; c < n; c++) {
+            dp[r][c] = std::min(dp[r - 1][c], dp[r][c - 1]) + grid[r][c];
+        }
+    }
+    return dp[m - 1][n - 1];
+}
+
+template<typename T>
+std::vector<T> get_words() {
+    std::string line;
+    std::getline(std::cin, line);
+    std::istringstream ss{line};
+    std::vector<T> v;
+    std::copy(std::istream_iterator<T>{ss}, std::istream_iterator<T>{}, std::back_inserter(v));
+    return v;
+}
+
+void ignore_line() {
+    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+}
+
+int main() {
+    int grid_length;
+    std::cin >> grid_length;
+    ignore_line();
+    std::vector<std::vector<int>> grid;
+    for (int i = 0; i < grid_length; i++) {
+        grid.emplace_back(get_words<int>());
+    }
+    int res = min_path_sum(grid);
+    std::cout << res << '\n';
+}
