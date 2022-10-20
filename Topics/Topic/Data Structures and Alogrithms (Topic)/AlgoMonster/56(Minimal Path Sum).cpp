@@ -179,6 +179,77 @@ int main() {
 
 
 
+// My Approaches(3)
+#include <algorithm> // copy
+#include <iostream> // cin, cout, streamsize
+#include <iterator> // back_inserter, istream_iterator
+#include <limits> // numeric_limits
+#include <sstream> // istringstream
+#include <string> // getline, string
+#include <vector> // vector
+
+int getMinSum(std::vector<std::vector<int>> & grid, std::vector<std::vector<int>> & memo){
+    int lRow = grid.size()-1, lCol = grid[0].size()-1;
+    int sum = 0;
+        
+    // fill last row
+    for(int i=lCol; i >=0; i--){
+        sum += grid[lRow][i];
+        memo[lRow][i] = sum;
+    }
+    
+    // fill last column
+    sum = 0;
+    for(int i=lRow; i>=0; i--){
+        sum += grid[i][lCol];
+        memo[i][lCol] = sum;
+    }
+    
+    // fill rest of the tntries
+    for(int i=lRow-1; i>=0; i--){
+        for(int j=lCol-1; j>=0; j--){
+            memo[i][j] = grid[i][j] + std::min(memo[i+1][j], memo[i][j+1]);
+        }
+    }
+    
+    return memo[0][0];
+}
+
+int min_path_sum(std::vector<std::vector<int>> grid) {
+    // WRITE YOUR BRILLIANT CODE HERE
+    std::vector<std::vector<int>> memo(grid.size(), std::vector<int>(grid[0].size(), std::numeric_limits<int>::max()));
+    if(!grid.size())
+        return 0;
+    return getMinSum(grid,memo);
+}
+
+template<typename T>
+std::vector<T> get_words() {
+    std::string line;
+    std::getline(std::cin, line);
+    std::istringstream ss{line};
+    std::vector<T> v;
+    std::copy(std::istream_iterator<T>{ss}, std::istream_iterator<T>{}, std::back_inserter(v));
+    return v;
+}
+
+void ignore_line() {
+    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+}
+
+int main() {
+    int grid_length;
+    std::cin >> grid_length;
+    ignore_line();
+    std::vector<std::vector<int>> grid;
+    for (int i = 0; i < grid_length; i++) {
+        grid.emplace_back(get_words<int>());
+    }
+    int res = min_path_sum(grid);
+    std::cout << res << '\n';
+}
+
+
 
 
 
