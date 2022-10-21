@@ -55,10 +55,61 @@ Both [1, 2, 4] and [1, 2, 3] are longest subsequences which have length 3.
 
 /*
 -------------------------    Notes
+1. brute forice
 
+    a brute force method traverses through all 2^n possible subsequences, which is essentially generating all subsets. there are
+    2^n since, for every element, we either include it or exclude it. then, for every subsequence, we check if its increasing in O(n) tiime
+
+    the final time complexity is going to be O(n*2^n) and the space complexity is also O(n*2^n) since we must geerate and store all
+    O(2^n) subsets each of length O(n)
 
     Time complexity: O()
     Space complexity: O()
+
+
+2. DFS + memoization
+
+    the keywords 'longest' and 'sequence' are good indicators of dynamic programming.
+
+    lets try thhinking about a dp solution. first what is the overall problem that we want to solve. its 'what is the LIS of a sequence of n
+    numbers?"
+    
+    what is the dp state? typically when you think of a dp solution for sequences, we consider a prefix of the orginginal sequence.
+    in this case, the state is: consdiering the first i numbers (nums[1], nums[2],.... nums[i]), what is the longest increasing
+    subsequence that contins nums[i]?
+
+    next the transition. if we want to build an LIS that ends with nums[i], then we need to find a previously existing LIST that ends with a number less than nums[i]. in other words,
+    find the largest existing LIS(j <i ) where nums[j] < nums[i] and simply append nums[i] to that LIS.
+
+    a simple base case would be if i=0 then return 0 since if we dont have any elements, the longest increasing subsequence is
+    of length 0.
+
+    here's a sumarray of the dp relationship:
+        1. state: f(i) is the longest increasing subsequence that ends/contains nums[i]
+        2. base case: f(0) = 0: an empty list has n LIS of length 0
+        3. transition: f(i) = max(f(j) + 1) for j = 0....i-1 as long as nums[j] < nums[i] (extend a pre-existing LIS)
+
+    as is usual with problems with recursive relations, we store a memo trable to store answers that may be reused to stop unnecessary computations
+
+    runtime of solution is O(n^2) where n is the number of elements in nums since there are O(n) states and each state
+    takes takesO(n) to compute. the space complexity is O(n) due to the use of the memo array
+
+
+3. Bottom-up DP
+
+    this can be done iteratively. this is simlar to the recursive version except instead of foing from top-down, we build out solution from the bottom-up. 
+    we can do this because a larger solution f(n) wll depend on smaller solutions f(0)....f(n-1)
+
+    runtime for this solution is O(n^2) since there are O(n) states and each state takes O(n) to compute. the sapce
+    compldexity is O(n) due to the use of the dp array of length O(n)
+
+
+4. O(nlogn) with DP and binary search
+
+    going to first construct a different DP solution that still runs in O(n^2) time and later see how we can improve it
+    to O(nlogn).
+
+    let dp[i] be the last element for an LIS of length i. if there are multiple elements, then choose the smallest one.,
 */
 
 
@@ -114,3 +165,58 @@ int main() {
 
 
 //  Other Approaches(1)
+int f(int i, vector<int> &nums, vector<int> &memo, int &lis) { // pass lis by reference to act like a global variable
+  if (i == 0) {
+    return 0;
+  }
+  if (memo[i] != 0) { // if already computed, use said answer
+    return memo[i];
+  }
+  int len = f(0, nums, memo, lis) + 1; // begin with starting a new LIS
+  int ni = nums[i - 1];
+
+  for (int j = 1; j < i; j++) { // try building upon a pre-existing LIS
+    int nj = nums[j - 1];
+    int f_of_j = f(j, nums, memo, lis); // compute f(j), otherwise if nums[i] < nums[j] then f(j) will never be computed
+    if (nj < ni) {
+      len = max(len, f_of_j + 1);
+    }
+  }
+  // LIS can end anywhere in the sequence due to the definition of our state, so update each time
+  lis = max(lis, len);
+
+  return memo[i] = len;
+}
+
+int longest_sub_len(vector<int> &nums) {
+  int n = (int) nums.size();
+  vector<int> memo(n + 1, 0);
+  int lis = 0;
+  f(n, nums, memo, lis);
+  return lis;
+}
+
+
+
+// Other Approaches(2)
+int longest_sub_len(vector<int> &nums) {
+  int N = (int) nums.size();
+  vector<int> dp(N + 1, 0);
+
+  dp[0] = 0; // base case: no elements has an LIS of length 0
+  int len = 0;
+  for (int i = 1; i <= N; ++i) {
+    int ni = nums[i - 1];
+    dp[i] = dp[0] + 1; // first we try starting a new sequence
+
+    for (int j = 1; j < i; ++j) { // then try extending an existing LIS from indices less than i
+      int nj = nums[j - 1];
+      if (nj < ni) {
+        dp[i] = max(dp[i], dp[j] + 1);
+      }
+    }
+
+    len = max(len, dp[i]);
+  }
+  return len;
+}
