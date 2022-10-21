@@ -110,6 +110,24 @@ Both [1, 2, 4] and [1, 2, 3] are longest subsequences which have length 3.
     to O(nlogn).
 
     let dp[i] be the last element for an LIS of length i. if there are multiple elements, then choose the smallest one.,
+
+    we will assume that dp[0] = -infinity and all other elmeents dp[i] = infinity. then, process the elements in nums one by one whole maintaining the state we state above and 
+    keep dp[i] updated. our answer will be the largest i such that dp(i) != infinity
+
+
+5.
+    if we look at the diagram createved from the above solution, we see that the dp array will always be sorted: dp[i-1] <= dp[i] for all i=1...n.
+    Also, for every nums[i], we only update the dp array once
+
+    this means, our goal for every nums[i] is to find the first number in dp strictly greater than nums[].
+    this can be done with binary search in O(logn) time. thus, the final runtime is O(nl;ogn)
+
+    once again, the final runtime is O(nlogn) where n is the number of elements in nums since for each element we use
+    O(logn) time to update the dp array. the space complexdity is O(n) due to the use of the dp array.
+
+    This is an interesting problem because unlike the previous dynamic programming problems, our solution depends on the solution of a 
+    dynamic number of subproblems
+
 */
 
 
@@ -219,4 +237,81 @@ int longest_sub_len(vector<int> &nums) {
     len = max(len, dp[i]);
   }
   return len;
+}
+
+
+
+// Other Approaches(4)
+int longest_sub_len(vector<int> &nums) {
+  int n = (int) nums.size();
+  const int INFINITY = numeric_limits<int>::max();
+  vector<int> dp(n + 1, INFINITY);
+  dp[0] = -INFINITY;
+
+  for (int i = 0; i < n; i++) {
+    for (int j = 1; j <= n; j++) {
+      if (dp[j-1] < nums[i] && nums[i] < dp[j]) {
+        dp[j] = nums[i];
+      }
+    }
+  }
+
+  int ans = 0;
+  for (int i = 0; i <= n; i++) {
+    if (dp[i] < INFINITY) {
+      ans = i;
+    }
+  }
+  return ans;
+}
+
+
+
+// Other Approaches(5)
+#include <algorithm> // copy
+#include <iostream> // cin, cout
+#include <iterator> // back_inserter, istream_iterator
+#include <limits> // numeric_limits
+#include <sstream> // istringstream
+#include <string> // getline, string
+#include <vector> // vector
+
+using namespace std;
+
+int longest_sub_len(vector<int> &nums) {
+  int n = (int) nums.size();
+  const int INFINITY = numeric_limits<int>::max();
+  vector<int> dp(n + 1, INFINITY);
+  dp[0] = -INFINITY;
+
+  for (int i = 0; i < n; i++) {
+    int j = upper_bound(dp.begin(), dp.end(), nums[i]) - dp.begin();
+    if (dp[j-1] < nums[i] && nums[i] < dp[j]) {
+      dp[j] = nums[i];
+    }
+  }
+
+  int ans = 0;
+  for (int i = 0; i <= n; i++) {
+    if (dp[i] < INFINITY) {
+      ans = i;
+    }
+  }
+  return ans;
+}
+
+template<typename T>
+std::vector<T> get_words() {
+    std::string line;
+    std::getline(std::cin, line);
+    std::istringstream ss{line};
+    std::vector<T> v;
+    std::copy(std::istream_iterator<T>{ss}, std::istream_iterator<T>{}, std::back_inserter(v));
+    return v;
+}
+
+int main() {
+    std::vector<int> nums = get_words<int>();
+    int res = longest_sub_len(nums);
+    std::cout << res << '\n';
 }
