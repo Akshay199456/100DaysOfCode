@@ -95,6 +95,13 @@ Both [1, 2, 4] and [1, 2, 3] are longest subsequences which have length 3.
     takes takesO(n) to compute. the space complexity is O(n) due to the use of the memo array
 
 
+    Additional notes:
+        the inital call to f(4) kinda thre me off thinking that they are going from f(4) to f(3) and so on. 
+        However, by looking at the code, that is not happening. the inner for loop where j gets used starts at
+        f(1) and then calcualtes for f(2) [which makes call to f(1) again), then f(3), when then makes call to f(1) and f(2) and so on]
+
+
+
 3. Bottom-up DP
 
     this can be done iteratively. this is simlar to the recursive version except instead of foing from top-down, we build out solution from the bottom-up. 
