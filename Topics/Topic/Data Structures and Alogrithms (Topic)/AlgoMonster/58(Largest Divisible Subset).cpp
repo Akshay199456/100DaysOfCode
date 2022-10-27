@@ -62,7 +62,17 @@ Each number in nums is unique
     previous subsets and see if the current element nums[i] is divisble by nums[j]. if it is and by transitive proerpty, we can
     then extend that subset with this new element and thus icnrease the length by 1. if its not, then we cant continue with the subset.
 
-    Time complexity: O(nlogn + n^2) = O(nlogn)
+    Time complexity: O(nlogn + n^2) = O(n^2)
+    Space complexity: O(n)
+
+
+3. Bottom-up approach
+
+    We can improve upon the top-down approach using the bottom-up approach in almost hte exact same way that we did in pb 57.
+    the only difference is that for the check we check if currNum % prevNum == 0. if it is, then we can extend that subset with this element.
+    else we cant
+
+    Time complexity: O(nlogn + n^2) = O(n^2)
     Space complexity: O(n)
 
 */
@@ -194,6 +204,75 @@ int find_largest_subset(std::vector<int> nums) {
     int maxLength = 0;
     std::sort(nums.begin(), nums.end());
     getLargestSubset(n,nums, memo, maxLength);
+    return maxLength;
+}
+
+template<typename T>
+std::vector<T> get_words() {
+    std::string line;
+    std::getline(std::cin, line);
+    std::istringstream ss{line};
+    std::vector<T> v;
+    std::copy(std::istream_iterator<T>{ss}, std::istream_iterator<T>{}, std::back_inserter(v));
+    return v;
+}
+
+int main() {
+    std::vector<int> nums = get_words<int>();
+    int res = find_largest_subset(nums);
+    std::cout << res << '\n';
+}
+
+
+// My Approaches(3)
+#include <algorithm> // copy
+#include <iostream> // cin, cout
+#include <iterator> // back_inserter, istream_iterator
+#include <sstream> // istringstream
+#include <string> // getline, string
+#include <vector> // vector
+
+int getLargestSubset(int i, std::vector<int> & nums, std::vector<int> & memo, int & maxLength){
+    if(!i)
+        return 0;
+    else if(memo[i])
+        return memo[i];
+    
+    int len = getLargestSubset(0, nums, memo, maxLength) + 1;
+    int currNum = nums[i-1];
+    
+    for(int j=1; j < i; j++){
+        int prevNum = nums[j-1];
+        int value = getLargestSubset(j, nums, memo, maxLength);
+        if(currNum % prevNum == 0)
+            len = std::max(len, value+1);
+    }
+    
+    maxLength = std::max(maxLength,len);
+    return memo[i] = len;
+}
+
+
+int find_largest_subset(std::vector<int> nums) {
+    // WRITE YOUR BRILLIANT CODE HERE
+    int n = (int) nums.size();
+    std::vector<int> dp(n+1,0);
+    int maxLength = 0;
+    std::sort(nums.begin(), nums.end());
+    
+    for(int i=1; i<=n; i++){
+        int currNum = nums[i-1];
+        dp[i] = dp[0]+1;
+        
+        for(int j=1; j<i; j++){
+            int prevNum = nums[j-1];
+            if(currNum % prevNum == 0)
+                dp[i] = std::max(dp[i], dp[j]+1);
+        }
+        maxLength = std::max(maxLength, dp[i]);
+    }
+    
+//     getLargestSubset(n,nums, memo, maxLength);
     return maxLength;
 }
 
