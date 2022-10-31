@@ -89,7 +89,22 @@ Each number in nums is unique
 
 /*
 -------------------------    Notes
+1. Solution
 
+    divisibility is transitive. that is, if a is divisble by b and b is divisible by c, then a is divisbile by c. furthermore, if a is divisible by b,
+    then a must be larger than it (or equal, bit that is not relevant in this queston as the numbers are unique)
+
+    therefore, if a set satisfies the condition, starting from the lowest number, the next smallest number must be divisible by the 
+    current nunmber. this means that we can expand on the set by finding a number that is divisble by the largest element in the exisitng set
+
+    in that case, for each number in nums, consider the size of the largest set that satisfies the condition and whose largest element is equal to that number.
+    it is equal to the size of th ;argest subset whose largest number can divide the current number (not including the currednt number)
+    plus 1. if no such set exists, then the largest size is 1 becase the set simplt consists of the number itself (and the condition always
+    holds true for sets with one element)
+    
+    knowing this, we have built up a logic for  a bottom-up DP: starting fromt he smallest number, we calcualte the size of the largest set that satisifies the condtioon 
+    and whose largest number is that number using the mthods above. then the size of the largest size
+    that satisifeis the condition is the max size from the numbers calculated above.
 
     Time complexity: O()
     Space complexity: O()
@@ -232,27 +247,6 @@ int main() {
 #include <string> // getline, string
 #include <vector> // vector
 
-int getLargestSubset(int i, std::vector<int> & nums, std::vector<int> & memo, int & maxLength){
-    if(!i)
-        return 0;
-    else if(memo[i])
-        return memo[i];
-    
-    int len = getLargestSubset(0, nums, memo, maxLength) + 1;
-    int currNum = nums[i-1];
-    
-    for(int j=1; j < i; j++){
-        int prevNum = nums[j-1];
-        int value = getLargestSubset(j, nums, memo, maxLength);
-        if(currNum % prevNum == 0)
-            len = std::max(len, value+1);
-    }
-    
-    maxLength = std::max(maxLength,len);
-    return memo[i] = len;
-}
-
-
 int find_largest_subset(std::vector<int> nums) {
     // WRITE YOUR BRILLIANT CODE HERE
     int n = (int) nums.size();
@@ -295,3 +289,40 @@ int main() {
 
 
 //  Other Approaches(1)
+#include <algorithm> // copy, max, max_element
+#include <iostream> // cin, cout
+#include <iterator> // back_inserter, istream_iterator
+#include <sstream> // istringstream
+#include <string> // getline, string
+#include <vector> // vector
+
+int find_largest_subset(std::vector<int> nums) {
+    std::sort(nums.begin(), nums.end());
+    std::vector<int> max_subsets;
+    for (int i = 0; i < nums.size(); i++) {
+        int max_subset = 0;
+        for (int j = 0; j < i; j++) {
+            if (nums[i] % nums[j] == 0) {
+                max_subset = std::max(max_subset, max_subsets[j]);
+            }
+        }
+        max_subsets.emplace_back(max_subset + 1);
+    }
+    return *std::max_element(max_subsets.begin(), max_subsets.end());
+}
+
+template<typename T>
+std::vector<T> get_words() {
+    std::string line;
+    std::getline(std::cin, line);
+    std::istringstream ss{line};
+    std::vector<T> v;
+    std::copy(std::istream_iterator<T>{ss}, std::istream_iterator<T>{}, std::back_inserter(v));
+    return v;
+}
+
+int main() {
+    std::vector<int> nums = get_words<int>();
+    int res = find_largest_subset(nums);
+    std::cout << res << '\n';
+}
