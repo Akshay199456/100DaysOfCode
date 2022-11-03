@@ -27,6 +27,34 @@ Explanation:
 
     Time complexity: O()
     Space complexity: O()
+
+
+2. Dp with two pointer solution - bottom up
+
+    I think this solution works because for every position in the table, we are calculating the minimum no of perfect sequares required to reach
+    a number. so if we are to build upon that step by step, we will get the smallest no of perfect sequares required to reach the solution itself.
+    also, when we do for example: MC where Mc is for minimum count for a number
+        so , when we do for 5, it can be generated in a few ways
+            MC(5)   = MC(1) + MC(4)
+                    = MC(2) + MC(3)
+    rememeber, each MC of existing numbers already has the minimum nno of steps required to reach that number.
+    so if we are to break down the sum into smaller components, those smaller componeents will have the minimum steps itself to reach that number.
+    as a result, the solution you are building it on will also have the smallest set of numbers since any other combination will be covered by it if it is the
+    solution with minimum count
+
+    we do need to check if a number ios a perfect square cause if it is, its MC count gets set to 1.
+
+    for our approach, we went directly to bottom-up approach. but, instead of the direct additions, we could also make use of recursion to fill the two 
+    pointer approach and that would give us top-down.
+
+    Again, the reason this approach works is because each number can be based on previous numbers
+    that come before it, whether they are perfect sequares or not. if they are perfect sequares, then the no of steps is 1.
+    else if the number is not a perfect sequare, it is going to be based on another pperfect sequare and as a result, the result for it would be greater than 1.
+    we use the two pointer approahc to go through all possible combinaions that can arise for everynumber
+
+    Time complexity:: O(n^2)
+    Space complexity: O(n)
+
 */
 
 
@@ -73,6 +101,51 @@ int perfect_squares(int n) {
         return 0;
     getMinCount(n, 0, minCount, 0, 1);
     return minCount;
+}
+
+void ignore_line() {
+    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+}
+
+int main() {
+    int n;
+    std::cin >> n;
+    ignore_line();
+    int res = perfect_squares(n);
+    std::cout << res << '\n';
+}
+
+
+// My Approaches(2)
+#include <iostream> // cin, cout, streamsize
+#include <limits> // numeric_limits
+#include <vector>
+#include <math.h>
+
+bool isPerfectSquare(int n){
+    if(ceil((double)std::sqrt(n)) == floor((double)std::sqrt(n)))
+        return true;
+    return false;
+}
+
+int perfect_squares(int n) {
+    // WRITE YOUR BRILLIANT CODE HERE
+    std::vector<int> dp(n+1,0);
+    int minCount = std::numeric_limits<int>::max();
+    
+    for(int i=1; i<=n; i++){
+        if(isPerfectSquare(i))
+            dp[i] = 1;
+        else{
+            int beg = 1, end = i-1;
+            int minValue = std::numeric_limits<int>::max();
+            while(beg <= end)
+                minValue = std::min(minValue, dp[beg++] + dp[end--]);
+            dp[i] = minValue;
+        }
+    }
+    
+    return dp[n];
 }
 
 void ignore_line() {
