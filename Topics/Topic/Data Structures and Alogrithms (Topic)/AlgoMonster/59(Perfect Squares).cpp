@@ -69,10 +69,24 @@ Explanation:
 
 /*
 -------------------------    Notes
+1. Approache 1 - DP
 
+    Answer is to use dynamic programming either bottom-up or top-down and to maintain the least number of numbers to 
+    get a certain sum. alternatively, you can use a graphy theory algorithm such as bfs to solve this question as well as a queue.
+    the solution displayed uses a bottom-up DP approach, the other solutions may serve as good practice for practicing other 
+    algorithms.s
 
-    Time complexity: O()
+    Time complexity: O(n*sqrt(n))
     Space complexity: O()
+
+Additional notes:
+
+    comparing my dp approach against the approach used by them acheives the same results just in slightly different ways.
+    what i do for each index is check with all other subsequecens when we make a decision for a particular index.
+    what they do is start from a perfect number and check how many steps it would take from that perfect number
+    to the number n. they then move on tot he next perfect number and continue the same from there. at the end both of these acheive the same results.
+    look at the images for this approach to understand how they do.
+
 */
 
 
@@ -163,3 +177,31 @@ int main() {
 
 
 //  Other Approaches(1)
+#include <iostream> // cin, cout, streamsize
+#include <limits> // numeric_limits
+
+int perfect_squares(int n) {
+    int dp[n + 1];
+    std::fill(dp, dp + n + 1, std::numeric_limits<int>::max());
+    dp[0] = 0;
+
+    for (int i = 1; i * i <= n; i++) {
+        int cur = i * i;
+        for (int j = cur; j <= n; j++) {
+            dp[j] = std::min(dp[j], dp[j - cur] + 1);
+        }
+    }
+    return dp[n];
+}
+
+void ignore_line() {
+    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+}
+
+int main() {
+    int n;
+    std::cin >> n;
+    ignore_line();
+    int res = perfect_squares(n);
+    std::cout << res << '\n';
+}
