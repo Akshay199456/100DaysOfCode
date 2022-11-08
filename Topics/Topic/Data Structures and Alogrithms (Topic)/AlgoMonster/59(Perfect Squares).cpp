@@ -205,3 +205,5 @@ int main() {
     int res = perfect_squares(n);
     std::cout << res << '\n';
 }
+
+
