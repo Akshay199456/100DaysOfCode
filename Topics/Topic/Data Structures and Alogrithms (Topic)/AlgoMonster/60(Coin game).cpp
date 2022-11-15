@@ -63,6 +63,37 @@ Constraints
 
 /*
 -------------------------    Notes
+1. Brute force 
+
+    A brute force solution would enumerate through all possibilities. for each of the n turns, we either choose the left-most coin or the rght=-most coin
+    and check which option maximizes our score
+
+    the 2 cases mentioned above are described as follows:
+
+    case 1: we take coin l
+        1. coins in the range [l+1,r] are left
+        2. since our opponent plays optimally, they will gain points eqaul to maxScore(l+1,r)
+        3. since we get all other coins, our score will be sum(l,r) - maxScore(l+1,r)
+    
+
+    case 2: we take coin r
+        1. coins in the range [l,r-1] are left
+        2. since our opponent plays optimally, they will gain points eqaul to maxScore(l,r-1)
+        3. since we get all other coins, our score will be sum(l,r) - maxScore(l,r-1)
+
+    next we choose the case that gives us the greatest score or minimzes the opponent';s score. therefore the solution is either:
+        1. maxScore(l,r) = max(sum(l,r) - maxScore(l+1,r), sum(l,r) - maxScore(l,r-1)) OR
+        2. maxScore(l,r) = sum(l,r) - min(maxScore(l+1,r), maxScore(l,r-1))
+    
+    note that a common pitfall is to try to keep tracking of which player the current recursive call is for using an extra state variable.
+    this is unnecessary because it doesnt reallly matter which user the recursive call is for becasuse the current plater
+    always tries to minimize the other player's score ( each user 'plays perfectly in suych a wauy that maximizes their score'). each 
+    recursive call returns the best possible score the current player can get. the outemost call will return the best score
+    for the first player.
+
+    since there are n turns, 2 possibilities each turn and takes O(n) to calculate the sum from l to r, the final runtime is 
+    O(n*2^n)
+
 
 
     Time complexity: O()
@@ -137,3 +168,22 @@ int main() {
 
 
 //  Other Approaches(1)
+int max_score(vector<int> coins, int l, int r) {
+  if (l == r) {
+    return coins[r];
+  }
+
+  int sum = 0;
+  for (int i = l; i <= r; i++) {
+    sum += coins[i];
+  }
+
+  int left_pick = max_score(coins, l + 1, r);
+  int right_pick = max_score(coins, l, r - 1);
+  return sum - min(left_pick, right_pick);
+}
+
+int coin_game(vector<int> coins) {
+  int n = coins.size();
+  return max_score(coins, 0, n - 1);
+}
