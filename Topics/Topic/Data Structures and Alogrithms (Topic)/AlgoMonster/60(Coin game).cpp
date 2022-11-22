@@ -109,6 +109,12 @@ Additional notes:
     It is sum(l+r) - maxScore(l+1,r). In other words, our score will be whatever is remaining once our oppoent has made the chocice
     to maximize his score of maxScore(l+1,r) and the way we can calcualte that is to subtract maxxScore(l+1,r) from the sum of coins which is what we are doing.
 
+
+2. Slight optimiazation
+
+    so far, for each recursive call we are spending O(n) time to calculate the sum between the range [l,r]. however, instead of using
+    O(n) every time we need the sum, we can use a prefix sum array to get the range in O(1) time and a single O(n) pre-computation.
+
 */
 
 
@@ -197,4 +203,26 @@ int max_score(vector<int> coins, int l, int r) {
 int coin_game(vector<int> coins) {
   int n = coins.size();
   return max_score(coins, 0, n - 1);
+}
+
+
+// Other Approaches(2)
+int max_score(vector<int> coins, int l, int r) {
+  int sum = coins[r] - coins[l - 1]; // query sum from [l, r] in O(1)
+  if (l == r) {
+    return sum;
+  }
+
+  int left_pick = max_score(coins, l + 1, r);
+  int right_pick = max_score(coins, l, r - 1);
+  return sum - min(left_pick, right_pick);
+}
+
+int coin_game(vector<int> coins) {
+  int n = coins.size();
+  vector<int> prefix_sum(n + 1, 0); // precompute prefix sum
+  for (int i = 1; i <= n; i++) {
+    prefix_sum[i] = prefix_sum[i - 1] + coins[i -1];
+  }
+  return max_score(prefix_sum, 1, n);
 }
