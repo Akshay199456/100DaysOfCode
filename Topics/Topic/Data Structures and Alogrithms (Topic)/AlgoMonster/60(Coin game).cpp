@@ -98,6 +98,17 @@ Constraints
 
     Time complexity: O()
     Space complexity: O()
+
+
+Additional notes:
+    I now understand the logic they used bejind the scoring. so, you can either select l or r for your coin.
+    lets assume that you selected l for your coin. once you make that choice, that leaves behind [l+1,r] coins for your oponent to select. and since your opponenet is also playing optimally, his goals would be to 
+    maximize his score from [l+1,r] coins which has been represented as maxScore(l+1,r). this means that your oponment is going to select his coins
+    such that his score is maximized for the coins [l+1,r] and this has been represented as maxScore(l+1,r).
+    okay, since we now know what your opoonent is looking for which is maxScore(l+1,r), once he makes that choice, what is the score you are left with.
+    It is sum(l+r) - maxScore(l+1,r). In other words, our score will be whatever is remaining once our oppoent has made the chocice
+    to maximize his score of maxScore(l+1,r) and the way we can calcualte that is to subtract maxxScore(l+1,r) from the sum of coins which is what we are doing.
+
 */
 
 
