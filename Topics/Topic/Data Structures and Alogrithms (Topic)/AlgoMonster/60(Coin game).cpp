@@ -134,6 +134,14 @@ Additional notes:
         1. dp(l,r) = max(sum(l,r) - dp(l+1,r), sum(l,r) - dp(l,r-1)) OR
         2. dp(l,r) = sum(l,r) - min(dp(l+1,r), dp(l,r-1))
 
+
+4. Bottom-up DP
+
+    the iterative version is a bit trickier. the idea is that we loop through all the possible lengths starting from 1 to n. then for each
+    size, we consider all possible left starting positions and calculate the respective rightt ending position. we do it in this order because
+    we are building solutions from the smallest case and building the solutions up. that is, first considering each item as in interval of length 1, then merging
+    their solutions together to form larger and larger interval lengths until we get to an interval of size n
+
 */
 
 
@@ -271,4 +279,52 @@ int coin_game(vector<int> coins) {
     prefix_sum[i] = prefix_sum[i - 1] + coins[i - 1];
   }
   return max_score(dp, prefix_sum, 1, n);
+}
+
+
+// Other Approaches(4)
+#include <algorithm> // copy
+#include <iostream> // cin, cout
+#include <iterator> // back_inserter, istream_iterator
+#include <sstream> // istringstream
+#include <string> // getline, string
+#include <vector> // vector
+
+using namespace std;
+
+int coin_game(vector<int> coins) {
+  int n = coins.size();
+  vector<int> prefix_sum(n + 1, 0);
+  for (int i = 1; i <= n; i++) {
+    prefix_sum[i] = prefix_sum[i - 1] + coins[i - 1];
+  }
+
+  vector<vector<int>> dp(n + 1, vector<int>(n + 1, 0));
+  for (int size = 0; size < n; size++) {
+    for (int l = 1; l + size <= n; l++) {
+      int r = l + size;
+      if (l == r) {
+        dp[l][r] = prefix_sum[r] - prefix_sum[l - 1];
+      } else {
+        dp[l][r] = prefix_sum[r] - prefix_sum[l - 1] - min(dp[l + 1][r], dp[l][r - 1]);
+      }
+    }
+  }
+  return dp[1][n];
+}
+
+template<typename T>
+std::vector<T> get_words() {
+    std::string line;
+    std::getline(std::cin, line);
+    std::istringstream ss{line};
+    std::vector<T> v;
+    std::copy(std::istream_iterator<T>{ss}, std::istream_iterator<T>{}, std::back_inserter(v));
+    return v;
+}
+
+int main() {
+    std::vector<int> coins = get_words<int>();
+    int res = coin_game(coins);
+    std::cout << res << '\n';
 }
