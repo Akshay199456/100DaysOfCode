@@ -115,6 +115,25 @@ Additional notes:
     so far, for each recursive call we are spending O(n) time to calculate the sum between the range [l,r]. however, instead of using
     O(n) every time we need the sum, we can use a prefix sum array to get the range in O(1) time and a single O(n) pre-computation.
 
+
+3. Top-down dp
+
+    In essence, the top-down DP solution is the brute force solution with memoization. you may have noticed that
+    max_score(l,r) can be memoized.
+
+    lets formalize the idea above by specifying our DP state (i.e. what's important that can lead us to our answer). in this case,
+    let dp(l,r) be the maximum score we can achieve if coins in the range [l,r] are the only ones present and we go first.
+
+    Furthermore, our base case is : dp(l,r) = v_r if l=r. that is, since the range contains only one coin, we simply take
+    that coin.
+
+    now we deal with the transition. exactly like our brute force solution, we consider two cases of picking either the left or right
+    coin.
+
+    next, we choose the case that gives us the greatest score or minimizes the opponent's score. therefore, the solution is either:
+        1. dp(l,r) = max(sum(l,r) - dp(l+1,r), sum(l,r) - dp(l,r-1)) OR
+        2. dp(l,r) = sum(l,r) - min(dp(l+1,r), dp(l,r-1))
+
 */
 
 
@@ -225,4 +244,31 @@ int coin_game(vector<int> coins) {
     prefix_sum[i] = prefix_sum[i - 1] + coins[i -1];
   }
   return max_score(prefix_sum, 1, n);
+}
+
+
+// Othe rApproaches(3)
+int max_score(vector<vector<int>> &dp, vector<int> &prefix_sum, int l, int r) {
+  if (dp[l][r] != 0) {
+    return dp[l][r];
+  }
+
+  int sum = prefix_sum[r] - prefix_sum[l - 1];
+  if (l == r) {
+    dp[l][r] = sum;
+  } else {
+    dp[l][r] = sum - min(max_score(dp, prefix_sum, l + 1, r), max_score(dp, prefix_sum, l, r - 1));
+  }
+
+  return dp[l][r];
+}
+
+int coin_game(vector<int> coins) {
+  int n = coins.size();
+  vector<vector<int>> dp(n + 1, vector<int>(n + 1, 0));
+  vector<int> prefix_sum(n + 1, 0);
+  for (int i = 1; i <= n; i++) {
+    prefix_sum[i] = prefix_sum[i - 1] + coins[i - 1];
+  }
+  return max_score(dp, prefix_sum, 1, n);
 }
