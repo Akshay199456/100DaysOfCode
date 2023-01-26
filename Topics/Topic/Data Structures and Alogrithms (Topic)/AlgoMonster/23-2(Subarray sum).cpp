@@ -18,7 +18,7 @@ Find the total number of subarrays that sums up to target.
     if we do find that compleemnt, then we know that a certain number of subarrays has the sum = compleemnt, which also means that
     a certain number of subarrays have sum = target. as a result we increment count by the num of subarrays we found.
     we then store the curSum with count =1 if it didnt exist in map or increment its count if it already existed.
-    
+
 
     Time complexity: O()
     Space complexity: O()
@@ -36,7 +36,7 @@ Find the total number of subarrays that sums up to target.
 
 /*
 -------------------------    Notes
-
+since new problem does not ask for index but total number isntead, we can change our hashmap to "sum k: number of prefix sums that sums upto k"
 
     Time complexity: O()
     Space complexity: O()
@@ -102,3 +102,54 @@ int main() {
 
 
 //  Other Approaches(1)
+#include <algorithm> // copy
+#include <iostream> // boolalpha, cin, cout, streamsize
+#include <iterator> // back_inserter, istream_iterator
+#include <limits> // numeric_limits
+#include <sstream> // istringstream
+#include <string> // getline, string
+#include <unordered_map> // unordered_map
+#include <vector> // vector
+
+int subarray_sum_total(std::vector<int> arr, int target) {
+    std::unordered_map<int, int> prefix_sums;
+    prefix_sums[0] = 1;  // an empty array has a sum of 0
+    int cur_sum = 0, count = 0;
+    for (int i = 0; i < arr.size(); i++) {
+        cur_sum += arr[i];
+        int complement = cur_sum - target;
+        if (prefix_sums.count(complement)) {
+            count += prefix_sums[complement];
+        }
+        if (prefix_sums.count(cur_sum)) {
+            prefix_sums[cur_sum] += 1;
+        } else {
+            prefix_sums[cur_sum] = 1;
+        }
+    }
+    return count;
+}
+
+template<typename T>
+std::vector<T> get_words() {
+    std::string line;
+    std::getline(std::cin, line);
+    std::istringstream ss{line};
+    ss >> std::boolalpha;
+    std::vector<T> v;
+    std::copy(std::istream_iterator<T>{ss}, std::istream_iterator<T>{}, std::back_inserter(v));
+    return v;
+}
+
+void ignore_line() {
+    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+}
+
+int main() {
+    std::vector<int> arr = get_words<int>();
+    int target;
+    std::cin >> target;
+    ignore_line();
+    int res = subarray_sum_total(arr, target);
+    std::cout << res << '\n';
+}
