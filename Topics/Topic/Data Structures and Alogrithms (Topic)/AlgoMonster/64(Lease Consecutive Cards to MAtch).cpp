@@ -147,4 +147,4 @@ int main() {
     std::vector<int> cards = get_words<int>();
     int res = least_consecutive_cards_to_match(cards);
     std::cout << res << '\n';
-}
+}   
