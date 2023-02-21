@@ -46,7 +46,7 @@ All permutations.
 
 /*
 -------------------------    Notes
-intuition
+intuition 1
     classic combinatorial search problem. let's apply the 3-step system from backtracking template
 
     1. identiy states
@@ -76,6 +76,22 @@ intuition
 
     we get eh same copy 3 times. because append(path) actually appends a referecne (memory address), we actually appended the same list 3 times.
     path.append(i) mutates the list and affects all references to that list. to fix this, we create a new list before we append./
+
+
+intuition 2
+    permutation is very similar to combination problem except the same element can not be used more than once. for example, if we had picked
+    'a' for our first letter, we can not use ut again for other letters for the same permutation. here's the state-space tree
+
+    Additional States
+        this is where we need an additional state to keep track of the letters we have already used. we will introduce a used list to record which letters are already used. used[i] == true
+        means that ith letter in the oring list has been used. this variable is passed to the recurisve calls to skip the used letters when we branch out
+    
+    Revert additional states
+        note that in the generate all paranthesis problem, the additional states openCount and closeCount are copied and in the recurisve calls.
+        the used variable, however is passed by reference in a recursive call. therefore, we have to 'undo' the update
+        much like how we undo the update in path variable by popping the last element after the recursive call
+
+
 */
 
 
