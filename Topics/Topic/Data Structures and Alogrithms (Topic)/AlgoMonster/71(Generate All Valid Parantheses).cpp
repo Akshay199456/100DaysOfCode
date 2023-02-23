@@ -51,7 +51,13 @@ There are 5 ways to create a string with 3 matching parentheses.
 
 /*
 -------------------------    Other Approaches 
-1.
+1. MAtthew  (Microchip) approach [complete this next]
+
+    mathhew mentioned a very good approach here. As is shown in Other Approaches(1), what you could do is  we know that each
+    step we hhave one of two choices: either we add an opening bracnket or we add a closing bracket. 
+    so wehat we could do when we do that is check at each level (through dfs) when we add an opening or closing bracket
+    to check if the no of closing brackets exceeds no of opening brackets. if so, we know that we cant get a solution
+    from that branch and as a result, that branch is pruned off. at the end, what is remaining is the branches that have been not pruned.
 
     Time complexity: O()
     Space complexity: O()
