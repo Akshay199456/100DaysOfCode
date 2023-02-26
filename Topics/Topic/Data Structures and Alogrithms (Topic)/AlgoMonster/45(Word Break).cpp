@@ -67,6 +67,64 @@ Memoization
     s us tghe length of the string, w is the length of the words array and max(w[i]) is the maximal possible word length. here our time completyity is polynomial since we memoize and we iteratre through the 
     possibilities. at every position s we try every word in w which takes time proportionate to the word length
 
+
+
+Additional Notes
+
+we can try every word in the dictionary and see if the dictionary word is a prefix of the target word.
+for example, assuming the dictionary contains ['a','b','algo'], 'a' and 'algo' are both prefixes of 'algomonster', but 'b' is not. if the dictionary word is a prefix,
+then we can consider the prefix matched and continue to try to match the remaining part of the target word. we can draw the state-space tree by using every dictionary word
+as an edge at every level.
+
+using the backtracking 2 template as shown in Addotional Notes(1)-4:
+
+and fill out the missing logic:
+    1. is_leaf: if start_index reaches the target.length, then we have matchedd every letter and word break is a success.
+    2. get_edges: we use startIndex to record the next letter in the target we have matched so far. target[:startIndex] is matched
+    and target[startIndex:] is to be matched. we try this for each word in the dictionary.
+    3. initial_value: we start with False because we haven't broken thr target word yet.
+    4. aggregate: we use logical OR to update ans to True if return value from the child recursive call is True.
+    5. additional states: there is no additional states; we have all the information to determine how to branch out
+
+This is shown in Other Approaches(3)
+
+    Time complexity:
+        since there are m words in the words array, we know that each node has a branching factor of m. the depth of the tree depends on the size
+        of the shortest word in the array, in the worst case, the state-space tree will have a depth of n/(shortest word size). the no of nodes in the tree is
+        bounded by O(m^(n/(shortest word size))). we also know that each string comparison takes at most O(n), we can multiply it to get the toal complexity of 
+        O(m^(n/(shortest word size))) * n.
+
+
+Memoization
+
+    everything looks great. when we finish typing that last bracket/semicolon, we can almost hear angels singing and all tests passing.
+    except there is one pesky test case:
+
+    "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaab"
+    ["a","aa","aaa","aaaa","aaaaa","aaaaaa","aaaaaaa","aaaaaaaa","aaaaaaaaa","aaaaaaaaaa"]
+
+    why does this one time out? we have 10 branches to check each level of the tree and there are 140 'a's in the target, in the worst case,
+    we would be looking at 10^140 branches which is too big for our algorithm. the way to solve this is to use memoization to cache the branches we have already seen. we can even see duplicates in the above example.
+
+    what to meoize
+
+        the green and red subtree have the same content and the same prefix "aa". the difference is threa are two edges
+        'a' and 'a' from root to the green 'b' and thre is only one edge 'aa' from root to red 'b'. by order of DFS pre-order traversal, we visit the green subtree
+        before we visit the red subtree. ionce we have gone through the green subtree, we have already seen all the possibiilities to calculate whether it's ossible to make up the remaining 'b'
+        and thre is no point to visit the red subtree any more since it contains the exact same content. we can memoize this
+        by stroioing the result for each start_index rempresneting the wehther it's possible to break target.substring(startIndex, target.length) using words in the dictionary.
+
+    This is shown in Other Approaches(2)
+
+    Time complexity:
+
+        the size of the memo array is O(n) where n is the length of the target word. For each state in the memo array, we have to try every dictionary word to 
+        see if it';s a prefix of the target word at the current location. assuming the size of the dictionary is m, string matchging takes O(n), so the overall
+        time complexit is O(n^2 *m)
+
+    Space complexity:
+        the height of the state space tree is O(n). the size of the memo array is O(n). therefore, the overall space compleixty is O(n).
+
 */
 
 
@@ -247,12 +305,29 @@ bool dfs(int start_index, int memo[], std::string s, std::vector<std::string> wo
         }
     }
     memo[start_index] = ok;
-    return false;
     return ok == 1;
 }
 bool word_break(std::string s, std::vector<std::string> words) {
-    return dfs(0, s, words);
     int memo[s.size()];
     std::fill_n(memo, s.size(), -1);
     return dfs(0, memo, s, words);
+}
+
+
+// Other Approaches(3)
+bool dfs(int start_index, std::string target, std::vector<std::string> words) {
+    if (start_index == target.size()) return true;
+
+    bool ans = false;
+    for (std::string word: words) {
+        if (target.substr(start_index).find(word) == 0) {
+          ans = ans || dfs(start_index + word.size(), target, words));
+        }
+    }
+
+    return ans;
+}
+
+bool word_break(std::string target, std::vector<std::string> words) {
+    return dfs(0, target, words);
 }
