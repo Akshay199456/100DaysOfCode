@@ -81,6 +81,50 @@ combinatoral search problem, apply the three-step system:
     Space complexity: O()
 
     n is the length of the string. essentially at every digit, we either make a new number or add it to the old one. we can make this into linerar time through dp but currently we have a exponential time solutionm
+
+
+
+Additional Notes 1:
+    can start from the beginning of the string and try to decode eahc digit in the string until we get to the end of the string.
+
+    each digit 1-9 maps to an alphabet. for digits 1 and 2, there is a possibility to decide two consecutive digits together.
+
+    for example, there are 2 ways to decode 12:
+        1. 1->a and 2->B
+        2. 12 -> L
+    
+    there aare two ways to decide 23:
+        1. 2->B, 6->F
+        2. 26->Z
+    
+    there is only one way to decode 27
+        2->B and 7->9 because there is no 27th alphabet
+    
+    its impossible to decode a strng with a leading 0 such as 02 because 0 does not map to any alphabet. the only wau to decode a strng with 0 is to have a preceeding 1 or 2 and decode as 10 and 20
+    respectively.
+
+    so depending on the current and folloing digit, there could be 0 to 2 ways to branch out.
+
+
+Time complexity:
+    in the worst case, every digit can decoded in 2 ways. with n digits, there are O(2^n) nodes in the state-space tree.
+    We do O(1) operation for each node so the overall time compleixty is O(2^n)
+
+
+Additional Notes(2)
+
+    Similar to the previous problem, we see threre are duplicated subtrees.
+
+    the green and red subtree contains the exact same content 3 and had the same prefix. the green subtree is visited before the red subtree and we can
+    memoize the results from green subtree by keeping a memo array that records the start_index of the remaining strings to be decoded.
+
+    Time complexity
+        the time complexity of the memoization is the size of the memo array O(n) multiplied by the no of operations per state which is O(1). so the overall time complexity is O(n).
+    
+    Space complexity
+        the height of the state-space tree is at most O(n). the size of the memo array is O(n). therefore the space complexdity is O(n).
+
+
 */
 
 
@@ -236,3 +280,63 @@ int decode_ways(std::string digits) {
     int memo[digits.length()];
     std::fill_n(memo, digits.length(), -1);
     return dfs(0, memo, digits, letters);
+
+
+// Other Approaches(3)
+int dfs(int startIndex, std::string digits) {
+    if (startIndex == digits.length()) return 1;
+    
+    int ways = 0;
+    // can't decode string with leading 0
+    if (digits[startIndex] == '0') {
+      return ways;
+    }
+    // decode one digit
+    ways += dfs(startIndex + 1, digits);
+    // decode two digits
+    if (startIndex + 2 <= digits.length() && stoi(digits.substr(startIndex, 2)) <= 26) {
+        ways += dfs(startIndex + 2, digits);
+    }
+    return ways;
+}
+
+int decode_ways(std::string digits) {
+    return dfs(0, digits);
+}
+
+
+// Other Approaches(3)
+#include <iostream> // cin, cout
+#include <string> // getline
+
+int dfs(int startIndex, std::string digits, int memo[]) {
+    if (startIndex == digits.length()) return 1;
+    if (memo[startIndex] != -1) return memo[startIndex];
+    
+    int ways = 0;
+    // can't decode string with leading 0
+    if (digits[startIndex] == '0') {
+      return ways;
+    }
+    // decode one digit
+    ways += dfs(startIndex + 1, digits, memo);
+    // decode two digits
+    if (startIndex + 2 <= digits.length() && stoi(digits.substr(startIndex, 2)) <= 26) {
+        ways += dfs(startIndex + 2, digits, memo);
+    }
+    memo[startIndex] = ways;
+    return ways;
+}
+
+int decode_ways(std::string digits) {
+    int memo[digits.length()];
+    std::fill_n(memo, digits.length(), -1);
+    return dfs(0, digits, memo);
+}
+
+int main() {
+    std::string digits;
+    std::getline(std::cin, digits);
+    int res = decode_ways(digits);
+    std::cout << res << '\n';
+}
