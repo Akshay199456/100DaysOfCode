@@ -52,10 +52,26 @@ Output: -1
 
 /*
 -------------------------    Notes
+Solution:
+    We can start from 0 and repeatedly add coin values from the list until we either get to the target amount or exceed it. here's the state-space tree:
+
+Implementation
+    we traverse the state-space tree using backtracking while keeping an additional state sum that starts from 0 and branch out
+    by adding coin values at each step. we reach a leaf node when we either reach or exceed target amount. if we exceed the target value, then we return the largest value possible
+    inf. in the aggregation logic, if the return value from a child call is less than what we currently have, then we updat eot the samller value.
+
+
+Memoization
+    since we aggregate on the return value with min, the result we get after the for loop is the smallest possible for the subtree.
+    therefore we can memoize the result.
 
 
     Time complexity: O()
+        size of the memo array is O(amount). for each amount, we try upto n coins. so the overall time complexity
+        is O(amount *n)
     Space complexity: O()
+        te height of the state-space tree is O(amount/min(coins)). however, the memo array takes O(amount) soace so the overall space
+        complexity is O(amount)
 */
 
 
@@ -65,3 +81,55 @@ Output: -1
 
 
 //  Other Approaches(1)
+nt min_coins(vector<int> &coins, int amount, int sum) {
+  if (sum == amount) {
+    return 0;
+  }
+  if (sum > amount) {
+    return numeric_limits<int>::max();
+  }
+  int ans = numeric_limits<int>::max();
+  for (auto &coin : coins) {
+    int result = min_coins(coins, amount, sum + coin);
+    if (result == numeric_limits<int>::max()) {
+      continue;
+    }
+    ans = min(ans, result + 1);
+  }
+  return ans;
+}
+
+int coin_change(vector<int> coins, int amount) {
+  int result = min_coins(coins, amount, 0);
+  return result == numeric_limits<int>::max() ? -1 : result;
+}
+
+
+
+// Other Approaches(2)
+int min_coins(vector<int> &coins, int amount, int sum, vector<int> &memo) {
+  if (sum == amount) {
+    return 0;
+  }
+  if (sum > amount) {
+    return numeric_limits<int>::max();
+  }
+  if (memo[sum] != -1) {
+    return memo[sum];
+  }
+  int ans = numeric_limits<int>::max();
+  for (auto &coin : coins) {
+    int result = min_coins(coins, amount, sum + coin, memo);
+    if (result == numeric_limits<int>::max()) {
+      continue;
+    }
+    ans = min(ans, result + 1);
+  }
+  return memo[sum] = ans;
+}
+
+int coin_change(vector<int> coins, int amount) {
+  vector<int> memo(amount + 1, -1);
+  int result = min_coins(coins, amount, 0, memo);
+  return result == numeric_limits<int>::max() ? -1 : result;
+}
