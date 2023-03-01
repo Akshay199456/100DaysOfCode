@@ -76,21 +76,37 @@ te only problem is that we have duplicatre combinations in our results
 
 dedup
 
-the way we deup us ti ibky use cindidate numbers whose index in the array is >= last used number's index. in this example,
-when we are at the teal node, we dont want to look back and use any precedent candidate such as 2. this is because by DFS order, we arlready exp;lored subtracting 2 and during that traversal we have considered using 3 (blue nodes)
+in this example, we get to the teal node from the root by subtracting 3. for the next step, we would subtract 2 but that would give us [3,2]
+which is a duplicate of [2,3] that we already have. the reason for duplication is we have already considered all options incluiding subtracting 3
+when we subtraced 2 in the previous branch. therefore, we dont want to look back and use any precedent candidatate such as 2. we dedup in the for loop
+by only using candiadate numbers whose index in the array is >= last used number's index
 
-we use an additional state start_index to kkeep track of the position of the last used number ("start" index becauyse it is the index you want to start building new branches from). final tree with duplicate branch pruned
+
+to do that, we just need to add an extra condition to prine the duplicate branches
+    if remaining - num < 0:
+        break
 
 the idea of establishing order and pruning backward branches a is very useful de-deuplication technique. you can also use it in tow pointer provlems that has
 duplicate candiudates
 
 
+the way we deup us ti ibky use cindidate numbers whose index in the array is >= last used number's index. in this example,
+when we are at the teal node, we dont want to look back and use any precedent candidate such as 2. this is because by DFS order, we arlready exp;lored subtracting 2 and during that traversal we have considered using 3 (blue nodes)
+
+we use an additional state start_index to kkeep track of the position of the last used number ("start" index becauyse it is the index you want to start building new branches from). final tree with duplicate branch pruned
+
+
+
+
+
     Time complexity: O(n^target/min(candidates))
-    Space complexity: O()
+        in the worst case, the state-sapce tree has n branches and the depth of the tree is at most target divided by the smallest number in candidates
+        every number can be used or not used therefore leading to exponential time complexity
 
-in the worst case, the state-sapce tree has n branches and the depth of the tree is at most target divided by the smallest number in candidates
+    Space complexity: O(target/min(candidates))
+        as each candidate combination is at most length target/min(candidates) corresponding to the maximum height of the state-space tree.
 
-every number can be used or not used therefore leading to exponential time complexity
+
 */
 
 
