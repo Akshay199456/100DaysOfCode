@@ -61,6 +61,27 @@ cell by 1. this way each empty space is only the queue once.
 
     Time complexity: O()
     Space complexity: O()
+
+
+Additional notes:
+
+classic breadth first search problem, as it asks for the distance from the gate to some location. here, we want to introduce the concept of
+multi-source BFS. we have multiple sources (gates) into the dungeon, there might be multiple ways to reach a location but we want to find the shortest path. at each gate the distance to a gate is 0, so our
+level 0 queue will contain all the gates unlike what we have seen before. each step into the dungeon will add one more level to the BFS tree.
+if an empty space is marked visited (i.e has non-INFF value) when we arrived there, there must have been a shorter path towards it, so that
+we can prune the tree like a normal BFS.
+
+in the implementation, we will simply initialize the queue with a list of fate locations. and during each cycle when we process the location at the front of the queueu, we add all the adjacent locations into the queue if their value
+is INF (meaning it is emptu and nprocessed) and mark the distances on the cells by adding the value of the current cell by 1. this way each empty space is only in th queue once.
+
+Time compleixty: O(m*n)
+    in the worst case, there are potentially n*m empty spaces in the dungeon as there are at most 4 neighbors to each point, it is at most
+    checked 4 times, so the total time complexity is bounded by O(4*(n*m)) which is in O(n*m)
+
+Space complexity: O(n+m)
+    worse case space complexity is given by the parameter of the dungeon which is 2(n+m). imagine the entire outer edges are the gates, at each level, there are at most
+    2(n+m) spaces. hence we bound the sapce b y O(n+m).
+
 */
 
 
