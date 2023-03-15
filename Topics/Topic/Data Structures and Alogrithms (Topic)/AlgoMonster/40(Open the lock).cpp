@@ -63,6 +63,18 @@ Additional notes:
 there didnt seem to be anything complicated about this problem. it was a basic application of BFS to keep gettin adjacent neigbors and following that path, we should have got to th enaswer.
 we keep track ofhte numbers we have run into to avoid cycles and duplicate work.. you just needed to know what adjacent and neighbors meant for that problem and since you know you were
 using BFS, once you got ot know what hte neighbors and adjacent was, everything else fell ointo place
+
+
+Additional notes:
+
+two combinations are adjacent if they differ by one digit, and the difference is either 1 or 9. for example,
+0000 annd 0001 are adjacent, but 0000 and 0002 are not. this naturally models the lock as a graph. where each node
+is a combination , and edge being the difference of one digit. the no of steps to open lock is the 
+shortest path from 0000 to the target combination.
+
+the time complexity is O(n) where n is the number of possible combinations (which is 10^4 == 10000 in this case)
+
+the space complexity is also O(n) as we store the steps to reach each combination which each takes O(1)
 */
 
 
