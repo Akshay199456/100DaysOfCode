@@ -53,11 +53,9 @@ conceptially we now have an algorithm that is a 2-step process:
 in actual algorithm,, however, we don't need to build up the graph before using BFS; we cann build the graph as we go instead of storing the edges, we cancaluate the set of neighbors
 for the current node only wehen need to visit them.
 
-
-nodes int he graph are determined by the no of edges in the dictionary. edges are determined by words that are 1 letter aprart,. annother node is that aftere deges are computerd
-some performance increases might by possible by hashing the string ato a numerical value.
-
     Time complexity: O(n+m)
+        nodes int he graph are determined by the no of edges in the dictionary. edges are determined by words that are 1 letter aprart,. annother node is that aftere deges are computerd
+        some performance increases might by possible by hashing the string ato a numerical value.
     Space complexity: O()
 */
 
