@@ -67,8 +67,13 @@ which side a line comes out of represents whuch way the puzzle can move and what
 
 thje time complexitu is O(n!) where n is the size of the matrix in question. we usually would never reach the worst case scnario though.
 
-    Time complexity: O(n!)
-    Space complexity: O()
+    Time complexity: O(n*n!)
+        m os tje number of tiles in the matrix. there are n! possible combinations of positions that the tiles can be 
+        placed, in the worst case, we will need to go through all these combinations to reach to correct position, leading to a ime 
+        complexity of O(n!). we usually would never reach the worst case scenairo though. the serial;ization and deserilaization also takes
+        O(n) time so the toal time complexity is O(n*n!)
+    Space complexity: O(n!)
+        as queue holds at most n! combinations
 */
 
 
