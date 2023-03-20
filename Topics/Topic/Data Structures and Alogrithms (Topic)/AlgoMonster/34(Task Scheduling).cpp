@@ -43,10 +43,10 @@ Output: ["a", "c", "b", "d"]
 apply  kahn's algorithm to solve the problem
 
     Time complexity: O(n+m)
-    Space complexity: O()
-
-the time complexity is qual to n, the number of nodes in the graph and m , the number of edges in the graph. this is because
-we have to go through every connection and node once when we sort the graph.
+        the time complexity is qual to n, the number of nodes in the graph and m , the number of edges in the graph. this is because
+        we have to go through every connection and node once when we sort the graph.
+    Space complexity: O(n)
+        the queue holds at most n nodes in the worst case
 */
 
 
