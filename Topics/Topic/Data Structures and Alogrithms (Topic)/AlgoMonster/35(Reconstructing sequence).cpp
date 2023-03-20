@@ -80,33 +80,33 @@ topological ordering is an ordering of nodes such that every node appears in the
 we are given the nodes and their relative ordering from the seqs. we can try to construct a topolgical ordering and see if its the same as original.
 
 building the graph
-
-we are not given a graph but we can build a graph from the given sequences by using paris in the sequence as edges.
-for example, [1,2,3] means we have edges 1->2 and 2->3. we can use set in the graph represnetation here to store neighbors
-because there might be repeated eges fromt he sequences.
+    we are not given a graph but we can build a graph from the given sequences by using paris in the sequence as edges.
+    for example, [1,2,3] means we have edges 1->2 and 2->3. we can use set in the graph represnetation here to store neighbors
+    because there might be repeated eges fromt he sequences.
 
 uniqueness
+    we can use kahn's algorithm to reconstruct toplogical ordering. kahn's algorithm is analgous BFS; we keep the nodes with no 
+    parents in a queue, pop top of the queue, subtract 1 from parent count for all nodes it points to and then push
+    any new nodes that have 0 parent count into the queue. the key to determine uiniqieuness is checking the number of nodes
+    in the quueu at each step. if there is more than one node in the queue, we can pop any of them and still obtain a valid
+    ordering and that means tere will be more than one way to reconstruct he oroiginal sequence and therefore not queie.
 
-we can use kahn's algorithm to reconstruct toplogical ordering. kahn's algorithm is analgous BFS; we keep the nodes with no 
-parents in a queue, pop top of the queue, subtract 1 from parent count for all nodes it points to and then push
-any new nodes that have 0 parent count into the queue. the key to determine uiniqieuness is checking the number of nodes
-in the quueu at each step. if there is more than one node in the queue, we can pop any of them and still obtain a valid
-ordering and that means tere will be more than one way to reconstruct he oroiginal sequence and therefore not queie.
-
-    Time complexity: O(n+m)
-    Space complexity: O()
+        Time complexity: O(n+m)
+            since we are doing a topological sort, the tikme complexity is equal to the number of edges + number of nodes. we define n
+            to be number of nodesd in our graph and m the number of edges for O(n+m) time complexity
+        Space complexity: O(n)
+            queue holds at most n nodes in the worst case.
 
 Additional notes:
+    comparing my approach to the actual solution, as always, we were on the right path to the solution.
+    while it definitely took us a lot more time to figure out the problem, we were on the right path to figurign otu the solution.
+    while the actual solution used a set as part of the graph, we used a set instad which was ok in order to constrct the graph.
+    as a resu,lt, we had constructed the graph in the right manner which allowed us to understand
+    that if we have mroe than 2 nodes in the solution, then it would not be a unique solution and 
+    hence it would be false. however, we didnt fully have confidence in ourself to go down the apth
 
-comparing my approach to the actual solution, as always, we were on the right path to the solution.
-while it definitely took us a lot more time to figure out the problem, we were on the right path to figurign otu the solution.
-while the actual solution used a set as part of the graph, we used a set instad which was ok in order to constrct the graph.
-as a resu,lt, we had constructed the graph in the right manner which allowed us to understand
-that if we have mroe than 2 nodes in the solution, then it would not be a unique solution and 
-hence it would be false. however, we didnt fully have confidence in ourself to go down the apth
-
-every time i think i dont have an idea to solve the rpoblem, i have always been on thr right path to fiuring out the solution. we just need to trust in our ability and have confidence in our skills 
-which we have worked on in order to get us there.
+    every time i think i dont have an idea to solve the rpoblem, i have always been on thr right path to fiuring out the solution. we just need to trust in our ability and have confidence in our skills 
+    which we have worked on in order to get us there.
 */
 
 
