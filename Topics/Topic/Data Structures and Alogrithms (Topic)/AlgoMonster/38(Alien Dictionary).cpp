@@ -73,8 +73,14 @@ for each adjacent words, we compare each character of the string until we find a
 string is lexicographciallyt smaller than the character from the second string. after parsing throug all the strings, we get a directed graph that we can perform a standard topological sort
 on using our kahn's algorithm template. keep in mind instead of using a regfular queue, we need to use a heap to guarantee the smallest ordering to satisfy requireemnt 4 in the problem statement.
 
-    Time complexity: O()
-    Space complexity: O()
+    Time complexity: O(w*n)
+        assume that the strings are at most sie w, each string comparison is bounded by O(w). Let L represent the letters that
+        appeared in the input, we can extract |L| nodes and at most n edges from words in O(w*n) time. To obtain the 
+        topological sort of the graph, it takes O(|L|+n) time. in total, the time complexity is O(w*n) as we know that |L|
+        us actually bounded by the constant 26.
+    Space complexity: O(n)
+        since we know that the graph has |L| nodes and at most n edges, the size of the graph is bounded by O(n). the heap (output)
+        will contain |L| elements. therefore, the overall space complexity is O(n)
 
 
 Additional notes:

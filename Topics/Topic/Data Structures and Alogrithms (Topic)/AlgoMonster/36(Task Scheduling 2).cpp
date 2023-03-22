@@ -42,6 +42,20 @@ every prerequisite task. we then make sure to update every children such that it
     Space complexity: O()
 
 time complexity is equal to n the number of nodes in the graph plsu m the number of edges in the graph. this is because we have to go through every connection and node once when we sort the graph.
+
+
+Additional Notes
+    since this problem is similar to task scheduling, we still use the template for kahn's algorithm. the basic idea is to perfrom a 
+    topological sort except we also keep track of the largest amount of time expended for a partcilaur path through the graph.
+    the time it takes to complete a task is inhibited by the most time-consuming task in its dependencies.
+    we make sure that we update every node such that it contains the maximum time needed to complete every prerequisite task.  we then make sure that to update
+    every children such that it contains the distance as the final answer is essentially the maximal path through the the graph
+
+    time complexity: O(n+m)
+        the tme complexity is equal to the n the number of nodes in the graph plus m the no of edges in the graph. this is because
+        we have to goo hrough every connection and node once when we sort the graph
+
+
 */
 
 
