@@ -39,9 +39,10 @@ the most time-consuming task in its dependencies. we make sure that we update ev
 every prerequisite task. we then make sure to update every children such that it contains the distance as the final answer is essentially the maximal path through the graph
 
     Time complexity: O(n+m)
-    Space complexity: O()
+        time complexity is equal to n the number of nodes in the graph plsu m the number of edges in the graph. this is because we have to go through every connection and node once when we sort the graph.
+    Space complexity: O(n)
+        queue cab hold at most n nodes in the worst case.
 
-time complexity is equal to n the number of nodes in the graph plsu m the number of edges in the graph. this is because we have to go through every connection and node once when we sort the graph.
 
 
 Additional Notes
@@ -71,7 +72,7 @@ Additional Notes
     ans is used to represent the final answer so we update it with this new child.
 
     that's the crux of this problem. by keeping track of the max distance for eveyr child and for the answer at every step, we can get he answer.
-    
+
 
 */
 
