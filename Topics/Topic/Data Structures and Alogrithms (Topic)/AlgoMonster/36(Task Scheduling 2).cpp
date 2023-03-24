@@ -56,6 +56,23 @@ Additional Notes
         we have to goo hrough every connection and node once when we sort the graph
 
 
+
+    Looking at this approach, it now makes sense. line 201 here is used o allocate the distances with respect to the the first
+    set of ndoes who have no parents. for them, its pretty easy. the time it will take to compelte their taslks is going to depend on the 
+    their task time itself and as a reault, that is the value that is allocated to them. we use line 202 for ans, to keep track
+    of the max distance from all the chldren wioth 0 parents because a child node wwhich has parents is limited bu the node
+    which has the max tiome requireed to complete.
+
+    we then enter into the while loop. the same things get done for the hwile loop like every other opological sort
+    problem. the section of whe while loop where it calculates the distance for the child is a good strategy.
+    we know that every child is going to be limited by its parent. as a result, when we are going to be going too throught he aprent, we already know the 
+    max time it takes for the parent which we have stored in distances[node]. as a reuslt, for now, to complete this child, the distance
+    to complete the child is either going to be max of itself or the max distance of the parent + time taken for the child.
+    ans is used to represent the final answer so we update it with this new child.
+
+    that's the crux of this problem. by keeping track of the max distance for eveyr child and for the answer at every step, we can get he answer.
+    
+
 */
 
 
