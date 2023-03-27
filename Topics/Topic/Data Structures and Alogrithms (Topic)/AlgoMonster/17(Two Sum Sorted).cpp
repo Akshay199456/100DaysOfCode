@@ -28,15 +28,17 @@ Output: 1 3
 
 /*
 -------------------------    Notes
-provided we understand the problem, first step is to find a solution is to solve it brute force.
+brute force
 
+provided we understand the problem, first step is to find a solution is to solve it brute force.
 since the problem asks for wo elemetns that sum to targt, we can simply try every pair of numbers and see if they sym to it. this would take O(n^2) time
+
+
 
 using additional condition
 
 to improve on the brute force solution, two natural questions to ask are "do we have to look ateach pair(can we skip any pairs)?" and "have we used all the conditions given by t eh 
 problem statement?"
-
 noticed that we are not using the condition that array is sosrted. this means the smallest two sum we can get is the sum of the first two numbers
 2+3 and the largest two sum we ca n get is the sum of the last two numbers 11+18. if we sort all
 two sum paris bby their sum value, the middle points is the smallest number + largest number 2+18. from this pointt, we can compare with our target 8.
