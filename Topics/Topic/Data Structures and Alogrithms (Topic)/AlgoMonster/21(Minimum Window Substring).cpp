@@ -56,6 +56,24 @@ before moving the winwo was the local minimial substring. then, its a simple mat
 
     Time complexity: O(n)
     Space complexity: O()
+
+
+Additional Notes:
+    the solution is similar to find longest subarray with sum smaller than target, its a find longest sliding window problem.
+    
+    in this case, the compairson for checking valid window is changed to compare that for every character in check, see if the window contains enough of that character.
+
+    we could apply the find longest sliding window template to this question. to check the validity of a window, we introduce two variables (counters): required and satisfied.
+        1. required: the number of distinct characters we are required to have. counter for distinct characters that appeared in check.
+        2. satisfied: the no of distinct characters that are satisified within the cirrent window. now, we can check whether required == satisfied to confirm if the windo is valid.
+    
+    since we only care about those characters that appears in check, so we wukk only make changes to satisfied when the 
+    added/removed character appears in check. if the current window contains exactly the same amoiunt of one
+    specific character as in check after adding the counter, then we increase satisified by 1 (we will not update satisfied on all other additions).
+    if we remmoved a character from the window and that character is part of check, we check whetehr the amount has dropped below check's amoiunt.
+
+    Time complexity: O(n)
+    Space complexity: O(n)
 */
 
 
@@ -216,6 +234,56 @@ std::string get_minimum_window(std::string original, std::string check) {
         }
     }
     return smallest_str;
+}
+
+int main() {
+    std::string original;
+    std::getline(std::cin, original);
+    std::string check;
+    std::getline(std::cin, check);
+    std::string res = get_minimum_window(original, check);
+    std::cout << res << '\n';
+}
+
+
+// Other Approaches(2)
+#include <iostream> // cin, cout
+#include <string> // getline, string
+#include <unordered_map> // unordered_map
+
+std::string get_minimum_window(std::string original, std::string check) {
+    std::unordered_map<char, int> check_count;
+    for (char c: check) { ++check_count[c]; }
+    
+    std::unordered_map<char, int> window_count;
+    int m = original.size();
+    int window = -1, length = m+1;
+    int satisfied = 0, required = check_count.size();
+    int l = 0;    
+    
+    for (int r = 0; r < m; ++r) {
+        if (check_count.count(original[r])) {
+            window_count[original[r]]++;
+            if (window_count[original[r]] == check_count[original[r]]) {
+                satisfied++;
+            }
+        }
+        while (satisfied == required) {    
+            if (r-l+1 < length ||
+              (r-l+1 == length && original.compare(l, length, original, window, length) < 0)) { 
+                window = l;
+                length = r-l+1;
+            }
+            if (check_count.count(original[l])) {     // delete only characters from check
+                window_count[original[l]]--;
+                if (window_count[original[l]] < check_count[original[l]]) { // removing original[l] makes window dissatisfied
+                    satisfied--;
+                }
+            }
+            l++;
+        }
+    }
+    return (window >= 0)? original.substr(window, length) : "";
 }
 
 int main() {
