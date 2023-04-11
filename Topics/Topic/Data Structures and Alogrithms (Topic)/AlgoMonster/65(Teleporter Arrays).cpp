@@ -65,6 +65,23 @@ the arrays. either way, you shouild end up with something similar tot he solutio
 
     Time complexity: O(n+m) where n and m are the size of the arrays, respectively.
     Space complexity: O(1)
+
+
+
+Additional notes:
+
+    now, the logic for the program makes sense. as per the problem, we call the numbers that appear in both the 
+    arrays as teleporters as using these pointes, we can telemport form one array to another. 
+    as a result, the problem then boils down to getting the max subarray sum from each of the two arrays between two teleporters.
+    this is because we nkow that the value of the telporter is the same and since the problem is asking us for the maximum score that we can 
+    obtain using the rules, we want to get the max subarray sum between any two telporters.
+
+    once we are at the telporter, then is quite easy. we just need to get the max subarray sum.
+    As a rsult, we movethee pointers forward on the arrays depending on whichever pointer is on the smaller value since we know both arrrays are sorted.
+    this way when the array 1 has the smaller vealue compared to array 2, we move its pointer forward. similarly, awhen array2 has the smaller value, we move
+    its pointer forward. this way we go through the values of each of the arrays till wwee ecnounter array2[ptr1] = array2[ptr2]. when this copndition
+    becomes valid, we then choose the max subarray sum from the two, mvoe the poitners forward and reset the sujms to 0 for the next
+    section. 
 */
 
 
