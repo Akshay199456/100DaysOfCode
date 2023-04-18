@@ -36,7 +36,18 @@ Output: [(1, 1)]
 
 /*
 -------------------------    Other Approaches 
-1.
+1. min heap
+
+distance between two points (x1, y1) and (x2,y2) is sqrt((x1-x2)^2 + (y1-y2)^2). for distance to orinign (x2,y2) is (0,0).
+
+our first reaction when we see 'closest k' is to use a heap. the key for node comparison is a node's distance to origin. we then pop
+the top 3 smallest off. 
+
+    Time complexity: O(nlogn)
+        we add every element into the heap. heap insertion is O(logn) which we do n times.
+    Space complexity: O(n)
+
+2. max heap
 
     Time complexity: O()
     Space complexity: O()
@@ -46,9 +57,6 @@ Output: [(1, 1)]
 /*
 -------------------------    Notes
 
-
-    Time complexity: O()
-    Space complexity: O()
 */
 
 
@@ -168,3 +176,71 @@ int main() {
 
 
 //  Other Approaches(1)
+#include <algorithm> // copy
+#include <cmath> // pow, sqrt
+#include <iostream> // boolalpha, cin, cout, streamsize
+#include <iterator> // back_inserter, istream_iterator, ostream_iterator, prev
+#include <limits> // numeric_limits
+#include <queue> // priority_queue
+#include <sstream> // istringstream
+#include <string> // getline, string
+#include <vector> // vector
+
+std::vector<std::vector<int>> k_closest_points(std::vector<std::vector<int>> points, int k) {
+    auto compare_distance = [](std::vector<int> p1, std::vector<int> p2) {
+        auto distance_to_origin = [](std::vector<int> p) {
+            return std::pow(p[0], 2) + std::pow(p[1], 2);
+        };
+        // use > for min heap
+        return distance_to_origin(p1) > distance_to_origin(p2); 
+    };
+    // initialize min heap with the vector points
+    std::priority_queue<std::vector<int>, std::vector<std::vector<int>>, decltype(compare_distance)> heap(points.begin(), points.end(), compare_distance);
+    std::vector<std::vector<int>> res;
+    for (int i = 0 ; i < k; i++) {
+        res.emplace_back(heap.top());
+        heap.pop();
+    }
+    return res;
+}
+
+template<typename T>
+std::vector<T> get_words() {
+    std::string line;
+    std::getline(std::cin, line);
+    std::istringstream ss{line};
+    ss >> std::boolalpha;
+    std::vector<T> v;
+    std::copy(std::istream_iterator<T>{ss}, std::istream_iterator<T>{}, std::back_inserter(v));
+    return v;
+}
+
+void ignore_line() {
+    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+}
+
+template<typename T>
+void put_words(const std::vector<T>& v) {
+    if (!v.empty()) {
+        std::copy(v.begin(), std::prev(v.end()), std::ostream_iterator<T>{std::cout, " "});
+        std::cout << v.back();
+    }
+    std::cout << '\n';
+}
+
+int main() {
+    int points_length;
+    std::cin >> points_length;
+    ignore_line();
+    std::vector<std::vector<int>> points;
+    for (int i = 0; i < points_length; i++) {
+        points.emplace_back(get_words<int>());
+    }
+    int k;
+    std::cin >> k;
+    ignore_line();
+    std::vector<std::vector<int>> res = k_closest_points(points, k);
+    for (const std::vector<int>& row : res) {
+        put_words(row);
+    }
+}
