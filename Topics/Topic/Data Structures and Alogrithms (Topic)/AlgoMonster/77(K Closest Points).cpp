@@ -47,7 +47,17 @@ the top 3 smallest off.
         we add every element into the heap. heap insertion is O(logn) which we do n times.
     Space complexity: O(n)
 
+note that the distance we stored was not he euclidian distance. instead, we did not take the square root because it will be more accurate when the stored value is an integer
+
 2. max heap
+
+it might be counter untiutive ti think that a max heap can solve a problem that asks for minimum distances. here's how to think about it:
+
+if we had the k closest poiints already and we have to decide whether a new point belongs to top k. the criterion is whether the new point is closer than
+the furthermost point within the current k points. if it is, we want to kick the crrent furthermost point out and add the new point.
+
+we can use a max heap to accomplish this. the root of the max heap is the point with max distance to the origin. if the new point
+has a smaller distance, then we pop the root of the max heap and push the new point in.
 
     Time complexity: O()
     Space complexity: O()
@@ -243,4 +253,31 @@ int main() {
     for (const std::vector<int>& row : res) {
         put_words(row);
     }
+}
+
+
+// Other Approaches(2)
+std::vector<std::vector<int>> k_closest_points(std::vector<std::vector<int>> points, int k) {
+    auto distance_to_origin = [](std::vector<int> p) {
+        return std::pow(p[0], 2) + std::pow(p[1], 2);
+    };
+    auto compare_distance = [&distance_to_origin](std::vector<int> p1, std::vector<int> p2) {
+        // use < for max heap
+        return distance_to_origin(p1) < distance_to_origin(p2); 
+    };
+    std::priority_queue<std::vector<int>, std::vector<std::vector<int>>, decltype(compare_distance)> maxheap(compare_distance);
+    for (int i = 0; i < k; i++) {
+        maxheap.push(points[i]);
+    }
+    for (int i = k ; i < points.size(); i++) {
+        std::vector<int> point = points[i];
+        std::vector<int> furthest_point_in_heap = maxheap.top();
+        if (distance_to_origin(point) < distance_to_origin(furthest_point_in_heap)) {
+            maxheap.pop();
+            maxheap.push(point);
+        }
+    }
+    std::vector<std::vector<int>> res;
+    res.emplace_back(std::move(maxheap.top()));
+    return res;
 }
