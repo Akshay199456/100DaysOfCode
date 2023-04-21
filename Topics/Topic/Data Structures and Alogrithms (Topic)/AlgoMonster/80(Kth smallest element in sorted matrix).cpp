@@ -29,6 +29,17 @@ You may assume k is always valid, 1 ≤ k ≤ n^2. You may also assume that 1 <=
 
     Time complexity: O(n^2logk)
     Space complexity: O(k)
+
+2. merge k sorted lists technique [not coded] {pb 78 algo}
+
+    we can technically use the same technique that we learnt for merge k sorted lists to solve this problem as well.
+    since in merge k sorted lists, we can have a pointer at teach of the lists. since we know each list is sorted, 
+    we can push the leemnts one by one into the heap. since we are looking for the kth smallest element and we are beinnging at the front of each of the lists,
+    after k insertion, we have found the answer and so we can return the top of the heap.
+
+    time complexity: O(nlogk)
+    space complexity: O(k)
+
 */
 
 
