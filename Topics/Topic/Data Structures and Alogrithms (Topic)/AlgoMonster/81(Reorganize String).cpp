@@ -28,6 +28,12 @@ s will consist of lowercase letters and have length in range [1, 500].
     max count character. if we run out of even indices, we can then use the odd indices instead. this way, we know the same character
     are always going to have at least one character between them and as a result solves the problem for us.
 
+    lets analuze how they used heap as a moving best in order to solve the problem. 
+    once they get the count of each character in the map and transfer that information into the heap, what they then do is
+    take the max character count at each step and fill that fully into the result before moving on to the next max element 
+    and repeating the same process again. this way they are using the best element to fill in the result as you are moving along
+    as opposed to the typical top k where you store the top k results and then pop it.
+
     Time complexity: O()
     Space complexity: O()
 */
