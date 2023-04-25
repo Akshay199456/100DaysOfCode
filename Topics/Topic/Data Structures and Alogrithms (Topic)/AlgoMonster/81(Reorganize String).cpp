@@ -17,7 +17,16 @@ s will consist of lowercase letters and have length in range [1, 500].
 
 /*
 -------------------------    My Approaches:
-1. 
+1. using the other approaches(1) after learning about it
+
+    so, we implemented this approach after learning about Other Approaches(1) and going through it first. tbf before we wnt through other approaches(1)
+    we kind of deduced that if any char had count greater than (n+1)/2, it would nnot be psossible since two characters would
+    then be adjacent to each other. we had also thopught of using map to store count of each character and then using a heap to store
+    the counts in a max heap order. that way we would know the character with the most count. the only part i didnt know was to how we would go about filling he max character from the heap into
+    the string. and that's where the other approaches(1) cane in. they thought of the string as a combination of odd and even indices and so
+    from the heap, we take the max count character and fill it in the even indices as we go along. we then repeat that with the next
+    max count character. if we run out of even indices, we can then use the odd indices instead. this way, we know the same character
+    are always going to have at least one character between them and as a result solves the problem for us.
 
     Time complexity: O()
     Space complexity: O()
@@ -44,6 +53,7 @@ solution:
 
     for implementation, we use a heap to guarantee the character that is repeated the most is processed first, and because the character repeated the most changes as we process more characters.
 
+
     Time complexity: O()
     Space complexity: O()
 */
@@ -51,11 +61,104 @@ solution:
 
 
 //  My approaches(1)
+#include <iostream> // cin
+#include <string> // getline, string
+#include <unordered_map> // unordered_map
+#include <queue>
+#include <vector>
+#include <utility>
+
+void fillMap(std::unordered_map<char,int> & elementMap, std::string & s){
+    for(int i=0; i<s.size(); i++){
+        if(elementMap.find(s[i]) == elementMap.end())
+            elementMap[s[i]] = 1;
+        else
+            elementMap[s[i]]++;
+    }
+}
+
+void fillHeap(std::priority_queue<std::pair<int, char>> & pq, std::unordered_map<char,int> & elementMap){
+    for(auto it = elementMap.begin(); it!= elementMap.end(); it++){
+        std::pair<int, char> currPair = std::make_pair(it->second, it->first);
+        pq.push(currPair);
+    }
+}
+
+std::string evaluateResult(std::priority_queue<std::pair<int, char>> & pq, int n){
+    std::vector<char> result(n,' ');
+    int index = 0;
+    if(pq.top().first > ((n+1)/2))
+        return "";
+    
+    while(!pq.empty()){
+        std::pair<int,char> currPair = pq.top();
+        pq.pop();
+        
+        for(int i=0; i<currPair.first; i++){
+            result[index] = currPair.second;
+            index+=2;
+            if(index >= n)
+                index = 1;
+        }
+    }
+    
+    std::string temp(result.begin(), result.end());
+    return temp;
+}
+
+std::string getResult(std::string & s){
+    std::priority_queue<std::pair<int, char>> pq;
+    std::unordered_map<char,int> elementMap;
+    fillMap(elementMap, s);
+    fillHeap(pq, elementMap);
+    return evaluateResult(pq, s.size());
+}
+
+std::string reorganize_string(std::string s) {
+    // WRITE YOUR BRILLIANT CODE HERE
+    return getResult(s);
+}
+
+int main() {
+    std::string s;
+    std::getline(std::cin, s);
+    std::string res = reorganize_string(s);
+    if (res.size() == 0) {
+        std::cout << "Impossible" << std::endl;
+        return 0;
+    }
+    std::unordered_map<char, int> s_counter;
+    std::unordered_map<char, int> res_counter;
+    for (char c : s) {
+        if (s_counter.count(c)) {
+            s_counter[c] += 1;
+        } else {
+            s_counter[c] = 1;
+        }
+    }
+    for (char c : res) {
+        if (res_counter.count(c)) {
+            res_counter[c] += 1;
+        } else {
+            res_counter[c] = 1;
+        }
+    }
+    if (s_counter != res_counter) {
+        std::cout << "Not rearrangement" << std::endl;
+        return 0;
+    }
+    for (int i = 0; i < res.size() - 1; i++) {
+        if (res[i] == res[i + 1]) {
+            std::cout << "Same character at index " << i << " and " << i + 1 << '\n';
+        }
+    }
+    std::cout << "Valid" << std::endl;
+}
 
 
 
 //  Other Approaches(1)
-include <iostream> // cin
+#include <iostream> // cin
 #include <queue> // priority_queue
 #include <string> // getline, string
 #include <unordered_map> // unordered_map
