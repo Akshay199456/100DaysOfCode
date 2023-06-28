@@ -12,7 +12,7 @@ Examples
 Example 1:
 Input:
 
-triangle = [
+triangle = [+
      [2],
     [3,4],
    [6,5,7],

@@ -66,6 +66,16 @@ Constraints
 
     Time complexity: O()
     Space complexity: O()
+
+2 top down and bottom up
+  we can use the approach as shown in my approaches(2)-1. from the brute force, we can see that there are some duplicate trees that keepo 
+  appearning over and over again. so the top-down approach improves that by storing the combinations for the amount we have already
+  encountered
+
+  the bottom up approach is similar to pb 53(coin change) in that we have the the values from 0 to the amount in a table.
+  then on each of the row, we add each type of coin. for each sum, we have one of two chocies. either we can choose to use this new coin in which case
+  we would need to make the amount - coins[i] with the same set of coins or we can choose to make the amount without using the coins in which case we use the previous row.
+  as a result, the total no of combinations is the sum of these two values.
 */
 
 
