@@ -74,7 +74,7 @@ Explanation:
     Answer is to use dynamic programming either bottom-up or top-down and to maintain the least number of numbers to 
     get a certain sum. alternatively, you can use a graphy theory algorithm such as bfs to solve this question as well as a queue.
     the solution displayed uses a bottom-up DP approach, the other solutions may serve as good practice for practicing other 
-    algorithms.s
+    algorithms.
 
     Time complexity: O(n*sqrt(n))
     Space complexity: O()
@@ -86,6 +86,26 @@ Additional notes:
     what they do is start from a perfect number and check how many steps it would take from that perfect number
     to the number n. they then move on tot he next perfect number and continue the same from there. at the end both of these acheive the same results.
     look at the images for this approach to understand how they do.
+
+
+Additional notes(1):
+    Link to video to get a better understanding of the technqiue: https://www.youtube.com/watch?v=HLZLwjzIVGo&ab_channel=NeetCode
+    Helps you understand the technique behind the dp approach. highly recommended to watch the video to understand
+    the brute force approach and how you would approach this problem in a brute force approach therby leading you
+    to view the problem from top-down or bottom-up approach.
+
+    as you can see in the other approaches(2)-2, the first for loop only goes until i*i <=n. this is because when 
+    i*i > n, we cant use any numbers in order to get the sum sicne it crosses the number we are trying to hit.
+    as a result, that bounds the outer for loop to sqrt(n). 
+    in the inner section of that loop, we assign cur to i*i. i will go over why we do thi soon.
+    the inner for loop goes from the j = cur till j <= n. the inner for loop is basically usuing the squares 
+    starting from 1^2. so te first time we run th einner for loop, it is basically saying, how many 1^2 will
+    allow us to hit the answer we are looking for. when the inner loop runs again, it then asks the question,
+    how many 2^2 allows us to hit the answer we are looking for.
+    the cindition dp[j] = std::min(dp[j], dp[j-cur] +1) is sued to get e least no of squares possible.
+    we do j-cur so that we are building on the answer at dp[j-cur] byu adding one additional square to it
+    (which is for our current cur). that's why we increment y 1 that value.
+
 
 */
 
