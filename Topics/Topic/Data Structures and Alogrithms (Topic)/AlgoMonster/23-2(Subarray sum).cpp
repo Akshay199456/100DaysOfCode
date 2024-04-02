@@ -64,9 +64,11 @@ int subarray_sum_total(std::vector<int> arr, int target) {
         curSum += arr[i];
         int complement = curSum - target;
         
+        // used to locate how many of the subarrays sums we have found which sum to target
         if(elementCount.find(complement) != elementCount.end())
             count += elementCount[complement];
         
+        // used to store the prefix sum we have seen till now in the map
         if(elementCount.find(curSum) != elementCount.end())
             elementCount[curSum] += 1;
         else

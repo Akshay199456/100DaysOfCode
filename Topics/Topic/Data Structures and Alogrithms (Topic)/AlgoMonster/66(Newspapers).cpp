@@ -54,6 +54,33 @@ as that is the bottleneck.
 
 /*
 -------------------------    Notes
+The reason binary search is applicable in this problem is because of the monotonic nature of the problem. what do we mean by monotonic here? If a given time t is feasible for num_coworkers to fionish all the newspapers, then any time greater than t will aso be feasibe. 
+this is because if coworkerrs can complete reading in a shorter amount of time, they can obviously also complete it if given more time. this forms a monotonic relationship,. which is a crucial
+for binary search applicability.
+
+essentially our problem exhibits two sequences:
+    1. A sequence of infeasible times, followed by
+    2. a sequence of feasible times
+
+the transition between these two sequences is what we aim to find using binary search
+
+Observations
+    1. the smallest time any coworker would take is equal to the time taken to read the longest newspaper i.e. max(newspapers_read_times)
+    2.the largest time any coworker would take is if only one person reads all the newspapers i.e sum(newspapers_read_times)
+    3. the optimal time lies between these values
+
+Feasibility check: intuitive explanation
+    the feasibility check is essentially a simulation of how we would distribute newspapers to coworkers under a hypothetical maximum reading time, mid. at its core, the algorithm
+    emulates a converyor belt process: imagine each cowroker standing ready and as you pass them newspapers, a timeer keeps track of the accunmulated reading time. once a coworkers's accumulated
+    time reaches or nearly reaches the mid value and they don't have enough time to read the next newspaper, they step back, and the next coworker steps forward to continue the task
+
+    by cuycling through thgh this process, we get an effective gauge oin how many cowokrers would be needed to cover all newspapers under the stipulated time limit, mid. if the number
+    exceeds our available coworkers, the time limit isnt viable. if not, its feasible.
+
+let me represent sum(newspapers_read_times)
+
+time compolexity: O(nlogm)
+
 at minimum, the amount of time required to go through all the newspapers has be >= max(newspapers_read_times) to be able to finish reading the longest newspaper.
 At maximum, if the amoiunt of time taken to go through all the newspapers is sum(newspapers_read_times), then it would reeequire only 1 coworker to finish the work. since we want to split thhe work of going 
 through all the newspapers amoung num_coworkers workers, the minimum amount of time require to finish reading all the newspapers is somewhere is ebtween max(newspapers_read_times) and 
