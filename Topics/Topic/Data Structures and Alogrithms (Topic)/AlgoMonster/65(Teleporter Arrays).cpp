@@ -82,6 +82,10 @@ Additional notes:
     its pointer forward. this way we go through the values of each of the arrays till wwee ecnounter array2[ptr1] = array2[ptr2]. when this copndition
     becomes valid, we then choose the max subarray sum from the two, mvoe the poitners forward and reset the sujms to 0 for the next
     section. 
+
+Additional notes(1)
+    this problem boils down to basically sections of teleporter elements and non-teleporter elements. once you have that idea, it becomes easy to solve the problem as you need to find the max
+    sum from each of the arrays between the teleporter elements and whichever is higher gets added to the result.
 */
 
 
