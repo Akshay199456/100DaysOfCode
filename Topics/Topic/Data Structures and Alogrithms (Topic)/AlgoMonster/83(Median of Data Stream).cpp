@@ -22,7 +22,7 @@ get_median() == 2.5
     we return the top of the max heap or get he avg og the top of both the heaps.
 
     the way we do this is to balance the heap after insertion of each element. we want the difference in sizes of the 
-    heaps either at 1 or 0, witht ehmax heap having the addtional element. in thios state, getting the median is a O(1) operation. and the way we balance the trees
+    heaps either at 1 or 0, with the max heap having the addtional element. in thios state, getting the median is a O(1) operation. and the way we balance the trees
     is a pretty decent operation. if the size of the max heap exceeds that of the min heap, thjen we pop it off from the max heap and insert it intot th e
     min heap. we do the vice versa if the mmin heap exceeds that of the max heap.
 
