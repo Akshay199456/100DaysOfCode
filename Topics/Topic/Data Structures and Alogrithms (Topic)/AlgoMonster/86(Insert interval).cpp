@@ -51,9 +51,12 @@ Output:
 /*
 -------------------------    Other Approaches 
 1.
+    easiest way to solve this problem is to insert the interval to be inserted at the end, and now the problem has become a merge intervals problem.
+    literally, the only thing we need to do is to add the new interval to the end and copy and paste the code we had in the merge interval problem.
 
-    Time complexity: O()
-    Space complexity: O()
+
+    Time complexity: O(nlogn)
+    Space complexity: O(1)
 */
 
 
@@ -72,3 +75,74 @@ Output:
 
 
 //  Other Approaches(1)
+#include <algorithm> // copy, max, sort
+#include <iostream> // boolalpha, cin, cout, streamsize
+#include <iterator> // back_inserter, istream_iterator, ostream_iterator, prev
+#include <limits> // numeric_limits
+#include <sstream> // istringstream
+#include <string> // getline, string
+#include <vector> // vector
+
+bool overlap(std::vector<int> a, std::vector<int> b) {
+    return !(a[1] < b[0] || a[0] > b[1]);
+}
+
+std::vector<std::vector<int>> insert_interval(std::vector<std::vector<int>> intervals, std::vector<int> new_interval) {
+    intervals.emplace_back(new_interval);
+
+    // the rest is the same as merge intervals
+    std::sort(intervals.begin(), intervals.end());
+
+    std::vector<std::vector<int>> res;
+    for (std::vector<int> interval : intervals) {
+        if (res.empty() || !overlap(res.back(), interval)) {
+            res.emplace_back(interval);
+        } else {
+            std::vector<int>& last_interval = res.back();
+            last_interval[1] = std::max(last_interval[1], interval[1]);
+        }
+    }
+    return res;
+}
+
+template<typename T>
+std::vector<T> get_words() {
+    std::string line;
+    std::getline(std::cin, line);
+    std::istringstream ss{line};
+    ss >> std::boolalpha;
+    std::vector<T> v;
+    std::copy(std::istream_iterator<T>{ss}, std::istream_iterator<T>{}, std::back_inserter(v));
+    return v;
+}
+
+void ignore_line() {
+    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+}
+
+template<typename T>
+void put_words(const std::vector<T>& v) {
+    if (!v.empty()) {
+        std::copy(v.begin(), std::prev(v.end()), std::ostream_iterator<T>{std::cout, " "});
+        std::cout << v.back();
+    }
+    std::cout << '\n';
+}
+
+int main() {
+    int intervals_length;
+    std::cin >> intervals_length;
+    ignore_line();
+    std::vector<std::vector<int>> intervals;
+    for (int i = 0; i < intervals_length; i++) {
+        intervals.emplace_back(get_words<int>());
+    }
+    std::vector<int> new_interval = get_words<int>();
+    std::vector<std::vector<int>> res = insert_interval(intervals, new_interval);
+    for (const std::vector<int>& row : res) {
+        put_words(row);
+    }
+}
+
+
+//  Other Approaches(2)
