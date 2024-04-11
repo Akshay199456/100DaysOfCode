@@ -31,8 +31,12 @@ true
 -------------------------    Other Approaches 
 1.
 
-    Time complexity: O()
-    Space complexity: O()
+this problem vasically asks if there's any overla[p between adjacent intervals. we sort the intervals bu start time and use the ttechnique from the intro section to check for overlap
+
+let n denote the size of the intervals array
+
+    Time complexity: O(nlogn)
+    Space complexity: O(1)
 */
 
 
@@ -115,3 +119,46 @@ int main() {
 
 
 //  Other Approaches(1)
+#include <algorithm> // copy, sort
+#include <iostream> // boolalpha, cin, cout, streamsize
+#include <iterator> // back_inserter, istream_iterator
+#include <limits> // numeric_limits
+#include <sstream> // istringstream
+#include <string> // getline, string
+#include <vector> // vector
+
+bool meeting_rooms(std::vector<std::vector<int>> intervals) {
+    std::sort(intervals.begin(), intervals.end());
+    
+    for (int i = 0; i < intervals.size() - 1; i++) {
+        if (intervals[i][1] > intervals[i + 1][0]) return false;
+    }
+    return true;
+}
+
+template<typename T>
+std::vector<T> get_words() {
+    std::string line;
+    std::getline(std::cin, line);
+    std::istringstream ss{line};
+    ss >> std::boolalpha;
+    std::vector<T> v;
+    std::copy(std::istream_iterator<T>{ss}, std::istream_iterator<T>{}, std::back_inserter(v));
+    return v;
+}
+
+void ignore_line() {
+    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+}
+
+int main() {
+    int intervals_length;
+    std::cin >> intervals_length;
+    ignore_line();
+    std::vector<std::vector<int>> intervals;
+    for (int i = 0; i < intervals_length; i++) {
+        intervals.emplace_back(get_words<int>());
+    }
+    bool res = meeting_rooms(intervals);
+    std::cout << std::boolalpha << res << '\n';
+}
