@@ -57,6 +57,21 @@ Output:
 
     Time complexity: O(nlogn)
     Space complexity: O(1)
+
+
+2. O(n) solution
+
+    the solution above is O(nlogn) because of the re-sorting of the entire array. since log(n) grows so slowly, most of the time with
+    small ns it can be conisdered a constant. but there is also an O(n) solution to the problem.
+
+    1. for intervals whose end time is before the start time of the new interval, add them directly to the final results.
+    2. for intervals that overla[ with the new interval, expand the new interval's start and end times.
+    3. add the new interval to the final results
+    4. for intervals whose start time is after the end of the new interval, add them directly to the final results
+
+
+    Time complexity: O()
+    Space complexity: O()
 */
 
 
@@ -146,3 +161,70 @@ int main() {
 
 
 //  Other Approaches(2)
+#include <algorithm> // copy, max, min
+#include <iostream> // boolalpha, cin, cout, streamsize
+#include <iterator> // back_inserter, istream_iterator, ostream_iterator, prev
+#include <limits> // numeric_limits
+#include <sstream> // istringstream
+#include <string> // getline, string
+#include <vector> // vector
+
+std::vector<std::vector<int>> insert_interval(std::vector<std::vector<int>> intervals, std::vector<int> new_interval) {
+    std::vector<std::vector<int>> res;
+    int i = 0, n = intervals.size();
+
+    while (i < n && intervals[i][1] < new_interval[0]) {
+        res.emplace_back(intervals[i]);
+        i++;
+    }
+    while (i < n && intervals[i][0] <= new_interval[1]) {
+        new_interval[0] = std::min(new_interval[0], intervals[i][0]);
+        new_interval[1] = std::max(new_interval[1], intervals[i][1]);
+        i++;
+    }
+    res.emplace_back(new_interval);
+    while (i < n) {
+        res.emplace_back(intervals[i]);
+        i++;
+    }
+    return res;
+}
+
+template<typename T>
+std::vector<T> get_words() {
+    std::string line;
+    std::getline(std::cin, line);
+    std::istringstream ss{line};
+    ss >> std::boolalpha;
+    std::vector<T> v;
+    std::copy(std::istream_iterator<T>{ss}, std::istream_iterator<T>{}, std::back_inserter(v));
+    return v;
+}
+
+void ignore_line() {
+    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+}
+
+template<typename T>
+void put_words(const std::vector<T>& v) {
+    if (!v.empty()) {
+        std::copy(v.begin(), std::prev(v.end()), std::ostream_iterator<T>{std::cout, " "});
+        std::cout << v.back();
+    }
+    std::cout << '\n';
+}
+
+int main() {
+    int intervals_length;
+    std::cin >> intervals_length;
+    ignore_line();
+    std::vector<std::vector<int>> intervals;
+    for (int i = 0; i < intervals_length; i++) {
+        intervals.emplace_back(get_words<int>());
+    }
+    std::vector<int> new_interval = get_words<int>();
+    std::vector<std::vector<int>> res = insert_interval(intervals, new_interval);
+    for (const std::vector<int>& row : res) {
+        put_words(row);
+    }
+}
