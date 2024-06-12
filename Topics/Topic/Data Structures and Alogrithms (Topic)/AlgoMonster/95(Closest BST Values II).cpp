@@ -65,6 +65,41 @@ Constraints
 
     Time complexity: O(n) where n is the size of the tree
     Space complexity: O(n)
+
+    My notes:
+
+    after stepping through the approach, i now have a better idea of what the approach involved.
+
+    the part of the code behind the stack is basically to get the next ordered element in line. initially, we assig node to the root of the tree. our stack is a vctor of nodes while
+    our result is a deque to allow for entry/removal on both ends. as long as the stack is not empty or the node refers to a particulr node, we want to keep the operation going.
+    the while(node)... basically pushes into the stack nodes that will take us to the beginning of the bst in sorted order. that is why we keep visiting left over and over agin
+    till we hit null since the left nodes ar ethe smalleer nodes and goign through that path will enable us to arrive at the first node in sorted order.
+
+    once the stack is filled with the left nodes and we have hit null, we ge the element that was inserted last intot he stack, assign it to the node and pop it from the stack. this si the first
+    node in the proper order. we then make one of two decisions based on whether our result deque is filled or not. if our result deque is not filled to the brim, we then insert the node into the deque
+    as these nodes will be used to ditinguish how close we are to th target. if it is filled to the brim, we instead have to compare to see which node is the closest to th etarget.
+    since the nodes in the res_deque are in ascending order in th elist and we wnat to get nodes that are closer to the target, if the first node is the farthest, we want to replace it with a node
+    that is clsoer. as a result, that is the check we make to see if the node at the fronnt fo the deque is closer to the targt or if the current node is. if the current node,
+    we then get rid of the ndoe a tthe front fo the deque and instead insert the current node at the end of the deque. if it is not, , then we have found our solution since as mentioned
+    earlir in the solution, the solution is the one where the maxx distance decreases the most just before increasing.
+
+    we then move to the node at the right cause if the right subtree has a structure, then the next ordered node in the lsit will come from its leftmost node which we have algorithm
+    set up at the very beginning in order to insert the left msot ndoes.
+
+    that is how thuis appraoch worlks. it makes use of the stack to basically find the next element in proper order while it uses the deque to make the comparison and decide
+    how close the node at the front of the deque is compared to the current node we are l;ooking at. 
+
+    good approach and good data to collect  from this when we need to use stack for recursion instead of actual recursion or if you wantde to understand how to use deque.
+
+
+
+2. using recursion and deque [doesnt follow all conditions]
+
+    we use recursion inspite of it being mentioned about a condition.
+
+3. using sliding window approach [doesnt follow all conditions]
+
+    we assume that it was a sorted list instead of a bst
 */
 
 
@@ -184,3 +219,42 @@ int main() {
     std::vector<int> res = closest_values(bst, x, k);
     put_words(res);
 }
+
+// Other Approaches(2) [in python]
+from typing import List
+from collections import deque
+
+class Node:
+    def __init__(self, val, left=None, right=None):
+        self.val = val
+        self.left = left
+        self.right = right
+
+def closest_values(bst: Node, target: int, k: int) -> List[int]:
+    # WRITE YOUR BRILLIANT CODE HERE
+    q = deque()
+    
+    def dfs(node):
+        if node is None:
+            return 
+
+        dfs(node.left)
+        
+        # q is empty
+        if len(q) < k:
+            q.append(node.val)
+        else:
+            # q is filled with k
+            # check if the first node in q (most distant  node as the BST inorder gives sorted node.vals)
+            # is further away than current node
+            if abs(q[0] - target) > abs(node.val - target):
+                q.popleft()
+                q.append(node.val)
+            #else:
+            #    return
+                
+        dfs(node.right)    
+    
+    
+    dfs(bst)
+    return q
