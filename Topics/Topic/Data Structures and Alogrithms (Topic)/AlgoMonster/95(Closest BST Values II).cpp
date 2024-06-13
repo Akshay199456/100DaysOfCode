@@ -97,9 +97,18 @@ Constraints
 
     we use recursion inspite of it being mentioned about a condition.
 
+    this appraoch bascially does what Other Approaches(1) did but with using recursion to achieve the same that the while loop did. everything else is the same
+
 3. using sliding window approach [doesnt follow all conditions]
 
-    we assume that it was a sorted list instead of a bst
+    we assume that it was a sorted list instead of a bst.
+
+    the technique that is used here is what enables us to replace lements in teh deque. As you can see from the ntoes, as we get to our target answer, the max_distance (calculated by how
+    far each element is from the target value and then mod) begins to decrease. once we cross the thresold, the max_distance then increases again. as a result, the point of the least max_distnace
+    is where our answer is.
+
+    if we want to take the approach in another way where we determine the distance of the node at the beginning of the deque against the one we might want to enter into the deque, then that approach
+    becomes what we used in Other Approaches(1) and Other Approaches(2)
 */
 
 
